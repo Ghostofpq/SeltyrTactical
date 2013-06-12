@@ -1,4 +1,4 @@
-package main.java.com.ghostofpq.seltyrtactical.main;
+package com.ghostofpq.seltyrtactical.main;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
