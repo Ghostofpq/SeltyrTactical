@@ -12,7 +12,6 @@ import org.lwjgl.opengl.GL11;
 public class Game {
 
     private int height;
-
     private int width;
     boolean requestClose;
 
