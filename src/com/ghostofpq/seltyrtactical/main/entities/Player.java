@@ -8,4 +8,5 @@ package com.ghostofpq.seltyrtactical.main.entities;
  * To change this template use File | Settings | File Templates.
  */
 public class Player {
+
 }
