@@ -15,8 +15,6 @@ public class Game {
     private int width;
     boolean requestClose;
 
-
-
     public Game(){
         this.height = 600;
         this.width = 800;
