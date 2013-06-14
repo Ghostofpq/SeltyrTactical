@@ -1,5 +1,7 @@
 package com.ghostofpq.seltyrtactical.main.entities;
 
+import java.util.Date;
+
 /**
  * Created with IntelliJ IDEA.
  * User: VMPX4526
@@ -7,6 +9,14 @@ package com.ghostofpq.seltyrtactical.main.entities;
  * Time: 14:18
  * To change this template use File | Settings | File Templates.
  */
+
 public class Player {
 
+    private String pseudo;
+
+    private String firstName;
+    private String lastName;
+    private Date dateOfBirth;
+
+    private int grade;
 }
