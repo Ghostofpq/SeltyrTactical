@@ -15,24 +15,24 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class Position implements Serializable, Comparable<Position> {
+public class PositionAbsolute implements Serializable, Comparable<PositionAbsolute> {
     private static final long serialVersionUID = 8427348252935902307L;
-    private int x;
-    private int y;
-    private int z;
+    private float x;
+    private float y;
+    private float z;
 
-    public Position(int x, int y, int z) {
+    public PositionAbsolute(float x, float y, float z) {
         this.setX(x);
         this.setY(y);
         this.setZ(z);
     }
 
-    public PositionAbsolute toAbsolute() {
-        return new PositionAbsolute((float) x, (float) y, (float) z);
+    public PositionAbsolute plus(float x, float y, float z) {
+        return new PositionAbsolute(this.getX() + x, this.getY() + y, this.getZ() + z);
     }
 
     @Override
-    public int compareTo(Position other) {
+    public int compareTo(PositionAbsolute other) {
         // Priority on Z axis
         if (this.getZ() < other.getZ()) {
             return -1;
