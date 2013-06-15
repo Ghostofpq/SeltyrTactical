@@ -12,6 +12,7 @@ import org.newdawn.slick.util.ResourceLoader;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -80,7 +81,7 @@ public class GraphicsManager {
 
     public void addToDrawingList(Cube cube) {
         this.todraw.add(cube);
-        // Collections.sort(todraw);
+        Collections.sort(todraw);
     }
 
     public void Init() {

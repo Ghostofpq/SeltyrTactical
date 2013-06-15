@@ -29,6 +29,10 @@ public class Cube implements Serializable, Comparable<Cube> {
     private boolean visible;
 
     public Cube(Position position, Texture textureTop, Texture side, float scale) {
+        this.setPosition(position);
+        this.setVisible(true);
+
+        // Creating the facets
         PositionAbsolute positionAbsolute = position.toAbsolute();
         PositionAbsolute p1 = positionAbsolute;
         PositionAbsolute p2 = positionAbsolute.plus(1f, 0, 0);
@@ -44,8 +48,6 @@ public class Cube implements Serializable, Comparable<Cube> {
         facetWest = new Facet(p5, p6, p2, p1, side, scale);
         facetNorth = new Facet(p8, p5, p1, p4, side, scale);
         facetEast = new Facet(p7, p8, p4, p3, side, scale);
-
-        this.setVisible(true);
     }
 
     public void setScale(float scale) {
