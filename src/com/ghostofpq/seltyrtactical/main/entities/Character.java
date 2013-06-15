@@ -23,6 +23,8 @@ import java.io.Serializable;
 @Getter
 @Setter
 public class Character implements Serializable{
+    private static final long serialVersionUID = 1519266158170332774L;
+
 
     /**
      * Name
