@@ -17,9 +17,9 @@ import java.io.Serializable;
 @Setter
 public class PositionAbsolute implements Serializable, Comparable<PositionAbsolute> {
     private static final long serialVersionUID = 8427348252935902307L;
-    private float x;
-    private float y;
-    private float z;
+    private float x;  // Length
+    private float y;  // Height
+    private float z;  // Depth
 
     public PositionAbsolute(float x, float y, float z) {
         this.setX(x);
@@ -33,22 +33,22 @@ public class PositionAbsolute implements Serializable, Comparable<PositionAbsolu
 
     @Override
     public int compareTo(PositionAbsolute other) {
-        // Priority on Z axis
-        if (this.getZ() < other.getZ()) {
+        // Priority on Y axis
+        if (this.getY() < other.getY()) {
             return -1;
-        } else if (this.getZ() > other.getZ()) {
+        } else if (this.getY() > other.getY()) {
             return 1;
         } else {
-            // Then Y axis
-            if (this.getY() < other.getY()) {
+            // Then X axis
+            if (this.getX() < other.getX()) {
                 return -1;
-            } else if (this.getY() > other.getY()) {
+            } else if (this.getX() > other.getX()) {
                 return 1;
             } else {
-                // Finally X axis
-                if (this.getX() < other.getX()) {
+                // Finally Z axis
+                if (this.getZ() < other.getZ()) {
                     return -1;
-                } else if (this.getX() > other.getX()) {
+                } else if (this.getZ() > other.getZ()) {
                     return 1;
                 } else {
                     return 0;

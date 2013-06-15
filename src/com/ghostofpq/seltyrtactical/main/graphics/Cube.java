@@ -35,13 +35,13 @@ public class Cube implements Serializable, Comparable<Cube> {
         // Creating the facets
         PositionAbsolute positionAbsolute = position.toAbsolute();
         PositionAbsolute p1 = positionAbsolute;
-        PositionAbsolute p2 = positionAbsolute.plus(1f, 0, 0);
-        PositionAbsolute p3 = positionAbsolute.plus(1f, 1f, 0);
-        PositionAbsolute p4 = positionAbsolute.plus(0, 1f, 0);
-        PositionAbsolute p5 = positionAbsolute.plus(0, 0, 1f);
-        PositionAbsolute p6 = positionAbsolute.plus(1f, 0, 1f);
+        PositionAbsolute p2 = positionAbsolute.plus(0, 0, 1f);
+        PositionAbsolute p3 = positionAbsolute.plus(1f, 0, 1f);
+        PositionAbsolute p4 = positionAbsolute.plus(1f, 0, 0);
+        PositionAbsolute p5 = positionAbsolute.plus(0, 1f, 0);
+        PositionAbsolute p6 = positionAbsolute.plus(0, 1f, 1f);
         PositionAbsolute p7 = positionAbsolute.plus(1f, 1f, 1f);
-        PositionAbsolute p8 = positionAbsolute.plus(0, 1f, 1f);
+        PositionAbsolute p8 = positionAbsolute.plus(1f, 1f, 0);
 
         facetZenith = new Facet(p5, p8, p7, p6, textureTop, scale);
         facetSouth = new Facet(p6, p7, p3, p2, side, scale);
@@ -60,7 +60,6 @@ public class Cube implements Serializable, Comparable<Cube> {
     }
 
     public void Draw(PointOfView pointOfView) {
-
         if (isVisible()) {
             switch (pointOfView) {
                 case SOUTH:
