@@ -11,11 +11,11 @@ import org.lwjgl.opengl.GL11;
  */
 public class Game {
 
+    boolean requestClose;
     private int height;
     private int width;
-    boolean requestClose;
 
-    public Game(){
+    public Game() {
         this.height = 600;
         this.width = 800;
         this.requestClose = false;
@@ -28,6 +28,11 @@ public class Game {
             e.printStackTrace();
             System.exit(0);
         }
+    }
+
+    public static void main(String[] argv) {
+        Game g = new Game();
+        g.run();
     }
 
     public void Init() {
@@ -48,10 +53,5 @@ public class Game {
 
         Display.update();
         Display.sync(60);
-    }
-
-    public static void main(String[] argv) {
-        Game g = new Game();
-          g.run();
     }
 }

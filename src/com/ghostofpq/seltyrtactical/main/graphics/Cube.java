@@ -44,9 +44,21 @@ public class Cube implements Serializable, Comparable<Cube> {
         facetWest = new Facet(p5, p6, p2, p1, side, scale);
         facetNorth = new Facet(p8, p5, p1, p4, side, scale);
         facetEast = new Facet(p7, p8, p4, p3, side, scale);
+
+        this.setVisible(true);
+    }
+
+    public void setScale(float scale) {
+        this.scale = scale;
+        facetZenith.setScale(scale);
+        facetSouth.setScale(scale);
+        facetWest.setScale(scale);
+        facetNorth.setScale(scale);
+        facetEast.setScale(scale);
     }
 
     public void Draw(PointOfView pointOfView) {
+
         if (isVisible()) {
             switch (pointOfView) {
                 case SOUTH:
