@@ -3,6 +3,7 @@ package com.ghostofpq.seltyrtactical.main.entities;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -14,8 +15,8 @@ import java.util.Date;
  */
 @Getter
 @Setter
-public class Player {
-
+public class Player implements Serializable{
+    private static final long serialVersionUID = 3105715593359746378L;
     private String pseudo;
 
     private String firstName;
