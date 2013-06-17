@@ -5,6 +5,9 @@ import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -57,10 +60,18 @@ public class GraphicsManager {
 
     public static void main(String[] argv) {
         GraphicsManager display = GraphicsManager.getInstance();
-
+        UnicodeFont font;
         try {
-            Texture earthTop = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("ressources/textures/Grass.png"));
-            Texture earthSide = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("ressources/textures/Earth.png"));
+            font = new UnicodeFont("resources/font/old_london/OldLondon.ttf", 24, false, false);
+            font.addAsciiGlyphs();
+            font.getEffects().add(new ColorEffect());
+            font.loadGlyphs();
+        } catch (SlickException e) {
+            e.printStackTrace();
+        }
+        try {
+            Texture earthTop = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/textures/Grass.png"));
+            Texture earthSide = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/textures/Earth.png"));
             Cube cubeTest1 = new Cube(new Position(0, 0, 0), earthTop, earthSide, 0.2f);
             Cube cubeTest2 = new Cube(new Position(1, 0, 0), earthTop, earthSide, 0.2f);
             Cube cubeTest3 = new Cube(new Position(0, 2, 0), earthTop, earthSide, 0.2f);
@@ -79,7 +90,7 @@ public class GraphicsManager {
         }
 
 
-        display.Init();
+        display.init();
         display.run();
     }
 
@@ -88,32 +99,34 @@ public class GraphicsManager {
         Collections.sort(todraw);
     }
 
-    public void Init() {
+    public void init() {
         GL11.glViewport(0, 0, this.width, this.height);
         GL11.glDepthRange(0, 1000);
-        SetupLigths();
-        Ready3D();
+        setupLigths();
+        ready3D();
     }
+
+
 
     public void run() {
         while (!requestClose) {
-            Render();
+            render();
         }
         Display.destroy();
     }
 
-    public void Render() {
+    public void render() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         requestClose = Display.isCloseRequested();
         if (Display.isVisible()) {
-            Render3D();
-            Render2D();
+            render3D();
+            render2D();
         }
         Display.update();
         Display.sync(60);
     }
 
-    private void SetupLigths() {
+    private void setupLigths() {
         FloatBuffer matSpecular;
         FloatBuffer lightPosition;
         FloatBuffer whiteLight;
@@ -143,25 +156,25 @@ public class GraphicsManager {
 
     }
 
-    private void UpdateLights() {
+    private void updateLights() {
         FloatBuffer lightPosition;
         lightPosition = BufferUtils.createFloatBuffer(4);
         lightPosition.put(0.5f).put(0.5f).put(5.0f).put(0.2f).flip();
         GL11.glLight(GL11.GL_LIGHT0, GL11.GL_POSITION, lightPosition);
     }
 
-    private void Render3D() {
-        // Ready3D();
+    private void render3D() {
+        // ready3D();
         make3D();
         for (Cube cube : todraw) {
             cube.Draw(PointOfView.SOUTH);
         }
     }
 
-    private void Render2D() {
-        // Ready2D();
+    private void render2D() {
+        // ready2D();
         make2D();
-        // hud.Render();
+        // hud.render();
     }
 
     private void make2D() {
@@ -186,7 +199,7 @@ public class GraphicsManager {
         GL11.glEnable(GL11.GL_LIGHTING);
     }
 
-    private void Ready3D() {
+    private void ready3D() {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glEnable(GL11.GL_BLEND);
 
