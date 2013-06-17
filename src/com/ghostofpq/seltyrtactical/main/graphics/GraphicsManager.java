@@ -59,17 +59,21 @@ public class GraphicsManager {
         GraphicsManager display = GraphicsManager.getInstance();
 
         try {
-            Texture earthTop = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("ressources/Grass.png"));
-            Texture earthSide = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("ressources/Earth.png"));
+            Texture earthTop = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("ressources/textures/Grass.png"));
+            Texture earthSide = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("ressources/textures/Earth.png"));
             Cube cubeTest1 = new Cube(new Position(0, 0, 0), earthTop, earthSide, 0.2f);
             Cube cubeTest2 = new Cube(new Position(1, 0, 0), earthTop, earthSide, 0.2f);
-            Cube cubeTest3 = new Cube(new Position(0, 1, 0), earthTop, earthSide, 0.2f);
+            Cube cubeTest3 = new Cube(new Position(0, 2, 0), earthTop, earthSide, 0.2f);
             Cube cubeTest4 = new Cube(new Position(0, 0, 1), earthTop, earthSide, 0.2f);
+            Cube cubeTest5 = new Cube(new Position(2, 0, 0), earthTop, earthSide, 0.2f);
+            Cube cubeTest6 = new Cube(new Position(1, 1, 0), earthTop, earthSide, 0.2f);
 
             display.addToDrawingList(cubeTest1);
             display.addToDrawingList(cubeTest2);
             display.addToDrawingList(cubeTest3);
             display.addToDrawingList(cubeTest4);
+            display.addToDrawingList(cubeTest5);
+            display.addToDrawingList(cubeTest6);
         } catch (IOException e) {
             e.printStackTrace();
         }
