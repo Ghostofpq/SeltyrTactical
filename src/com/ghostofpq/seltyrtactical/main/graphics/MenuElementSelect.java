@@ -1,8 +1,7 @@
 package com.ghostofpq.seltyrtactical.main.graphics;
 
-import org.newdawn.slick.SlickException;
+import lombok.Getter;
 import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.Color;
 
 /**
  * Created with IntelliJ IDEA.
@@ -11,57 +10,35 @@ import org.newdawn.slick.Color;
  * Time: 15:30
  * To change this template use File | Settings | File Templates.
  */
+@Getter
 public class MenuElementSelect {
     private float posX;
     private float posY;
     private float offset;
     private String text;
-    private MenuState state;
+    private boolean placed;
     private UnicodeFont font;
 
-    public MenuElementSelect(float posX, float posY, String text,UnicodeFont font) {
+    public MenuElementSelect(float posX, float posY, String text, UnicodeFont font) {
         this.posX = posX;
         this.posY = posY;
-        this.offset=100;
+        this.offset = posX + font.getWidth(text);
 
         this.text = text;
         this.font = font;
-        this.state = MenuState.INIT;
+
+        this.placed = false;
     }
 
     public void render() {
-        switch (state) {
-            case INIT:
-                if(offset<=0){
-                    state=MenuState.DEFAULT;
-                }else{
-                    offset-=10f;
-                }
-                break;
-            case CHOSEN:
-                if(offset>=100){
-                    state=MenuState.DEFAULT;
-                }else{
-                    offset+=10f;
-                }
-                break;
-            case DEFAULT:
-                Color.white.bind();
-                break;
-            case SELECTED:
-                Color.yellow.bind();
-                break;
-            case FINISHED:
-                break;
+        this.font.drawString(posX - offset, posY, text);
+    }
+
+    public void addOffset(float delta) {
+        this.offset += delta;
+        if (offset <= 0) {
+            this.placed = true;
         }
-        font.drawString(posX-offset,posY,text);
     }
-
-
-
-    private enum MenuState {
-        INIT, DEFAULT, SELECTED, CHOSEN, FINISHED
-    }
-
 
 }

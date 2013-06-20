@@ -25,8 +25,7 @@ public class Game {
         this.height = 600;
         this.width = 800;
         this.requestClose = false;
-        UnicodeFont font=null;
-
+        UnicodeFont font = null;
 
 
         try {
@@ -82,6 +81,10 @@ public class Game {
     public void render() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         requestClose = Display.isCloseRequested();
+
+        if (!test1.isPlaced()) {
+            test1.addOffset(-5f);
+        }
         test1.render();
 
         Display.update();
