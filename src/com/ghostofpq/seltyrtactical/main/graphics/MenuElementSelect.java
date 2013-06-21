@@ -1,6 +1,7 @@
 package com.ghostofpq.seltyrtactical.main.graphics;
 
 import lombok.Getter;
+import org.newdawn.slick.Color;
 import org.newdawn.slick.UnicodeFont;
 
 /**
@@ -34,6 +35,9 @@ public class MenuElementSelect {
         this.font.drawString(posX - offset, posY, text);
     }
 
+    public void render(Color color) {
+        this.font.drawString(posX - offset, posY, text,color);
+    }
     public void addOffset(float delta) {
         this.offset += delta;
         if (offset <= 0) {

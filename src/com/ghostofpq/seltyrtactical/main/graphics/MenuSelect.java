@@ -1,5 +1,6 @@
 package com.ghostofpq.seltyrtactical.main.graphics;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
@@ -14,15 +15,17 @@ import java.util.List;
  * Time: 13:34
  * To change this template use File | Settings | File Templates.
  */
+
 public class MenuSelect {
 
-
     private UnicodeFont font = null;
+    private UnicodeFont fontSelected = null;
     private List<MenuElementSelect> options;
+    private int index;
 
     public MenuSelect(List<String> optionString, float startX, float startY, float offsetX, float offsetY) {
         try {
-            font = new UnicodeFont("resources/font/old_london/OldLondon.ttf", 24, false, false);
+            font = new UnicodeFont("resources/font/old_london/OldLondon.ttf", 24,false,false);
             font.addAsciiGlyphs();
             font.getEffects().add(new ColorEffect());
             font.loadGlyphs();
@@ -39,6 +42,27 @@ public class MenuSelect {
             x += offsetX;
             y += offsetY;
         }
+        index=0;
+    }
+
+    public void indexUp() {
+        if (index + 1 == options.size()) {
+            index = 0;
+        } else {
+            index++;
+        }
+    }
+
+    public void indexDown() {
+        if (index == 0) {
+            index = options.size() - 1;
+        } else {
+            index--;
+        }
+    }
+
+    public int getIndex() {
+        return index;
     }
 
     public void render() {
@@ -48,8 +72,13 @@ public class MenuSelect {
                 break;
             }
         }
+
+
+
         for (int i = 0; i < options.size(); i++) {
-            options.get(i).render();
+            options.get(i).render(Color.white);
         }
+        options.get(index).render(Color.yellow);
+
     }
 }
