@@ -1,6 +1,6 @@
 package com.ghostofpq.seltyrtactical.main;
 
-import com.ghostofpq.seltyrtactical.main.graphics.MenuElementSelect;
+import com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -8,6 +8,9 @@ import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: GhostOfPQ
@@ -18,7 +21,7 @@ public class Game {
     boolean requestClose;
     private int height;
     private int width;
-    private MenuElementSelect test1;
+    private MenuSelect test;
 
 
     public Game() {
@@ -58,7 +61,11 @@ public class Game {
             e.printStackTrace();
         }
 
-        test1 = new MenuElementSelect(80, 80, "New player", font);
+        List<String> options=new ArrayList<String>();
+        options.add("New player");
+        options.add("Load");
+        options.add("Quit");
+        test=new MenuSelect(options,150,150,100,50);
     }
 
     public static void main(String[] argv) {
@@ -82,11 +89,7 @@ public class Game {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         requestClose = Display.isCloseRequested();
 
-        if (!test1.isPlaced()) {
-            test1.addOffset(-5f);
-        }
-        test1.render();
-
+        test.render();
         Display.update();
         Display.sync(60);
     }
