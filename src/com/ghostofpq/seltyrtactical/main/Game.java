@@ -2,6 +2,7 @@ package com.ghostofpq.seltyrtactical.main;
 
 import com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -61,11 +62,11 @@ public class Game {
             e.printStackTrace();
         }
 
-        List<String> options=new ArrayList<String>();
+        List<String> options = new ArrayList<String>();
         options.add("New player");
         options.add("Load");
         options.add("Quit");
-        test=new MenuSelect(options,150,150,100,50);
+        test = new MenuSelect(options, 150, 150, 100, 50,600,800);
     }
 
     public static void main(String[] argv) {
@@ -80,16 +81,46 @@ public class Game {
 
     public void run() {
         while (!requestClose) {
-            render();
+            update();
         }
         Display.destroy();
+    }
+
+    public void update() {
+        handleInput();
+        render();
+        if(test.isFinished()){
+            requestClose=true;
+        }
+    }
+
+    public void handleInput() {
+        while (Keyboard.next()) {
+            if (Keyboard.getEventKeyState()) {
+                if (Keyboard.getEventKey() == Keyboard.KEY_UP) {
+                    test.indexDown();
+                }
+                if (Keyboard.getEventKey() == Keyboard.KEY_LEFT) {
+                    test.indexDown();
+                }
+                if (Keyboard.getEventKey() == Keyboard.KEY_DOWN) {
+                    test.indexUp();
+                }
+                if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT) {
+                    test.indexUp();
+                }
+                if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
+                    test.split();
+                }
+            }
+        }
     }
 
     public void render() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         requestClose = Display.isCloseRequested();
 
-        test.render();
+        test.update();
         Display.update();
         Display.sync(60);
     }

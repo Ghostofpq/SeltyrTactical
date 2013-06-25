@@ -36,13 +36,22 @@ public class MenuElementSelect {
     }
 
     public void render(Color color) {
-        this.font.drawString(posX - offset, posY, text,color);
+        this.font.drawString(posX - offset, posY, text, color);
     }
+
     public void addOffset(float delta) {
         this.offset += delta;
         if (offset <= 0) {
             this.placed = true;
         }
+    }
+
+    public boolean isOutOfScreenLeft() {
+        return ((posX - offset + font.getWidth(text)) <= 0);
+    }
+
+    public boolean isOutOfScreenRight(float width) {
+        return ((posX - offset) >= width);
     }
 
 }
