@@ -1,6 +1,7 @@
 package com.ghostofpq.seltyrtactical.main;
 
 import com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
+import com.ghostofpq.seltyrtactical.main.utils.Scene;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -18,6 +19,18 @@ import java.util.List;
  * Date: 11/06/13
  */
 public class Game {
+    private static volatile Game instance = null;
+
+    public static Game getInstance() {
+        if (instance == null) {
+            synchronized (Game.class) {
+                if (instance == null) {
+                    instance = new Game();
+                }
+            }
+        }
+        return instance;
+    }
 
     boolean requestClose;
     private int height;
@@ -25,7 +38,7 @@ public class Game {
     private MenuSelect test;
 
 
-    public Game() {
+    private Game() {
         this.height = 600;
         this.width = 800;
         this.requestClose = false;
@@ -66,7 +79,7 @@ public class Game {
         options.add("New player");
         options.add("Load");
         options.add("Quit");
-        test = new MenuSelect(options, 150, 150, 100, 50,600,800);
+        test = new MenuSelect(options, 150, 150, 100, 50, 600, 800);
     }
 
     public static void main(String[] argv) {
@@ -89,31 +102,18 @@ public class Game {
     public void update() {
         handleInput();
         render();
-        if(test.isFinished()){
-            requestClose=true;
-        }
+
+    }
+
+    public void setScene(Scene scene) {
+    }
+
+    public void quit() {
+        requestClose = true;
     }
 
     public void handleInput() {
-        while (Keyboard.next()) {
-            if (Keyboard.getEventKeyState()) {
-                if (Keyboard.getEventKey() == Keyboard.KEY_UP) {
-                    test.indexDown();
-                }
-                if (Keyboard.getEventKey() == Keyboard.KEY_LEFT) {
-                    test.indexDown();
-                }
-                if (Keyboard.getEventKey() == Keyboard.KEY_DOWN) {
-                    test.indexUp();
-                }
-                if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT) {
-                    test.indexUp();
-                }
-                if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
-                    test.split();
-                }
-            }
-        }
+
     }
 
     public void render() {
