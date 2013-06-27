@@ -97,4 +97,8 @@ public class Game {
     public void quit() {
         requestClose = true;
     }
+
+    public void setCurrentScene(Scene scene) {
+        currentScene = scene;
+    }
 }
