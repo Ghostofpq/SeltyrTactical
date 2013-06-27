@@ -18,6 +18,7 @@ import java.util.List;
  */
 public class MainMenu implements Scene {
     private static volatile MainMenu instance = null;
+    private MenuSelect menu;
 
     private MainMenu() {
         List<String> options = new ArrayList<String>();
@@ -38,17 +39,14 @@ public class MainMenu implements Scene {
         return instance;
     }
 
-    private MenuSelect menu;
-
     @Override
     public void update() {
-        manageInput();
-        render();
+        menu.update();
         if (menu.isFinished()) {
             if (menu.getIndex() == 0) {
                 //CREATE NEW PLAYER
             } else if (menu.getIndex() == 1) {
-
+                //LOAD GAME
             } else if (menu.getIndex() == 2) {
                 Game.getInstance().quit();
             }
@@ -57,11 +55,7 @@ public class MainMenu implements Scene {
 
     @Override
     public void render() {
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-
-        menu.update();
-        Display.update();
-        Display.sync(60);
+       menu.render();
     }
 
     @Override

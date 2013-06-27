@@ -23,7 +23,6 @@ public class MenuSelect {
 
     private UnicodeFont font = null;
     private UnicodeFont fontSelected = null;
-
     private List<MenuElementSelect> options;
     private int index;
     private MenuState state;
@@ -117,17 +116,13 @@ public class MenuSelect {
         switch (state) {
             case PLACING:
                 updatePlacing();
-                render();
                 break;
             case STATIC:
-                render();
                 break;
             case SPLITTING:
                 updateSplitting();
-                render();
                 break;
             case FINISHED:
-
                 break;
         }
     }

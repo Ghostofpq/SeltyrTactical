@@ -1,18 +1,11 @@
 package com.ghostofpq.seltyrtactical.main;
 
-import com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
+import com.ghostofpq.seltyrtactical.main.utils.MainMenu;
 import com.ghostofpq.seltyrtactical.main.utils.Scene;
 import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.UnicodeFont;
-import org.newdawn.slick.font.effects.ColorEffect;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: GhostOfPQ
@@ -20,6 +13,20 @@ import java.util.List;
  */
 public class Game {
     private static volatile Game instance = null;
+    boolean requestClose;
+    private int height;
+    private int width;
+    private Scene currentScene;
+
+    private Game() {
+        this.height = 600;
+        this.width = 800;
+        this.requestClose = false;
+
+        init();
+
+        currentScene = MainMenu.getInstance();
+    }
 
     public static Game getInstance() {
         if (instance == null) {
@@ -32,19 +39,12 @@ public class Game {
         return instance;
     }
 
-    boolean requestClose;
-    private int height;
-    private int width;
-    private MenuSelect test;
+    public static void main(String[] argv) {
+        Game g = Game.getInstance();
+        g.run();
+    }
 
-
-    private Game() {
-        this.height = 600;
-        this.width = 800;
-        this.requestClose = false;
-        UnicodeFont font = null;
-
-
+    public void init() {
         try {
             Display.setDisplayMode(new DisplayMode(this.width, this.height));
             Display.setSwapInterval(1);
@@ -64,64 +64,37 @@ public class Game {
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
-
-        try {
-            font = new UnicodeFont("resources/font/old_london/OldLondon.ttf", 24, false, false);
-            font.addAsciiGlyphs();
-            font.getEffects().add(new ColorEffect());
-            font.loadGlyphs();
-
-        } catch (SlickException e) {
-            e.printStackTrace();
-        }
-
-        List<String> options = new ArrayList<String>();
-        options.add("New player");
-        options.add("Load");
-        options.add("Quit");
-        test = new MenuSelect(options, 150, 150, 100, 50, 600, 800);
-    }
-
-    public static void main(String[] argv) {
-        Game g = new Game();
-        g.run();
-    }
-
-    public void init() {
-        GL11.glViewport(0, 0, this.width, this.height);
-        GL11.glDepthRange(0, 1000);
     }
 
     public void run() {
         while (!requestClose) {
+
+            manageInput();
             update();
+            render();
         }
         Display.destroy();
     }
 
+    public void manageInput() {
+        currentScene.manageInput();
+    }
+
     public void update() {
-        handleInput();
-        render();
-
-    }
-
-    public void setScene(Scene scene) {
-    }
-
-    public void quit() {
-        requestClose = true;
-    }
-
-    public void handleInput() {
-
+        requestClose = Display.isCloseRequested();
+        currentScene.update();
     }
 
     public void render() {
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        requestClose = Display.isCloseRequested();
 
-        test.update();
+        currentScene.render();
+
         Display.update();
         Display.sync(60);
+    }
+
+    public void quit() {
+        requestClose = true;
     }
 }
