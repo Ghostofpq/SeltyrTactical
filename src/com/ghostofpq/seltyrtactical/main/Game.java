@@ -68,7 +68,6 @@ public class Game {
 
     public void run() {
         while (!requestClose) {
-
             manageInput();
             update();
             render();

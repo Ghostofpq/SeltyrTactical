@@ -4,28 +4,30 @@ import com.ghostofpq.seltyrtactical.main.Game;
 import com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
 import org.lwjgl.input.Keyboard;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
- * User: GhostOfPQ
- * Date: 26/06/13
- * Time: 19:05
+ * User: VMPX4526
+ * Date: 28/06/13
+ * Time: 09:19
  * To change this template use File | Settings | File Templates.
  */
-public class MainMenu implements Scene {
-    private static volatile MainMenu instance = null;
-    private MenuSelect menu;
+public class LoadMenu implements Scene {
+    private static LoadMenu instance = new LoadMenu();
+    private MenuSelect menuLoad;
 
-    private MainMenu() {
+    private LoadMenu() {
+
     }
 
-    public static MainMenu getInstance() {
+    public static LoadMenu getInstance() {
         if (instance == null) {
             synchronized (MainMenu.class) {
                 if (instance == null) {
-                    instance = new MainMenu();
+                    instance = new LoadMenu();
                 }
             }
         }
@@ -35,30 +37,36 @@ public class MainMenu implements Scene {
 
     @Override
     public void init() {
+        List<String> savedPlayers = null;
+        try {
+            savedPlayers = SaveManager.getInstance().checkFolderForPlayers();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Game.getInstance().quit();
+        }
+
         List<String> options = new ArrayList<String>();
-        options.add("New player");
-        options.add("Load");
-        options.add("Quit");
-        menu = new MenuSelect(options, 150, 150, 100, 50, 600, 800);
+        for (String player : savedPlayers) {
+            options.add(player);
+        }
+        options.add("Back");
+        menuLoad = new MenuSelect(options, 150, 150, 0, 50, 600, 800);
     }
 
     @Override
     public void update() {
-        menu.update();
-        if (menu.isFinished()) {
-            if (menu.getIndex() == 0) {
-                //CREATE NEW PLAYER
-            } else if (menu.getIndex() == 1) {
-                Game.getInstance().setCurrentScene(LoadMenu.getInstance());
-            } else if (menu.getIndex() == 2) {
-                Game.getInstance().quit();
+        menuLoad.update();
+        if (menuLoad.isFinished()) {
+            if (menuLoad.getIndex() == (menuLoad.getOptions().size() - 1)) {
+                System.out.println("Switch");
+                Game.getInstance().setCurrentScene(MainMenu.getInstance());
             }
         }
     }
 
     @Override
     public void render() {
-        menu.render();
+        menuLoad.render();
     }
 
     @Override
@@ -66,19 +74,19 @@ public class MainMenu implements Scene {
         while (Keyboard.next()) {
             if (Keyboard.getEventKeyState()) {
                 if (Keyboard.getEventKey() == Keyboard.KEY_UP) {
-                    menu.indexDown();
+                    menuLoad.indexDown();
                 }
                 if (Keyboard.getEventKey() == Keyboard.KEY_LEFT) {
-                    menu.indexDown();
+                    menuLoad.indexDown();
                 }
                 if (Keyboard.getEventKey() == Keyboard.KEY_DOWN) {
-                    menu.indexUp();
+                    menuLoad.indexUp();
                 }
                 if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT) {
-                    menu.indexUp();
+                    menuLoad.indexUp();
                 }
                 if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
-                    menu.split();
+                    menuLoad.split();
                 }
             }
         }

@@ -144,7 +144,7 @@ public class MenuSelect {
         return (state.equals(MenuState.FINISHED));
     }
 
-    private enum MenuState {
+    public enum MenuState {
         PLACING, STATIC, SPLITTING, FINISHED
     }
 }
