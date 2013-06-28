@@ -58,7 +58,6 @@ public class LoadMenu implements Scene {
         menuLoad.update();
         if (menuLoad.isFinished()) {
             if (menuLoad.getIndex() == (menuLoad.getOptions().size() - 1)) {
-                System.out.println("Switch");
                 Game.getInstance().setCurrentScene(MainMenu.getInstance());
             }
         }

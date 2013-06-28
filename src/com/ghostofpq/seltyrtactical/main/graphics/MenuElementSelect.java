@@ -1,6 +1,7 @@
 package com.ghostofpq.seltyrtactical.main.graphics;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.UnicodeFont;
 
@@ -16,6 +17,7 @@ public class MenuElementSelect {
     private float posX;
     private float posY;
     private float offset;
+    @Setter
     private String text;
     private boolean placed;
     private UnicodeFont font;
