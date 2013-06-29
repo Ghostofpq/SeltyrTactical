@@ -2,6 +2,7 @@ package com.ghostofpq.seltyrtactical.main.graphics;
 
 import com.ghostofpq.seltyrtactical.main.entities.GameCharacter;
 import com.ghostofpq.seltyrtactical.main.utils.FontManager;
+import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.UnicodeFont;
 
@@ -26,7 +27,9 @@ public class CharacterRender {
     }
 
     public void render(Color color) {
+
         this.font.drawString(posX, posY, character.getName());
-        int nameLength=font.getWidth(character.getName());
+
+
     }
 }

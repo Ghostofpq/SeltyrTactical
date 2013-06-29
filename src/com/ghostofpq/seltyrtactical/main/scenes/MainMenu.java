@@ -2,7 +2,9 @@ package com.ghostofpq.seltyrtactical.main.scenes;
 
 import com.ghostofpq.seltyrtactical.main.Game;
 import com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
+import com.ghostofpq.seltyrtactical.main.graphics.Toolbox;
 import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +41,7 @@ public class MainMenu implements Scene {
         options.add("New player");
         options.add("Load");
         options.add("Quit");
-        menu = new MenuSelect(options, 300, 200, 50, 100, 600, 800);
+        menu = new MenuSelect(options, 300, 200, 0, 50, 600, 800);
     }
 
     @Override

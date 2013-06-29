@@ -6,6 +6,7 @@ import com.ghostofpq.seltyrtactical.main.scenes.Scene;
 import lombok.Getter;
 import lombok.Setter;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -20,8 +21,6 @@ public class Game {
     boolean requestClose;
     private int height;
     private int width;
-
-    @Setter
     private Scene currentScene;
     @Setter
     private Player player;
@@ -63,6 +62,11 @@ public class Game {
             System.exit(0);
         }
 
+        make2D();
+    }
+
+    private void make2D() {
+        // Remove the Z axis
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -103,6 +107,11 @@ public class Game {
 
     public void quit() {
         requestClose = true;
+    }
+
+    public void setCurrentScene(Scene currentScene){
+        this.currentScene=currentScene;
+        make2D();
     }
 
 }
