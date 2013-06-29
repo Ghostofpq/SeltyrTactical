@@ -41,11 +41,11 @@ public class NewPlayer implements Scene {
     public void init() {
         playerName = new String();
         playerName = "Marcel";
-        playerNameField = new TextField(200, 50, playerName);
+        playerNameField = new TextField(300, 200, playerName);
         List<String> options = new ArrayList<String>();
         options.add("Okay");
         options.add("Back");
-        menu = new MenuSelect(options, 150, 150, 0, 50, 600, 800);
+        menu = new MenuSelect(options, 300, 250, 0, 50, 600, 800);
     }
 
     @Override

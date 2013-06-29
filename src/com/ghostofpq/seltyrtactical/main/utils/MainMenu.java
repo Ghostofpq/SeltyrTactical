@@ -39,7 +39,7 @@ public class MainMenu implements Scene {
         options.add("New player");
         options.add("Load");
         options.add("Quit");
-        menu = new MenuSelect(options, 150, 150, 100, 50, 600, 800);
+        menu = new MenuSelect(options, 300, 200, 50, 100, 600, 800);
     }
 
     @Override

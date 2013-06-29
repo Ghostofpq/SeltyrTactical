@@ -50,7 +50,7 @@ public class LoadMenu implements Scene {
             options.add(player);
         }
         options.add("Back");
-        menuLoad = new MenuSelect(options, 150, 150, 0, 50, 600, 800);
+        menuLoad = new MenuSelect(options,300, 200, 0, 50, 600, 800);
     }
 
     @Override
