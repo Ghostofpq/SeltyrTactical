@@ -27,6 +27,6 @@ public class CharacterRender {
 
     public void render(Color color) {
         this.font.drawString(posX, posY, character.getName());
-
+        int nameLength=font.getWidth(character.getName());
     }
 }

@@ -1,5 +1,6 @@
 package com.ghostofpq.seltyrtactical.main.graphics;
 
+import com.ghostofpq.seltyrtactical.main.utils.FontManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.newdawn.slick.Color;
@@ -21,8 +22,6 @@ import java.util.List;
 @Setter
 public class MenuSelect {
 
-    private UnicodeFont font = null;
-    private UnicodeFont fontSelected = null;
     private List<MenuElementSelect> options;
     private int index;
     private MenuState state;
@@ -31,21 +30,11 @@ public class MenuSelect {
 
 
     public MenuSelect(List<String> optionString, float startX, float startY, float offsetX, float offsetY, float screenHeight, float screenWidth) {
-        try {
-            font = new UnicodeFont("resources/font/old_london/OldLondon.ttf", 24, false, false);
-            font.addAsciiGlyphs();
-            font.getEffects().add(new ColorEffect());
-            font.loadGlyphs();
-
-        } catch (SlickException e) {
-            e.printStackTrace();
-        }
-
         float x = startX;
         float y = startY;
         this.options = new ArrayList<MenuElementSelect>();
         for (int i = 0; i < optionString.size(); i++) {
-            options.add(new MenuElementSelect(x, y, optionString.get(i), font));
+            options.add(new MenuElementSelect(x, y, optionString.get(i), FontManager.getInstance().getFont()));
             x += offsetX;
             y += offsetY;
         }

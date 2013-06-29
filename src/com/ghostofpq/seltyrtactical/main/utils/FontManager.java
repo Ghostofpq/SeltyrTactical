@@ -1,10 +1,11 @@
 package com.ghostofpq.seltyrtactical.main.utils;
 
-import com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
 import com.ghostofpq.seltyrtactical.main.scenes.MainMenu;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
+import org.newdawn.slick.TrueTypeFont;
+
 
 /**
  * Created with IntelliJ IDEA.
@@ -20,11 +21,10 @@ public class FontManager {
 
     private FontManager() {
         try {
-            font = new UnicodeFont("resources/font/old_london/OldLondon.ttf", 24, false, false);
+            font = new UnicodeFont("resources/font/optimus_princeps/OptimusPrinceps.ttf", 24, false, false);
             font.addAsciiGlyphs();
             font.getEffects().add(new ColorEffect());
             font.loadGlyphs();
-
         } catch (SlickException e) {
             e.printStackTrace();
         }
@@ -44,5 +44,6 @@ public class FontManager {
     public UnicodeFont getFont() {
         return font;
     }
+
 
 }
