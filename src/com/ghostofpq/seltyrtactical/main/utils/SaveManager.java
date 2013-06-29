@@ -59,7 +59,7 @@ public class SaveManager {
         StringBuilder path = new StringBuilder();
         path.append("./saves/players/");
         path.append(playerPseudo);
-        path.append(".pla");
+        //path.append(".pla");
         Player player = null;
         try {
             FileInputStream fileIn =

@@ -1,6 +1,7 @@
 package com.ghostofpq.seltyrtactical.main.scenes;
 
 import com.ghostofpq.seltyrtactical.main.Game;
+import com.ghostofpq.seltyrtactical.main.entities.Player;
 import com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
 import com.ghostofpq.seltyrtactical.main.utils.SaveManager;
 import org.lwjgl.input.Keyboard;
@@ -51,7 +52,7 @@ public class LoadMenu implements Scene {
             options.add(player);
         }
         options.add("Back");
-        menuLoad = new MenuSelect(options,300, 200, 0, 50, 600, 800);
+        menuLoad = new MenuSelect(options, 300, 200, 0, 50, 600, 800);
     }
 
     @Override
@@ -60,6 +61,11 @@ public class LoadMenu implements Scene {
         if (menuLoad.isFinished()) {
             if (menuLoad.getIndex() == (menuLoad.getOptions().size() - 1)) {
                 Game.getInstance().setCurrentScene(MainMenu.getInstance());
+            } else {
+                String playerPseudo = menuLoad.getOptions().get(menuLoad.getIndex()).getText();
+                Player player = SaveManager.getInstance().loadPlayer(playerPseudo);
+                Game.getInstance().setPlayer(player);
+                Game.getInstance().setCurrentScene(PlayerMenu.getInstance());
             }
         }
     }

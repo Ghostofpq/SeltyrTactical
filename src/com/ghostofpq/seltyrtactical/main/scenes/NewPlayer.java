@@ -58,7 +58,7 @@ public class NewPlayer implements Scene {
                     Player player = new Player(playerName);
                     SaveManager.getInstance().savePlayer(player);
                     Game.getInstance().setPlayer(player);
-                    Game.getInstance().setCurrentScene(MainMenu.getInstance());
+                    Game.getInstance().setCurrentScene(PlayerMenu.getInstance());
                 }
             } else if (menu.getIndex() == 1) {
                 Game.getInstance().setCurrentScene(MainMenu.getInstance());

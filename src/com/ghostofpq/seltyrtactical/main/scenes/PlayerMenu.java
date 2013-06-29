@@ -3,6 +3,7 @@ package com.ghostofpq.seltyrtactical.main.scenes;
 import com.ghostofpq.seltyrtactical.main.Game;
 import com.ghostofpq.seltyrtactical.main.entities.Player;
 import com.ghostofpq.seltyrtactical.main.graphics.CharacterRender;
+import org.newdawn.slick.Color;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,16 +40,16 @@ public class PlayerMenu implements Scene {
 
     @Override
     public void update() {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 
     @Override
     public void render() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        characterRender.render(Color.white);
     }
 
     @Override
     public void manageInput() {
-        //To change body of implemented methods use File | Settings | File Templates.
+
     }
 }

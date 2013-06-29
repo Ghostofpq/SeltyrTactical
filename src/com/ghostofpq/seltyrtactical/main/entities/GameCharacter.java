@@ -6,6 +6,7 @@ import com.ghostofpq.seltyrtactical.main.entities.job.Job;
 import com.ghostofpq.seltyrtactical.main.entities.job.Warrior;
 import com.ghostofpq.seltyrtactical.main.entities.race.Race;
 import com.ghostofpq.seltyrtactical.main.entities.race.RaceType;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,7 +22,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class GameCharacter implements Serializable{
+public class GameCharacter implements Serializable {
     private static final long serialVersionUID = 1519266158170332774L;
 
 
@@ -103,12 +104,9 @@ public class GameCharacter implements Serializable{
     /**
      * Creates a new Character level 1 Warrior.
      *
-     * @param name
-     *            name of the character
-     * @param race
-     *            {@link RaceType} of the character
-     * @param gender
-     *            {@link Gender} of the character
+     * @param name   name of the character
+     * @param race   {@link RaceType} of the character
+     * @param gender {@link Gender} of the character
      */
     public GameCharacter(String name, RaceType race, Gender gender) {
         // Identity

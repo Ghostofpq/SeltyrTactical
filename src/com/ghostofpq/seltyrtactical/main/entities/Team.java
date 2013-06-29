@@ -3,6 +3,7 @@ package com.ghostofpq.seltyrtactical.main.entities;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +16,8 @@ import java.util.List;
  */
 @Getter
 @Setter
-public class Team {
+public class Team implements Serializable {
+
     private String name;
     private List<GameCharacter> team;
 
