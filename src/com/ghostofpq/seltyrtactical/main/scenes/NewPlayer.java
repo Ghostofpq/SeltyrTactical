@@ -57,6 +57,7 @@ public class NewPlayer implements Scene {
                 if (playerName.length() >= 3) {
                     Player player = new Player(playerName);
                     SaveManager.getInstance().savePlayer(player);
+                    Game.getInstance().setPlayer(player);
                     Game.getInstance().setCurrentScene(MainMenu.getInstance());
                 }
             } else if (menu.getIndex() == 1) {

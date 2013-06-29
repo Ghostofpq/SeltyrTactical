@@ -3,7 +3,6 @@ package com.ghostofpq.seltyrtactical.main.entities;
 import com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
 import com.ghostofpq.seltyrtactical.main.entities.characteristics.SecondaryCharacteristics;
 import com.ghostofpq.seltyrtactical.main.entities.job.Job;
-import com.ghostofpq.seltyrtactical.main.entities.job.JobType;
 import com.ghostofpq.seltyrtactical.main.entities.job.Warrior;
 import com.ghostofpq.seltyrtactical.main.entities.race.Race;
 import com.ghostofpq.seltyrtactical.main.entities.race.RaceType;
@@ -22,7 +21,7 @@ import java.io.Serializable;
 
 @Getter
 @Setter
-public class Character implements Serializable{
+public class GameCharacter implements Serializable{
     private static final long serialVersionUID = 1519266158170332774L;
 
 
@@ -111,7 +110,7 @@ public class Character implements Serializable{
      * @param gender
      *            {@link Gender} of the character
      */
-    public Character(String name, RaceType race, Gender gender) {
+    public GameCharacter(String name, RaceType race, Gender gender) {
         // Identity
         this.name = name;
         this.race = Race.Race(race);

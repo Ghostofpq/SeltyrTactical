@@ -1,7 +1,10 @@
 package com.ghostofpq.seltyrtactical.main;
 
+import com.ghostofpq.seltyrtactical.main.entities.Player;
 import com.ghostofpq.seltyrtactical.main.scenes.MainMenu;
 import com.ghostofpq.seltyrtactical.main.scenes.Scene;
+import lombok.Getter;
+import lombok.Setter;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -11,12 +14,17 @@ import org.lwjgl.opengl.GL11;
  * User: GhostOfPQ
  * Date: 11/06/13
  */
+@Getter
 public class Game {
     private static volatile Game instance = null;
     boolean requestClose;
     private int height;
     private int width;
+
+    @Setter
     private Scene currentScene;
+    @Setter
+    private Player player;
 
     private Game() {
         this.height = 600;
@@ -97,7 +105,4 @@ public class Game {
         requestClose = true;
     }
 
-    public void setCurrentScene(Scene scene) {
-        currentScene = scene;
-    }
 }

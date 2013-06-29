@@ -3,6 +3,7 @@ package com.ghostofpq.seltyrtactical.main.entities;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,5 +17,9 @@ import java.util.List;
 @Setter
 public class Team {
     private String name;
-    private List<Character> team;
+    private List<GameCharacter> team;
+
+    public Team(String name) {
+        team = new ArrayList<GameCharacter>();
+    }
 }
