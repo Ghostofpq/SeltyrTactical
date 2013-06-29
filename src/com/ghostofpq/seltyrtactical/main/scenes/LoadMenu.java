@@ -1,7 +1,8 @@
-package com.ghostofpq.seltyrtactical.main.utils;
+package com.ghostofpq.seltyrtactical.main.scenes;
 
 import com.ghostofpq.seltyrtactical.main.Game;
 import com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
+import com.ghostofpq.seltyrtactical.main.utils.SaveManager;
 import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;

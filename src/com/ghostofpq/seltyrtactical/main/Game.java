@@ -1,7 +1,7 @@
 package com.ghostofpq.seltyrtactical.main;
 
-import com.ghostofpq.seltyrtactical.main.utils.MainMenu;
-import com.ghostofpq.seltyrtactical.main.utils.Scene;
+import com.ghostofpq.seltyrtactical.main.scenes.MainMenu;
+import com.ghostofpq.seltyrtactical.main.scenes.Scene;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
