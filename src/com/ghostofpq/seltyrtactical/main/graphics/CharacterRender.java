@@ -17,13 +17,15 @@ public class CharacterRender {
     private GameCharacter character;
     float posX;
     float posY;
+
+
     private UnicodeFont font;
 
     public CharacterRender(float posX, float posY, GameCharacter character) {
         this.posX = posX;
         this.posY = posY;
         this.character = character;
-        this.font = FontManager.getInstance().getFont();
+        this.font = FontManager.getInstance().getFont2();
     }
 
     public void render(Color color) {

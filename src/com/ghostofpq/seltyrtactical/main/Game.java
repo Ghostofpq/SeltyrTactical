@@ -2,6 +2,7 @@ package com.ghostofpq.seltyrtactical.main;
 
 import com.ghostofpq.seltyrtactical.main.entities.Player;
 import com.ghostofpq.seltyrtactical.main.scenes.MainMenu;
+import com.ghostofpq.seltyrtactical.main.scenes.PlayerMenu;
 import com.ghostofpq.seltyrtactical.main.scenes.Scene;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,9 +31,9 @@ public class Game {
         this.width = 800;
         this.requestClose = false;
 
+        player = new Player("Jack");
         init();
 
-        currentScene = MainMenu.getInstance();
     }
 
     public static Game getInstance() {
@@ -48,6 +49,7 @@ public class Game {
 
     public static void main(String[] argv) {
         Game g = Game.getInstance();
+        g.setCurrentScene(PlayerMenu.getInstance());
         g.run();
     }
 
@@ -109,8 +111,8 @@ public class Game {
         requestClose = true;
     }
 
-    public void setCurrentScene(Scene currentScene){
-        this.currentScene=currentScene;
+    public void setCurrentScene(Scene currentScene) {
+        this.currentScene = currentScene;
         make2D();
     }
 

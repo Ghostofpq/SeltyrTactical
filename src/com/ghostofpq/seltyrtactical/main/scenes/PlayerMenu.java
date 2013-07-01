@@ -21,9 +21,6 @@ public class PlayerMenu implements Scene {
     private CharacterRender characterRender;
     private BarRender experienceBar;
 
-    private PlayerMenu() {
-    }
-
     public static PlayerMenu getInstance() {
         if (instance == null) {
             synchronized (MainMenu.class) {
@@ -34,6 +31,9 @@ public class PlayerMenu implements Scene {
         }
         instance.init();
         return instance;
+    }
+
+    private PlayerMenu() {
     }
 
     @Override
