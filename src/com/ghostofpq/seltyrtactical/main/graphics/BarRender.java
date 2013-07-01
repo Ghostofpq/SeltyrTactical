@@ -49,23 +49,26 @@ public class BarRender {
     }
 
     public void render() {
-        /**GL11.glColor4f(colorBack.getRed(), colorBack.getGreen(), colorBack.getBlue(), 1f);
 
-         GL11.glBegin(GL11.GL_QUADS);
-         GL11.glVertex2f(posX1, posY1);
-         GL11.glVertex2f(posX2, posY1);
-         GL11.glVertex2f(posX2, posY2);
-         GL11.glVertex2f(posX1, posY2);
-         GL11.glEnd();
+        GL11.glDisable(GL11.GL_BLEND);
+        GL11.glColor4f(colorBack.getRed(), colorBack.getGreen(), colorBack.getBlue(), 1f);
 
-         GL11.glColor4f(color.getRed(), color.getGreen(), color.getBlue(), 1f);
-         GL11.glBegin(GL11.GL_QUADS);
-         GL11.glVertex2f(posX1, posY1);
-         GL11.glVertex2f(posX3, posY1);
-         GL11.glVertex2f(posX3, posY3);
-         GL11.glVertex2f(posX1, posY3);
-         GL11.glEnd();   */
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glVertex2f(posX1, posY1);
+        GL11.glVertex2f(posX2, posY1);
+        GL11.glVertex2f(posX2, posY2);
+        GL11.glVertex2f(posX1, posY2);
+        GL11.glEnd();
 
-        FontManager.getInstance().drawString("arial_16", (int) posX4, (int) posY4, "blablablabla", Color.white);
+        GL11.glColor4f(color.getRed(), color.getGreen(), color.getBlue(), 1f);
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glVertex2f(posX1, posY1);
+        GL11.glVertex2f(posX3, posY1);
+        GL11.glVertex2f(posX3, posY3);
+        GL11.glVertex2f(posX1, posY3);
+        GL11.glEnd();
+        GL11.glEnable(GL11.GL_BLEND);
+
+        FontManager.getInstance().drawString("arial_16", (int) posX4, (int) posY4, "blablablabla", Color.black);
     }
 }
