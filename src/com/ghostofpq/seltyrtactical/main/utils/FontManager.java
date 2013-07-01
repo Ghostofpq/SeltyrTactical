@@ -2,10 +2,11 @@ package com.ghostofpq.seltyrtactical.main.utils;
 
 import com.ghostofpq.seltyrtactical.main.scenes.MainMenu;
 import lombok.Getter;
-import org.newdawn.slick.SlickException;
-import org.newdawn.slick.UnicodeFont;
+import org.newdawn.slick.*;
 import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.TrueTypeFont;
+import org.newdawn.slick.opengl.Texture;
+
+import java.util.HashMap;
 
 
 /**
@@ -19,19 +20,17 @@ import org.newdawn.slick.TrueTypeFont;
 public class FontManager {
 
     private static FontManager instance = new FontManager();
-    private UnicodeFont font;
-    private UnicodeFont font2;
+    @Getter
+    private HashMap<String, AngelCodeFont> fontMap;
 
     private FontManager() {
+        fontMap = new HashMap<String, AngelCodeFont>();
+
         try {
-            font = new UnicodeFont("resources/font/optimus_princeps/OptimusPrinceps.ttf", 24, false, false);
-            font.addAsciiGlyphs();
-            font.getEffects().add(new ColorEffect());
-            font.loadGlyphs();
-            font2 = new UnicodeFont("resources/font/optimus_princeps/OptimusPrinceps.ttf", 16, false, false);
-            font2.addAsciiGlyphs();
-            font2.getEffects().add(new ColorEffect());
-            font2.loadGlyphs();
+
+            fontMap.put("arial_16", new AngelCodeFont("resources/font/Arial/arial_16_white.fnt", "resources/font/Arial/arial_16_white.png"));
+            fontMap.put("arial_12", new AngelCodeFont("resources/font/Arial/arial_12_white.fnt", "resources/font/Arial/arial_12_white.png"));
+            fontMap.put("optimus_princeps_16", new AngelCodeFont("resources/font/optimus_princeps/optimus_princeps_16.fnt", "resources/font/optimus_princeps/optimus_princeps_16.png"));
         } catch (SlickException e) {
             e.printStackTrace();
         }
@@ -46,5 +45,13 @@ public class FontManager {
             }
         }
         return instance;
+    }
+
+    public void drawString(String font, int x, int y, String str, Color color) {
+        fontMap.get(font).drawString(x, y, str, color);
+    }
+
+    public void drawString(String font, int size, int x, int y, String str, Color color) {
+        fontMap.get(font + "_" + size).drawString(x, y, str, color);
     }
 }

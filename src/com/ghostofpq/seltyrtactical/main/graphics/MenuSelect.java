@@ -34,7 +34,7 @@ public class MenuSelect {
         float y = startY;
         this.options = new ArrayList<MenuElementSelect>();
         for (int i = 0; i < optionString.size(); i++) {
-            options.add(new MenuElementSelect(x, y, optionString.get(i), FontManager.getInstance().getFont()));
+            options.add(new MenuElementSelect(x, y, optionString.get(i), FontManager.getInstance().getFontMap().get("optimus_princeps_16")));
             x += offsetX;
             y += offsetY;
         }

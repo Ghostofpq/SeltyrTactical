@@ -2,6 +2,7 @@ package com.ghostofpq.seltyrtactical.main.graphics;
 
 import com.ghostofpq.seltyrtactical.main.utils.FontManager;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.UnicodeFont;
 
@@ -24,7 +25,6 @@ public class BarRender {
     float posX4;
     float posY4;
     String text;
-    private UnicodeFont font;
 
     public BarRender(float value, float maxValue, float posX, float posY, float width, float height, Color color, Color colorBack) {
         this.posX1 = posX;
@@ -34,12 +34,14 @@ public class BarRender {
         this.posX3 = posX + (width * (value / maxValue));
         this.posY3 = posY + height;
 
-        this.font = FontManager.getInstance().getFont();
         StringBuilder builder = new StringBuilder();
         builder.append((int) value);
         builder.append(" / ");
         builder.append((int) maxValue);
         text = builder.toString();
+
+        AngelCodeFont font = FontManager.getInstance().getFontMap().get("optimus_princeps_16");
+
         this.posX4 = posX + ((width - font.getWidth(text)) / 2);
         this.posY4 = posY + ((height - font.getHeight(text)) / 2);
         this.color = color;
@@ -47,24 +49,23 @@ public class BarRender {
     }
 
     public void render() {
-        GL11.glColor4f(colorBack.getRed(), colorBack.getGreen(), colorBack.getBlue(), 1f);
+        /**GL11.glColor4f(colorBack.getRed(), colorBack.getGreen(), colorBack.getBlue(), 1f);
 
-        GL11.glBegin(GL11.GL_QUADS);
-        GL11.glVertex2f(posX1, posY1);
-        GL11.glVertex2f(posX2, posY1);
-        GL11.glVertex2f(posX2, posY2);
-        GL11.glVertex2f(posX1, posY2);
-        GL11.glEnd();
+         GL11.glBegin(GL11.GL_QUADS);
+         GL11.glVertex2f(posX1, posY1);
+         GL11.glVertex2f(posX2, posY1);
+         GL11.glVertex2f(posX2, posY2);
+         GL11.glVertex2f(posX1, posY2);
+         GL11.glEnd();
 
-        GL11.glColor4f(color.getRed(), color.getGreen(), color.getBlue(), 1f);
-        GL11.glBegin(GL11.GL_QUADS);
-        GL11.glVertex2f(posX1, posY1);
-        GL11.glVertex2f(posX3, posY1);
-        GL11.glVertex2f(posX3, posY3);
-        GL11.glVertex2f(posX1, posY3);
-        GL11.glEnd();
+         GL11.glColor4f(color.getRed(), color.getGreen(), color.getBlue(), 1f);
+         GL11.glBegin(GL11.GL_QUADS);
+         GL11.glVertex2f(posX1, posY1);
+         GL11.glVertex2f(posX3, posY1);
+         GL11.glVertex2f(posX3, posY3);
+         GL11.glVertex2f(posX1, posY3);
+         GL11.glEnd();   */
 
-        font.drawString(posX4, posY4, text,Color.black);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        FontManager.getInstance().drawString("arial_16", (int) posX4, (int) posY4, "blablablabla", Color.white);
     }
 }

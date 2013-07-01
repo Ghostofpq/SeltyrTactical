@@ -3,6 +3,7 @@ package com.ghostofpq.seltyrtactical.main.graphics;
 import com.ghostofpq.seltyrtactical.main.entities.GameCharacter;
 import com.ghostofpq.seltyrtactical.main.utils.FontManager;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.UnicodeFont;
 
@@ -19,13 +20,13 @@ public class CharacterRender {
     float posY;
 
 
-    private UnicodeFont font;
+    private AngelCodeFont font;
 
     public CharacterRender(float posX, float posY, GameCharacter character) {
         this.posX = posX;
         this.posY = posY;
         this.character = character;
-        this.font = FontManager.getInstance().getFont2();
+        this.font = FontManager.getInstance().getFontMap().get("arial_16");
     }
 
     public void render(Color color) {

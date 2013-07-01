@@ -3,6 +3,7 @@ package com.ghostofpq.seltyrtactical.main.graphics;
 import lombok.Getter;
 import lombok.Setter;
 import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.UnicodeFont;
 
@@ -21,9 +22,9 @@ public class MenuElementSelect {
     @Setter
     private String text;
     private boolean placed;
-    private UnicodeFont font;
+    private AngelCodeFont font;
 
-    public MenuElementSelect(float posX, float posY, String text, UnicodeFont font) {
+    public MenuElementSelect(float posX, float posY, String text, AngelCodeFont font) {
         this.posX = posX;
         this.posY = posY;
         this.offset = posX + font.getWidth(text);
