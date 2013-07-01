@@ -4,7 +4,6 @@ import com.ghostofpq.seltyrtactical.main.utils.FontManager;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
-import org.newdawn.slick.UnicodeFont;
 
 /**
  * Created with IntelliJ IDEA.
@@ -50,7 +49,6 @@ public class BarRender {
 
     public void render() {
 
-        GL11.glDisable(GL11.GL_BLEND);
         GL11.glColor4f(colorBack.getRed(), colorBack.getGreen(), colorBack.getBlue(), 1f);
 
         GL11.glBegin(GL11.GL_QUADS);
@@ -67,7 +65,7 @@ public class BarRender {
         GL11.glVertex2f(posX3, posY3);
         GL11.glVertex2f(posX1, posY3);
         GL11.glEnd();
-        GL11.glEnable(GL11.GL_BLEND);
+
 
         FontManager.getInstance().drawString("arial_16", (int) posX4, (int) posY4, "blablablabla", Color.black);
     }

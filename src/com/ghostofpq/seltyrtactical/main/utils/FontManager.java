@@ -2,9 +2,10 @@ package com.ghostofpq.seltyrtactical.main.utils;
 
 import com.ghostofpq.seltyrtactical.main.scenes.MainMenu;
 import lombok.Getter;
-import org.newdawn.slick.*;
-import org.newdawn.slick.font.effects.ColorEffect;
-import org.newdawn.slick.opengl.Texture;
+import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.AngelCodeFont;
+import org.newdawn.slick.Color;
+import org.newdawn.slick.SlickException;
 
 import java.util.HashMap;
 
@@ -48,10 +49,14 @@ public class FontManager {
     }
 
     public void drawString(String font, int x, int y, String str, Color color) {
+        GL11.glEnable(GL11.GL_BLEND);
         fontMap.get(font).drawString(x, y, str, color);
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     public void drawString(String font, int size, int x, int y, String str, Color color) {
+        GL11.glEnable(GL11.GL_BLEND);
         fontMap.get(font + "_" + size).drawString(x, y, str, color);
+        GL11.glDisable(GL11.GL_BLEND);
     }
 }
