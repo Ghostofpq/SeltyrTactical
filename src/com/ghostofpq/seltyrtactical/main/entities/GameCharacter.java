@@ -6,7 +6,6 @@ import com.ghostofpq.seltyrtactical.main.entities.job.Job;
 import com.ghostofpq.seltyrtactical.main.entities.job.Warrior;
 import com.ghostofpq.seltyrtactical.main.entities.race.Race;
 import com.ghostofpq.seltyrtactical.main.entities.race.RaceType;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -93,13 +92,15 @@ public class GameCharacter implements Serializable {
     private SecondaryCharacteristics aggregatedSecondaryCharacteristics;
 
     /**
-     * Life point of the character
+     * Health point of the character
      */
-    private int lifePoint;
+    private int currentHealthPoint;
+    private int maxHealthPoint;
     /**
      * Mana point of the character
      */
-    private int manaPoint;
+    private int currentManaPoint;
+    private int maxManaPoint;
 
     /**
      * Creates a new Character level 1 Warrior.
@@ -129,6 +130,8 @@ public class GameCharacter implements Serializable {
                 0, 0);
 
         updateLifeAndManaPoint();
+        currentHealthPoint = maxHealthPoint;
+        currentManaPoint = maxManaPoint;
     }
 
     public void gainXp(double experience) {
@@ -158,8 +161,8 @@ public class GameCharacter implements Serializable {
 
     private void updateLifeAndManaPoint() {
         calculateAggregatedCaracteristics();
-        this.lifePoint = this.aggregatedCharacteristics.getEndurance() * 10;
-        this.manaPoint = this.aggregatedCharacteristics.getIntelligence() * 10;
+        this.maxHealthPoint = this.aggregatedCharacteristics.getEndurance() * 10;
+        this.maxManaPoint = this.aggregatedCharacteristics.getIntelligence() * 10;
     }
 
     private PrimaryCharacteristics getBonusFromJobs() {

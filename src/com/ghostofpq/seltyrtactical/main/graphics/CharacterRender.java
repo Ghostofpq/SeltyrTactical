@@ -177,8 +177,8 @@ public class CharacterRender {
                 + (((CHARACS_FRAME_HEIGHT) / 3 - FontManager.getInstance().getFontMap().get(FONT).getHeight(String.valueOf(character.getCharacteristics().getMovement()))) / 2);
 
 
-        lifeBar = new BarRender(character.getLifePoint(), 500, posXBar1, posYBar1, BARS_LENGTH, BARS_HEIGHT, Color.green, Color.red);
-        manaBar = new BarRender(character.getManaPoint(), 500, posXBar2, posYBar2, BARS_LENGTH, BARS_HEIGHT, Color.blue, Color.darkGray);
+        lifeBar = new BarRender(character.getCurrentHealthPoint(), character.getMaxHealthPoint(), posXBar1, posYBar1, BARS_LENGTH, BARS_HEIGHT, Color.green, Color.red);
+        manaBar = new BarRender(character.getCurrentManaPoint(), character.getMaxManaPoint(), posXBar2, posYBar2, BARS_LENGTH, BARS_HEIGHT, Color.blue, Color.darkGray);
         experienceBar = new BarRender(character.getExperience(), character.getNextLevel(), posXBar3, posYBar3, BARS_LENGTH, BARS_HEIGHT, Color.yellow, Color.gray);
     }
 
