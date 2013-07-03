@@ -13,18 +13,24 @@ import org.newdawn.slick.Color;
  */
 public class CharacterRender {
     private final String FONT = "optimus_princeps_16";
+    private final int FRAME_WIDTH = 2;
+    private final int FRAME_LENGTH = 300;
+    private final int FRAME_HEIGHT = 200;
+
     private final int TEXT_PADDING_X = 20;
+
+    private final int NAME_FRAME_LENGTH = FRAME_LENGTH;
+    private final int NAME_FRAME_HEIGHT = (1 * FRAME_HEIGHT / 5);
+
+    private final int BARS_FRAME_LENGTH = (2 * FRAME_LENGTH / 3) + FRAME_WIDTH;
+    private final int BARS_FRAME_HEIGHT = (3 * FRAME_HEIGHT / 5);
     private final int BARS_PADDING_X = 60;
     private final int BARS_PADDING_Y = 10;
     private final int BARS_HEIGHT = 20;
-    private final int BARS_LENGTH = 150;
-    private final int FRAME_WIDTH = 2;
-    private final int BARS_FRAME_LENGTH = FRAME_WIDTH + BARS_PADDING_X + BARS_LENGTH + TEXT_PADDING_X + FRAME_WIDTH;
-    private final int BARS_FRAME_HEIGHT = FRAME_WIDTH + 4 * BARS_PADDING_Y + 3 * BARS_HEIGHT + FRAME_WIDTH;
-    private final int CHARACS_FRAME_LENGTH = 150;
+    private final int BARS_LENGTH = 50;
+
+    private final int CHARACS_FRAME_LENGTH = (1 * FRAME_LENGTH / 3);
     private final int CHARACS_FRAME_HEIGHT = BARS_FRAME_HEIGHT;
-    private final int NAME_FRAME_LENGTH = BARS_FRAME_LENGTH + CHARACS_FRAME_LENGTH - FRAME_WIDTH;
-    private final int NAME_FRAME_HEIGHT = (BARS_PADDING_Y * 2) + (FRAME_WIDTH * 2) + 10;
     // Origin and Name Frame Position
     private int posX;
     private int posY;
