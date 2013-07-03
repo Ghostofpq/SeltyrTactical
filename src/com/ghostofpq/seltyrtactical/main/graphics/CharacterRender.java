@@ -26,12 +26,20 @@ public class CharacterRender {
     private int barsFrameHeight;
     private int characsFrameLength;
     private int characsFrameHeight;
+    private int jobFrameLength;
+    private int jobFrameHeight;
     // Origin and Name Frame Position
     private int posX;
     private int posY;
     // Name Position
     private int posXName;
     private int posYName;
+    // Race Position
+    private int posXRace;
+    private int posYRace;
+    // Level Position
+    private int posXLevel;
+    private int posYLevel;
     // Bars Frame Position
     private int posXBarsFrame;
     private int posYBarsFrame;
@@ -92,6 +100,16 @@ public class CharacterRender {
     // Characs Move Position
     private int posXCharacsMove;
     private int posYCharacsMove;
+    // Job Frame Position
+    private int posXJobFrame;
+    private int posYJobFrame;
+    // Job Position
+    private int posXJob;
+    private int posYJob;
+    // Job Points Position
+    private int posXJobPoints;
+    private int posYJobPoints;
+
     private GameCharacter character;
     private BarRender experienceBar;
     private BarRender lifeBar;
@@ -115,12 +133,15 @@ public class CharacterRender {
         nameFrameHeight = (1 * frameHeight / 5);
         nameFrameLength = frameLength;
 
-        posXName = posX + 15 + frameWidth;
+        posXName = posX + ((frameLength / 2) - FontManager.getInstance().getFontMap().get(FONT).getWidth(character.getName())) / 2;
         posYName = posY + (nameFrameHeight - FontManager.getInstance().getFontMap().get(FONT).getHeight(character.getName())) / 2;
-
+        posXRace = posX + (frameLength / 2) + (((3 * frameLength) / 10) - FontManager.getInstance().getFontMap().get(FONT).getWidth(character.getRace().getName())) / 2;
+        posYRace = posY + (nameFrameHeight - FontManager.getInstance().getFontMap().get(FONT).getHeight(character.getRace().getName())) / 2;
+        posXLevel = posX + (frameLength / 2) + ((3 * frameLength) / 10) + (((2 * frameLength) / 10) - FontManager.getInstance().getFontMap().get(FONT).getWidth("LvL : " + character.getLevel())) / 2;
+        posYLevel = posY + (nameFrameHeight - FontManager.getInstance().getFontMap().get(FONT).getHeight("LvL : " + character.getLevel())) / 2;
         //Bars Frame
-        barsFrameLength = (2 * frameLength / 3) + frameWidth;
-        barsFrameHeight = (3 * frameHeight / 5);
+        barsFrameLength = (2 * frameLength / 3) + frameWidth / 2;
+        barsFrameHeight = (3 * frameHeight / 5) + frameWidth;
 
         barsPaddingX = (3 * barsFrameLength) / 40;
         barsPaddingY = (barsFrameHeight / 15);
@@ -150,8 +171,8 @@ public class CharacterRender {
         experienceBar = new BarRender(character.getExperience(), character.getNextLevel(), posXBar3, posYBar3, barsLength, barsHeight, Color.yellow, Color.gray);
 
         //Characs Frame
-        characsFrameLength = (1 * frameLength / 3);
-        characsFrameHeight = barsFrameHeight;
+        characsFrameLength = (1 * frameLength / 3) + frameWidth;
+        characsFrameHeight = barsFrameHeight + frameWidth;
 
         posXCharacsFrame = posX + barsFrameLength - frameWidth;
         posYCharacsFrame = posY + nameFrameHeight - frameWidth;
@@ -203,12 +224,28 @@ public class CharacterRender {
                 + ((characsFrameLength / 3 - FontManager.getInstance().getFontMap().get(FONT).getWidth(String.valueOf(character.getCharacteristics().getMovement()))) / 2);
         posYCharacsMove = posYCharacsFrame + ((2 * characsFrameHeight) / 3)
                 + (((characsFrameHeight) / 3 - FontManager.getInstance().getFontMap().get(FONT).getHeight(String.valueOf(character.getCharacteristics().getMovement()))) / 2);
+
+        //Job Frame
+
+        posXJobFrame = posX;
+        posYJobFrame = posYBarsFrame + barsFrameHeight - frameWidth;
+
+        jobFrameLength = frameLength;
+        jobFrameHeight = (1 * frameHeight / 5) + frameWidth;
+
+        posXJob = posXJobFrame + ((frameLength / 2) - FontManager.getInstance().getFontMap().get(FONT).getWidth(character.getCurrentJob().getName())) / 2;
+        posYJob = posYJobFrame + (jobFrameHeight - FontManager.getInstance().getFontMap().get(FONT).getHeight(character.getCurrentJob().getName())) / 2;
+
+        posXJobPoints = posXJobFrame + (frameLength / 2) + ((3 * frameLength) / 10) + (((2 * frameLength) / 10) - FontManager.getInstance().getFontMap().get(FONT).getWidth("JP : " + character.getCurrentJob().getJobPoints())) / 2;
+        posYJobPoints = posYJobFrame + (nameFrameHeight - FontManager.getInstance().getFontMap().get(FONT).getHeight("JP : " + character.getCurrentJob().getJobPoints())) / 2;
     }
 
     public void render(Color color) {
 
         Toolbox.drawFrame(posX, posY, nameFrameLength, nameFrameHeight, frameWidth, color);
         FontManager.getInstance().drawString(FONT, posXName, posYName, character.getName(), Color.white);
+        FontManager.getInstance().drawString(FONT, posXRace, posYRace, character.getRace().getName(), Color.white);
+        FontManager.getInstance().drawString(FONT, posXLevel, posYLevel, "LvL : " + character.getLevel(), Color.white);
 
         Toolbox.drawFrame(posXBarsFrame, posYBarsFrame, barsFrameLength, barsFrameHeight, frameWidth, color);
         FontManager.getInstance().drawString(FONT, posXLabel1, posYLabel1, "HP", Color.white);
@@ -229,6 +266,10 @@ public class CharacterRender {
         FontManager.getInstance().drawString(FONT, posXCharacsWill, posYCharacsWill, String.valueOf(character.getCharacteristics().getWill()), Color.white);
         FontManager.getInstance().drawString(FONT, posXCharacsAgility, posYCharacsAgility, String.valueOf(character.getCharacteristics().getIntelligence()), Color.white);
         FontManager.getInstance().drawString(FONT, posXCharacsMove, posYCharacsMove, String.valueOf(character.getCharacteristics().getMovement()), Color.white);
+
+        Toolbox.drawFrame(posXJobFrame, posYJobFrame, jobFrameLength, jobFrameHeight, frameWidth, color);
+        FontManager.getInstance().drawString(FONT, posXJob, posYJob, character.getCurrentJob().getName(), Color.white);
+        FontManager.getInstance().drawString(FONT, posXJobPoints, posYJobPoints, "JP : " + character.getCurrentJob().getJobPoints(), Color.white);
 
         experienceBar.render();
         lifeBar.render();
