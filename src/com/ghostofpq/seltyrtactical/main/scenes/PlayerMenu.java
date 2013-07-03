@@ -38,7 +38,7 @@ public class PlayerMenu implements Scene {
     public void init() {
         player = Game.getInstance().getPlayer();
 
-        characterRender = new CharacterRender(50f, 50f, player.getTeam().getTeam().get(0));
+        characterRender = new CharacterRender(50f, 50f,400,300,3, player.getTeam().getTeam().get(0));
 
 
 
