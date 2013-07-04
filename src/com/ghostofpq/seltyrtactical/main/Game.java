@@ -2,7 +2,6 @@ package com.ghostofpq.seltyrtactical.main;
 
 import com.ghostofpq.seltyrtactical.main.entities.Player;
 import com.ghostofpq.seltyrtactical.main.scenes.BattleScene;
-import com.ghostofpq.seltyrtactical.main.scenes.PlayerMenu;
 import com.ghostofpq.seltyrtactical.main.scenes.Scene;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,7 +61,6 @@ public class Game {
             e.printStackTrace();
             System.exit(0);
         }
-
         make2D();
     }
 
