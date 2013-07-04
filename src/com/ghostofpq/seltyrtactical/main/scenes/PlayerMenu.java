@@ -32,7 +32,6 @@ public class PlayerMenu implements Scene {
                 }
             }
         }
-        instance.init();
         return instance;
     }
 
@@ -41,9 +40,9 @@ public class PlayerMenu implements Scene {
         player = Game.getInstance().getPlayer();
 
         characterRender1 = new CharacterRender(0, 0, 400, 150, 3, player.getTeam().getTeam().get(0));
-        //characterRender2 = new CharacterRender(0, 150, 400, 150, 3, player.getTeam().getTeam().get(0));
-        //characterRender3 = new CharacterRender(400, 0, 400, 150, 3, player.getTeam().getTeam().get(0));
-        //characterRender4 = new CharacterRender(400, 150, 400, 150, 3, player.getTeam().getTeam().get(0));
+        characterRender2 = new CharacterRender(0, 150, 400, 150, 3, player.getTeam().getTeam().get(0));
+        characterRender3 = new CharacterRender(0, 300, 400, 150, 3, player.getTeam().getTeam().get(0));
+        characterRender4 = new CharacterRender(0, 450, 400, 150, 3, player.getTeam().getTeam().get(0));
 
 
     }
@@ -56,9 +55,9 @@ public class PlayerMenu implements Scene {
     @Override
     public void render() {
         characterRender1.render(Color.white);
-        //characterRender2.render(Color.white);
-        // characterRender3.render(Color.white);
-        //characterRender4.render(Color.white);
+        characterRender2.render(Color.white);
+        characterRender3.render(Color.white);
+        characterRender4.render(Color.white);
 
     }
 
