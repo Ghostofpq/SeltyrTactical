@@ -3,7 +3,10 @@ package com.ghostofpq.seltyrtactical.main.graphics;
 import lombok.Getter;
 import lombok.Setter;
 import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -28,9 +31,16 @@ public class Cube implements Serializable, Comparable<Cube> {
     private float scale;
     private boolean visible;
 
-    public Cube(Position position, Texture textureTop, Texture side, float scale) {
+    public Cube(Position position, float scale) {
         this.setPosition(position);
         this.setVisible(true);
+        try {
+            textureTop = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/textures/Grass.png"));
+            side = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/textures/Earth.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         // Creating the facets
         PositionAbsolute positionAbsolute = position.toAbsolute();

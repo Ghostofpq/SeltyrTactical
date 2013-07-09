@@ -1,5 +1,7 @@
 package com.ghostofpq.seltyrtactical.main.scenes;
 
+import com.ghostofpq.seltyrtactical.main.entities.battlefield.Battlefield;
+import com.ghostofpq.seltyrtactical.main.entities.battlefield.BattlefieldElement;
 import com.ghostofpq.seltyrtactical.main.graphics.Cube;
 import com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
 import com.ghostofpq.seltyrtactical.main.graphics.Position;
@@ -40,26 +42,16 @@ public class BattleScene implements Scene {
 
     @Override
     public void init() {
-        todraw = new ArrayList<Cube>();
-        try {
-            Texture earthTop = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/textures/Grass.png"));
-            Texture earthSide = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/textures/Earth.png"));
-            Cube cubeTest1 = new Cube(new Position(0, 0, 0), earthTop, earthSide, 0.2f);
-            Cube cubeTest2 = new Cube(new Position(1, 0, 0), earthTop, earthSide, 0.2f);
-            Cube cubeTest3 = new Cube(new Position(0, 2, 0), earthTop, earthSide, 0.2f);
-            Cube cubeTest4 = new Cube(new Position(0, 0, 1), earthTop, earthSide, 0.2f);
-            Cube cubeTest5 = new Cube(new Position(2, 0, 0), earthTop, earthSide, 0.2f);
-            Cube cubeTest6 = new Cube(new Position(1, 1, 0), earthTop, earthSide, 0.2f);
+        Battlefield battlefield=new Battlefield(10,10,10);
+        battlefield.addBattlefieldElement(0, 0, 0, BattlefieldElement.BattlefieldElementType.BLOC);
+        battlefield.addBattlefieldElement(1, 0, 0, BattlefieldElement.BattlefieldElementType.BLOC);
+        battlefield.addBattlefieldElement(0, 2, 0, BattlefieldElement.BattlefieldElementType.BLOC);
+        battlefield.addBattlefieldElement(0, 0, 1, BattlefieldElement.BattlefieldElementType.BLOC);
+        battlefield.addBattlefieldElement(2, 0, 0, BattlefieldElement.BattlefieldElementType.BLOC);
+        battlefield.addBattlefieldElement(1, 1, 0, BattlefieldElement.BattlefieldElementType.BLOC);
+        todraw = battlefield.toDrawableList();
+        Collections.sort(todraw);
 
-            addToDrawingList(cubeTest1);
-            addToDrawingList(cubeTest2);
-            addToDrawingList(cubeTest3);
-            addToDrawingList(cubeTest4);
-            addToDrawingList(cubeTest5);
-            addToDrawingList(cubeTest6);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         GraphicsManager.getInstance().setupLigths();
         GraphicsManager.getInstance().ready3D();
     }

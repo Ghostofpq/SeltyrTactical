@@ -1,10 +1,13 @@
 package com.ghostofpq.seltyrtactical.main.entities.battlefield;
 
+import com.ghostofpq.seltyrtactical.main.graphics.Cube;
 import com.ghostofpq.seltyrtactical.main.graphics.Position;
 import lombok.Getter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,7 +24,6 @@ public class Battlefield implements Serializable {
     private int length;  //x
     private int height;  //y
     private int depth;  //z
-
     private Map<Position, BattlefieldElement> battlefieldElementMap;
 
     public Battlefield(int length, int height, int depth) {
@@ -42,6 +44,20 @@ public class Battlefield implements Serializable {
         if (battlefieldElement != null) {
             battlefieldElementMap.put(position, battlefieldElement);
         }
+    }
+
+    public List<Cube> toDrawableList() {
+        List<Cube> toDraw = new ArrayList<Cube>();
+        for (Position position : battlefieldElementMap.keySet()) {
+            BattlefieldElement element = battlefieldElementMap.get(position);
+            if (element != null) {
+                if (element.getType().equals(BattlefieldElement.BattlefieldElementType.BLOC)) {
+                    Cube cube = new Cube(position, 0.2f);
+                    toDraw.add(cube);
+                }
+            }
+        }
+        return toDraw;
     }
 
 }
