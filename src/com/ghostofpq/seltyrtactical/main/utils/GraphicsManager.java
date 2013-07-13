@@ -1,6 +1,9 @@
 package com.ghostofpq.seltyrtactical.main.utils;
 
 import com.ghostofpq.seltyrtactical.main.Game;
+import com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
+import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -13,12 +16,36 @@ import java.nio.FloatBuffer;
  * Time: 16:09
  * To change this template use File | Settings | File Templates.
  */
+@Slf4j
 public class GraphicsManager {
     private static volatile GraphicsManager instance = null;
 
     private GraphicsManager() {
+        originX = 0;
+        originY = 0;
 
+        scaleToGo = 0;
+        rotationToGo = 0f;
+
+        currentPointOfView = PointOfView.SOUTH;
     }
+
+    @Getter
+    private float originX;
+    @Getter
+    private float originY;
+
+    @Getter
+    private PointOfView currentPointOfView;
+    private float scale;
+    private float zscale;
+    private float scaleToGo;
+
+
+    private float focusXToGo;
+    private float focusYToGo;
+    private float focusZToGo;
+    private float rotationToGo;
 
     public static GraphicsManager getInstance() {
         if (instance == null) {
@@ -107,4 +134,171 @@ public class GraphicsManager {
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glLoadIdentity();
     }
+
+    public void requestPointOfView(PointOfView v) {
+        if (!v.equals(currentPointOfView)) {
+            switch (currentPointOfView) {
+                case SOUTH:
+                    switch (v) {
+                        case WEST:
+                            rotationToGo = -90f;
+                            break;
+                        case NORTH:
+                            rotationToGo = -180f;
+                            break;
+                        case EAST:
+                            rotationToGo = 90f;
+                            break;
+                    }
+                    break;
+                case WEST:
+                    switch (v) {
+                        case SOUTH:
+                            rotationToGo = 90f;
+                            break;
+                        case NORTH:
+                            rotationToGo = -90f;
+                            break;
+                        case EAST:
+                            rotationToGo = -180f;
+                            break;
+                    }
+                    break;
+                case NORTH:
+                    switch (v) {
+                        case SOUTH:
+                            rotationToGo = -180f;
+                            break;
+                        case WEST:
+                            rotationToGo = 90f;
+                            break;
+                        case EAST:
+                            rotationToGo = -90f;
+                            break;
+                    }
+                    break;
+                case EAST:
+                    switch (v) {
+                        case SOUTH:
+                            rotationToGo = -90f;
+                            break;
+                        case WEST:
+                            rotationToGo = -180f;
+                            break;
+                        case NORTH:
+                            rotationToGo = 90f;
+                            break;
+                    }
+                    break;
+            }
+        }
+    }
+
+    public boolean update3DMovement() {
+        make3D();
+        focusXToGo = (float) Math.round(focusXToGo * 100) / 100;
+        focusYToGo = (float) Math.round(focusYToGo * 100) / 100;
+        focusZToGo = (float) Math.round(focusZToGo * 100) / 100;
+        rotationToGo = (float) Math.round(rotationToGo * 100) / 100;
+        float step = 0.05f;
+        if (focusXToGo != 0) {
+            if (focusXToGo < 0) {
+                originX -= step;
+                focusXToGo += step;
+            } else if (focusXToGo > 0) {
+                originX += step;
+                focusXToGo -= step;
+            }
+        }
+        if (focusYToGo != 0) {
+            if (focusYToGo < 0) {
+                originY -= step;
+                focusYToGo += step;
+            } else if (focusYToGo > 0) {
+                originY += step;
+                focusYToGo -= step;
+            }
+        }
+        if (focusZToGo != 0) {
+            focusZToGo = 0;
+            if (focusZToGo < 0) {
+                if (-step < focusZToGo) {
+                    GL11.glTranslated(0, -focusZToGo, 0);
+                    focusZToGo = 0;
+                } else {
+                    GL11.glTranslated(0, -step, 0);
+                    focusZToGo += step;
+                }
+            } else if (focusZToGo > 0) {
+                if (step > focusZToGo) {
+                    GL11.glTranslated(0, focusZToGo, 0);
+                    focusZToGo = 0;
+                } else {
+                    GL11.glTranslated(0, step, 0);
+                    focusZToGo -= step;
+                }
+            }
+        }
+            /*
+             * if (scaleToGo != 0) { if (scaleToGo < scale) { scale -= 0.001f; }
+			 * if (scaleToGo > scale) { scale += 0.001f; } }
+			 */
+        if (rotationToGo != 0) {
+            double a = Math.sin(Math.PI / 180) * (1 / 2);
+            double b = Math.sin(Math.PI / 180) * (1 / 2);
+
+            if (rotationToGo < 0) {
+                GL11.glRotatef(1f, 0, 1, 0);
+                GL11.glTranslated(-b, 0, a);
+                updateLights();
+                rotationToGo += 1f;
+            }
+            if (rotationToGo > 0) {
+                GL11.glRotatef(-1f, 0, 1, 0);
+                GL11.glTranslated(b, 0, -a);
+                updateLights();
+                rotationToGo -= 1f;
+            }
+
+
+            if (rotationToGo == -45f || rotationToGo == -135f || rotationToGo == -225f || rotationToGo == -315f) {
+                switch (currentPointOfView) {
+                    case SOUTH:
+                        currentPointOfView = PointOfView.WEST;
+                        break;
+                    case WEST:
+                        currentPointOfView = PointOfView.NORTH;
+                        break;
+                    case NORTH:
+                        currentPointOfView = PointOfView.EAST;
+                        break;
+                    case EAST:
+                        currentPointOfView = PointOfView.SOUTH;
+                        break;
+                }
+            }
+            if (rotationToGo == 45f || rotationToGo == 135f || rotationToGo == 225f || rotationToGo == 315f) {
+                switch (currentPointOfView) {
+                    case SOUTH:
+                        currentPointOfView = PointOfView.EAST;
+                        break;
+                    case WEST:
+                        currentPointOfView = PointOfView.SOUTH;
+                        break;
+                    case NORTH:
+                        currentPointOfView = PointOfView.WEST;
+                        break;
+                    case EAST:
+                        currentPointOfView = PointOfView.NORTH;
+                        break;
+                }
+            }
+        }
+        if (focusXToGo == 0 && focusYToGo == 0 && focusZToGo == 0 && rotationToGo == 0) {
+            return false;
+        }
+        return true;
+    }
+
 }
+

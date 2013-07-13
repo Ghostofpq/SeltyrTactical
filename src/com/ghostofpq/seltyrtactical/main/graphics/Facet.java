@@ -1,5 +1,6 @@
 package com.ghostofpq.seltyrtactical.main.graphics;
 
+import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.lwjgl.opengl.GL11;
@@ -44,13 +45,13 @@ public class Facet implements Serializable {
             texture.bind();
             GL11.glBegin(GL11.GL_QUADS);
             GL11.glTexCoord2d(0, 0);
-            GL11.glVertex3d(corner1.getX() * scale, corner1.getY() * scale, corner1.getZ() * scale);
+            GL11.glVertex3d((corner1.getX() - GraphicsManager.getInstance().getOriginY()) * scale, corner1.getY() * scale, (corner1.getZ() - GraphicsManager.getInstance().getOriginX()) * scale);
             GL11.glTexCoord2d(1, 0);
-            GL11.glVertex3d(corner2.getX() * scale, corner2.getY() * scale, corner2.getZ() * scale);
+            GL11.glVertex3d((corner2.getX() - GraphicsManager.getInstance().getOriginY()) * scale, corner2.getY() * scale, (corner2.getZ() - GraphicsManager.getInstance().getOriginX()) * scale);
             GL11.glTexCoord2d(1, 1);
-            GL11.glVertex3d(corner3.getX() * scale, corner3.getY() * scale, corner3.getZ() * scale);
+            GL11.glVertex3d((corner3.getX() - GraphicsManager.getInstance().getOriginY()) * scale, corner3.getY() * scale, (corner3.getZ() - GraphicsManager.getInstance().getOriginX()) * scale);
             GL11.glTexCoord2d(0, 1);
-            GL11.glVertex3d(corner4.getX() * scale, corner4.getY() * scale, corner4.getZ() * scale);
+            GL11.glVertex3d((corner4.getX() - GraphicsManager.getInstance().getOriginY()) * scale, corner4.getY() * scale, (corner4.getZ() - GraphicsManager.getInstance().getOriginX()) * scale);
             GL11.glEnd();
         }
     }

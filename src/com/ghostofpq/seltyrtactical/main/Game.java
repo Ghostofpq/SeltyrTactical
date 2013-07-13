@@ -3,6 +3,7 @@ package com.ghostofpq.seltyrtactical.main;
 import com.ghostofpq.seltyrtactical.main.entities.Player;
 import com.ghostofpq.seltyrtactical.main.scenes.BattleScene;
 import com.ghostofpq.seltyrtactical.main.scenes.Scene;
+import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.lwjgl.LWJGLException;
@@ -61,18 +62,7 @@ public class Game {
             e.printStackTrace();
             System.exit(0);
         }
-        make2D();
-    }
-
-    private void make2D() {
-        // Remove the Z axis
-        GL11.glMatrixMode(GL11.GL_PROJECTION);
-        GL11.glLoadIdentity();
-        GL11.glOrtho(0, this.width, this.height, 0, 1, -1);
-        GL11.glMatrixMode(GL11.GL_MODELVIEW);
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GraphicsManager.getInstance().ready3D();
     }
 
     public void run() {

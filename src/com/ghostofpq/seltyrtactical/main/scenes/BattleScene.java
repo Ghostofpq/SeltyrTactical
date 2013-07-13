@@ -5,6 +5,8 @@ import com.ghostofpq.seltyrtactical.main.entities.battlefield.BattlefieldElement
 import com.ghostofpq.seltyrtactical.main.graphics.Cube;
 import com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
 import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
+import lombok.extern.slf4j.Slf4j;
+import org.lwjgl.input.Keyboard;
 
 import java.util.Collections;
 import java.util.List;
@@ -16,9 +18,22 @@ import java.util.List;
  * Time: 13:27
  * To change this template use File | Settings | File Templates.
  */
+@Slf4j
 public class BattleScene implements Scene {
     private static volatile BattleScene instance = null;
     List<Cube> todraw;
+
+    public enum BattlePhases {
+        PLACING,
+    }
+
+    private boolean graphicManagerIsWorking;
+
+
+    private int currentTileOnFocusX;
+    private int currentTileOnFocusY;
+    private int currentTileOnFocusZ;
+
 
     private BattleScene() {
     }
@@ -33,6 +48,7 @@ public class BattleScene implements Scene {
         }
         return instance;
     }
+
 
     @Override
     public void init() {
@@ -68,23 +84,25 @@ public class BattleScene implements Scene {
         battlefield.addBattlefieldElement(3, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(4, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
 
-        battlefield.addBattlefieldElement(2, 1, 2, BattlefieldElement.BattlefieldElementType.BLOC);
-
         todraw = battlefield.toDrawableList();
         Collections.sort(todraw);
 
         GraphicsManager.getInstance().setupLigths();
         GraphicsManager.getInstance().ready3D();
-    }
 
-    public void addToDrawingList(Cube cube) {
-        todraw.add(cube);
-        Collections.sort(todraw);
+
+        currentTileOnFocusX = 0;
+        currentTileOnFocusY = 0;
+        currentTileOnFocusZ = 0;
+
+        graphicManagerIsWorking = false;
     }
 
     @Override
     public void update() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if (graphicManagerIsWorking) {
+            graphicManagerIsWorking = GraphicsManager.getInstance().update3DMovement();
+        }
     }
 
     @Override
@@ -95,21 +113,44 @@ public class BattleScene implements Scene {
 
     @Override
     public void manageInput() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        if (!graphicManagerIsWorking) {
+            while (Keyboard.next()) {
+                if (Keyboard.getEventKeyState()) {
+                    System.out.println("Key Pressed");
+                    if (Keyboard.getEventKey() == Keyboard.KEY_O) {
+                        GraphicsManager.getInstance().requestPointOfView(PointOfView.NORTH);
+                        graphicManagerIsWorking = true;
+                    }
+                    if (Keyboard.getEventKey() == Keyboard.KEY_I) {
+                        GraphicsManager.getInstance().requestPointOfView(PointOfView.WEST);
+                        graphicManagerIsWorking = true;
+                    }
+                    if (Keyboard.getEventKey() == Keyboard.KEY_L) {
+                        GraphicsManager.getInstance().requestPointOfView(PointOfView.EAST);
+                        graphicManagerIsWorking = true;
+                    }
+                    if (Keyboard.getEventKey() == Keyboard.KEY_K) {
+                        GraphicsManager.getInstance().requestPointOfView(PointOfView.SOUTH);
+                        graphicManagerIsWorking = true;
+                    }
+                }
+            }
+        }
+
     }
 
 
     private void render3D() {
-        // ready3D();
         GraphicsManager.getInstance().make3D();
         for (Cube cube : todraw) {
-            cube.Draw(PointOfView.SOUTH);
+            cube.Draw(GraphicsManager.getInstance().getCurrentPointOfView());
         }
     }
 
     private void render2D() {
-        // ready2D();
         GraphicsManager.getInstance().make2D();
         // hud.render();
     }
+
+
 }
