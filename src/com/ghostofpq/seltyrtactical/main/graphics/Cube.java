@@ -1,12 +1,11 @@
 package com.ghostofpq.seltyrtactical.main.graphics;
 
+import com.ghostofpq.seltyrtactical.main.utils.HighlightColor;
+import com.ghostofpq.seltyrtactical.main.utils.TextureKey;
 import lombok.Getter;
 import lombok.Setter;
-import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
+import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -16,6 +15,7 @@ import java.io.Serializable;
  * Time: 12:09
  * To change this template use File | Settings | File Templates.
  */
+@Slf4j
 @Getter
 @Setter
 public class Cube implements Serializable, Comparable<Cube> {
@@ -26,21 +26,18 @@ public class Cube implements Serializable, Comparable<Cube> {
     private Facet facetEast;
     private Facet facetWest;
     private Facet facetSouth;
-    private Texture textureTop;
-    private Texture side;
+    private TextureKey textureTop;
+    private TextureKey side;
     private float scale;
     private boolean visible;
+    private HighlightColor highlight;
 
     public Cube(Position position, float scale) {
         this.setPosition(position);
         this.setVisible(true);
-        try {
-            textureTop = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/textures/Grass.png"));
-            side = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/textures/Earth.png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        textureTop = TextureKey.GRASS;
+        side = TextureKey.EARTH;
+        highlight = HighlightColor.NONE;
 
         // Creating the facets
         PositionAbsolute positionAbsolute = position.toAbsolute();
@@ -69,28 +66,40 @@ public class Cube implements Serializable, Comparable<Cube> {
         facetEast.setScale(scale);
     }
 
-    public void Draw(PointOfView pointOfView) {
+    public void draw(PointOfView pointOfView) {
         if (isVisible()) {
+            if (!highlight.equals(HighlightColor.NONE)) {
+                TextureKey texture = TextureKey.HIGHLIGHT_BLUE;
+                if (highlight.equals(HighlightColor.GREEN)) {
+                    texture = TextureKey.HIGHLIGHT_GREEN;
+                } else if (highlight.equals(HighlightColor.RED)) {
+                    texture = TextureKey.HIGHLIGHT_RED;
+                }
+                facetZenith.setTexture(texture);
+            } else {
+                facetZenith.setTexture(textureTop);
+            }
+
             switch (pointOfView) {
                 case SOUTH:
-                    facetSouth.Draw();
-                    facetEast.Draw();
-                    facetZenith.Draw();
+                    facetSouth.draw();
+                    facetEast.draw();
+                    facetZenith.draw();
                     break;
                 case WEST:
-                    facetWest.Draw();
-                    facetSouth.Draw();
-                    facetZenith.Draw();
+                    facetWest.draw();
+                    facetSouth.draw();
+                    facetZenith.draw();
                     break;
                 case NORTH:
-                    facetNorth.Draw();
-                    facetWest.Draw();
-                    facetZenith.Draw();
+                    facetNorth.draw();
+                    facetWest.draw();
+                    facetZenith.draw();
                     break;
                 case EAST:
-                    facetEast.Draw();
-                    facetNorth.Draw();
-                    facetZenith.Draw();
+                    facetEast.draw();
+                    facetNorth.draw();
+                    facetZenith.draw();
                     break;
             }
         }
@@ -100,5 +109,6 @@ public class Cube implements Serializable, Comparable<Cube> {
     public int compareTo(Cube other) {
         return this.getPosition().compareTo(other.getPosition());
     }
+
 
 }

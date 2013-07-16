@@ -1,6 +1,5 @@
 package com.ghostofpq.seltyrtactical.main.utils;
 
-import com.ghostofpq.seltyrtactical.main.scenes.MainMenu;
 import lombok.Getter;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.AngelCodeFont;
@@ -10,13 +9,6 @@ import org.newdawn.slick.SlickException;
 import java.util.HashMap;
 
 
-/**
- * Created with IntelliJ IDEA.
- * User: GhostOfPQ
- * Date: 29/06/13
- * Time: 10:05
- * To change this template use File | Settings | File Templates.
- */
 @Getter
 public class FontManager {
 
@@ -28,7 +20,6 @@ public class FontManager {
         fontMap = new HashMap<String, AngelCodeFont>();
 
         try {
-
             fontMap.put("arial_16", new AngelCodeFont("resources/font/Arial/arial_16_white.fnt", "resources/font/Arial/arial_16_white.png"));
             fontMap.put("arial_12", new AngelCodeFont("resources/font/Arial/arial_12_white.fnt", "resources/font/Arial/arial_12_white.png"));
             fontMap.put("optimus_princeps_16", new AngelCodeFont("resources/font/optimus_princeps/optimus_princeps_16.fnt", "resources/font/optimus_princeps/optimus_princeps_16.png"));
@@ -39,7 +30,7 @@ public class FontManager {
 
     public static FontManager getInstance() {
         if (instance == null) {
-            synchronized (MainMenu.class) {
+            synchronized (FontManager.class) {
                 if (instance == null) {
                     instance = new FontManager();
                 }

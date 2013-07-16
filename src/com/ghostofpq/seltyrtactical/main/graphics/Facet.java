@@ -1,10 +1,11 @@
 package com.ghostofpq.seltyrtactical.main.graphics;
 
 import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
+import com.ghostofpq.seltyrtactical.main.utils.TextureKey;
+import com.ghostofpq.seltyrtactical.main.utils.TextureManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.lwjgl.opengl.GL11;
-import org.newdawn.slick.opengl.Texture;
 
 import java.io.Serializable;
 
@@ -26,10 +27,10 @@ public class Facet implements Serializable {
     private PositionAbsolute corner3;
     private PositionAbsolute corner4;
     private boolean visible;
-    private Texture texture;
+    private TextureKey texture;
     private float scale;
 
-    public Facet(PositionAbsolute corner1, PositionAbsolute corner2, PositionAbsolute corner3, PositionAbsolute corner4, Texture texture, float scale) {
+    public Facet(PositionAbsolute corner1, PositionAbsolute corner2, PositionAbsolute corner3, PositionAbsolute corner4, TextureKey texture, float scale) {
         this.setCorner1(corner1);
         this.setCorner2(corner2);
         this.setCorner3(corner3);
@@ -39,10 +40,10 @@ public class Facet implements Serializable {
         this.setScale(scale);
     }
 
-    public void Draw() {
+    public void draw() {
         if (isVisible()) {
             GL11.glColor4f(1f, 1f, 1f, 1f);
-            texture.bind();
+            TextureManager.getInstance().getTexture(texture).bind();
             GL11.glBegin(GL11.GL_QUADS);
             GL11.glTexCoord2d(0, 0);
             GL11.glVertex3d((corner1.getX() - GraphicsManager.getInstance().getOriginY()) * scale, corner1.getY() * scale, (corner1.getZ() - GraphicsManager.getInstance().getOriginX()) * scale);

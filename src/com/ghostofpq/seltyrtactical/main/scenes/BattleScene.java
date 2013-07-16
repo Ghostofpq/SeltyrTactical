@@ -5,6 +5,7 @@ import com.ghostofpq.seltyrtactical.main.entities.battlefield.BattlefieldElement
 import com.ghostofpq.seltyrtactical.main.graphics.Cube;
 import com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
 import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
+import com.ghostofpq.seltyrtactical.main.utils.HighlightColor;
 import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.input.Keyboard;
 
@@ -87,6 +88,10 @@ public class BattleScene implements Scene {
         todraw = battlefield.toDrawableList();
         Collections.sort(todraw);
 
+        todraw.get(5).setHighlight(HighlightColor.BLUE);
+        todraw.get(12).setHighlight(HighlightColor.RED);
+        todraw.get(17).setHighlight(HighlightColor.GREEN);
+
         GraphicsManager.getInstance().setupLigths();
         GraphicsManager.getInstance().ready3D();
 
@@ -143,7 +148,7 @@ public class BattleScene implements Scene {
     private void render3D() {
         GraphicsManager.getInstance().make3D();
         for (Cube cube : todraw) {
-            cube.Draw(GraphicsManager.getInstance().getCurrentPointOfView());
+            cube.draw(GraphicsManager.getInstance().getCurrentPointOfView());
         }
     }
 
