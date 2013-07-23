@@ -28,16 +28,14 @@ public class Facet implements Serializable {
     private PositionAbsolute corner4;
     private boolean visible;
     private TextureKey texture;
-    private float scale;
 
-    public Facet(PositionAbsolute corner1, PositionAbsolute corner2, PositionAbsolute corner3, PositionAbsolute corner4, TextureKey texture, float scale) {
+    public Facet(PositionAbsolute corner1, PositionAbsolute corner2, PositionAbsolute corner3, PositionAbsolute corner4, TextureKey texture) {
         this.setCorner1(corner1);
         this.setCorner2(corner2);
         this.setCorner3(corner3);
         this.setCorner4(corner4);
         this.setTexture(texture);
         this.setVisible(true);
-        this.setScale(scale);
     }
 
     public void draw() {
@@ -46,13 +44,21 @@ public class Facet implements Serializable {
             TextureManager.getInstance().getTexture(texture).bind();
             GL11.glBegin(GL11.GL_QUADS);
             GL11.glTexCoord2d(0, 0);
-            GL11.glVertex3d((corner1.getX() - GraphicsManager.getInstance().getOriginY()) * scale, corner1.getY() * scale, (corner1.getZ() - GraphicsManager.getInstance().getOriginX()) * scale);
+            GL11.glVertex3d((corner1.getX() - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale()
+                    , (corner1.getY() - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale()
+                    , (corner1.getZ() - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
             GL11.glTexCoord2d(1, 0);
-            GL11.glVertex3d((corner2.getX() - GraphicsManager.getInstance().getOriginY()) * scale, corner2.getY() * scale, (corner2.getZ() - GraphicsManager.getInstance().getOriginX()) * scale);
+            GL11.glVertex3d((corner2.getX() - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale()
+                    , (corner2.getY() - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale()
+                    , (corner2.getZ() - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
             GL11.glTexCoord2d(1, 1);
-            GL11.glVertex3d((corner3.getX() - GraphicsManager.getInstance().getOriginY()) * scale, corner3.getY() * scale, (corner3.getZ() - GraphicsManager.getInstance().getOriginX()) * scale);
+            GL11.glVertex3d((corner3.getX() - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale()
+                    , (corner3.getY() - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale()
+                    , (corner3.getZ() - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
             GL11.glTexCoord2d(0, 1);
-            GL11.glVertex3d((corner4.getX() - GraphicsManager.getInstance().getOriginY()) * scale, corner4.getY() * scale, (corner4.getZ() - GraphicsManager.getInstance().getOriginX()) * scale);
+            GL11.glVertex3d((corner4.getX() - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale()
+                    , (corner4.getY() - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale()
+                    , (corner4.getZ() - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
             GL11.glEnd();
         }
     }

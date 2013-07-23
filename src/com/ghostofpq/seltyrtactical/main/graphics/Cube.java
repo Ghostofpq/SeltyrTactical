@@ -28,11 +28,10 @@ public class Cube implements Serializable, Comparable<Cube> {
     private Facet facetSouth;
     private TextureKey textureTop;
     private TextureKey side;
-    private float scale;
     private boolean visible;
     private HighlightColor highlight;
 
-    public Cube(Position position, float scale) {
+    public Cube(Position position) {
         this.setPosition(position);
         this.setVisible(true);
         textureTop = TextureKey.GRASS;
@@ -50,20 +49,11 @@ public class Cube implements Serializable, Comparable<Cube> {
         PositionAbsolute p7 = positionAbsolute.plus(1f, 1f, 1f);
         PositionAbsolute p8 = positionAbsolute.plus(1f, 1f, 0);
 
-        facetZenith = new Facet(p5, p8, p7, p6, textureTop, scale);
-        facetSouth = new Facet(p6, p7, p3, p2, side, scale);
-        facetWest = new Facet(p5, p6, p2, p1, side, scale);
-        facetNorth = new Facet(p8, p5, p1, p4, side, scale);
-        facetEast = new Facet(p7, p8, p4, p3, side, scale);
-    }
-
-    public void setScale(float scale) {
-        this.scale = scale;
-        facetZenith.setScale(scale);
-        facetSouth.setScale(scale);
-        facetWest.setScale(scale);
-        facetNorth.setScale(scale);
-        facetEast.setScale(scale);
+        facetZenith = new Facet(p5, p8, p7, p6, textureTop);
+        facetSouth = new Facet(p6, p7, p3, p2, side);
+        facetWest = new Facet(p5, p6, p2, p1, side);
+        facetNorth = new Facet(p8, p5, p1, p4, side);
+        facetEast = new Facet(p7, p8, p4, p3, side);
     }
 
     public void draw(PointOfView pointOfView) {

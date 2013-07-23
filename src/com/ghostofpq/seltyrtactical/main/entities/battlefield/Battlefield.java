@@ -52,7 +52,7 @@ public class Battlefield implements Serializable {
             BattlefieldElement element = battlefieldElementMap.get(position);
             if (element != null) {
                 if (element.getType().equals(BattlefieldElement.BattlefieldElementType.BLOC)) {
-                    Cube cube = new Cube(position, 0.2f);
+                    Cube cube = new Cube(position);
                     toDraw.add(cube);
                 }
             }

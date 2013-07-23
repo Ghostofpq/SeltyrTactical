@@ -19,33 +19,32 @@ import java.nio.FloatBuffer;
 @Slf4j
 public class GraphicsManager {
     private static volatile GraphicsManager instance = null;
-
-    private GraphicsManager() {
-        originX = 0;
-        originY = 0;
-
-        scaleToGo = 0;
-        rotationToGo = 0f;
-
-        currentPointOfView = PointOfView.SOUTH;
-    }
-
     @Getter
     private float originX;
     @Getter
     private float originY;
-
+    @Getter
+    private float originZ;
     @Getter
     private PointOfView currentPointOfView;
+    @Getter
     private float scale;
     private float zscale;
     private float scaleToGo;
-
-
     private float focusXToGo;
     private float focusYToGo;
     private float focusZToGo;
     private float rotationToGo;
+
+    private GraphicsManager() {
+        originZ = 0;
+        originX = 0;
+        originY = -2;
+        scaleToGo = 0;
+        rotationToGo = 0f;
+        scale = 0.2f;
+        currentPointOfView = PointOfView.SOUTH;
+    }
 
     public static GraphicsManager getInstance() {
         if (instance == null) {
@@ -57,7 +56,6 @@ public class GraphicsManager {
         }
         return instance;
     }
-
 
     public void setupLigths() {
         FloatBuffer matSpecular;
@@ -203,19 +201,19 @@ public class GraphicsManager {
         float step = 0.05f;
         if (focusXToGo != 0) {
             if (focusXToGo < 0) {
-                originX -= step;
+                originZ -= step;
                 focusXToGo += step;
             } else if (focusXToGo > 0) {
-                originX += step;
+                originZ += step;
                 focusXToGo -= step;
             }
         }
         if (focusYToGo != 0) {
             if (focusYToGo < 0) {
-                originY -= step;
+                originX -= step;
                 focusYToGo += step;
             } else if (focusYToGo > 0) {
-                originY += step;
+                originX += step;
                 focusYToGo -= step;
             }
         }
