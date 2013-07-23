@@ -133,6 +133,14 @@ public class GraphicsManager {
         GL11.glLoadIdentity();
     }
 
+    public void zoomIn() {
+        scale += 0.1 * scale;
+    }
+
+    public void zoomOut() {
+        scale -= 0.1 * scale;
+    }
+
     public void requestPointOfView(PointOfView v) {
         if (!v.equals(currentPointOfView)) {
             switch (currentPointOfView) {

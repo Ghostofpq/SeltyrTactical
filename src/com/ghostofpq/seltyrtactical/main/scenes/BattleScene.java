@@ -23,18 +23,10 @@ import java.util.List;
 public class BattleScene implements Scene {
     private static volatile BattleScene instance = null;
     List<Cube> todraw;
-
-    public enum BattlePhases {
-        PLACING,
-    }
-
     private boolean graphicManagerIsWorking;
-
-
     private int currentTileOnFocusX;
     private int currentTileOnFocusY;
     private int currentTileOnFocusZ;
-
 
     private BattleScene() {
     }
@@ -49,7 +41,6 @@ public class BattleScene implements Scene {
         }
         return instance;
     }
-
 
     @Override
     public void init() {
@@ -138,12 +129,17 @@ public class BattleScene implements Scene {
                         GraphicsManager.getInstance().requestPointOfView(PointOfView.SOUTH);
                         graphicManagerIsWorking = true;
                     }
+                    if (Keyboard.getEventKey() == Keyboard.KEY_P) {
+                        GraphicsManager.getInstance().zoomIn();
+                    }
+                    if (Keyboard.getEventKey() == Keyboard.KEY_M) {
+                        GraphicsManager.getInstance().zoomOut();
+                    }
                 }
             }
         }
 
     }
-
 
     private void render3D() {
         GraphicsManager.getInstance().make3D();
@@ -155,6 +151,10 @@ public class BattleScene implements Scene {
     private void render2D() {
         GraphicsManager.getInstance().make2D();
         // hud.render();
+    }
+
+    public enum BattlePhases {
+        PLACING,
     }
 
 
