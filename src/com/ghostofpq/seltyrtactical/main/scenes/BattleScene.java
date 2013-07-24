@@ -74,13 +74,16 @@ public class BattleScene implements Scene {
         battlefield.addBattlefieldElement(0, 0, 3, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(1, 0, 3, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(2, 0, 3, BattlefieldElement.BattlefieldElementType.BLOC);
+        battlefield.addBattlefieldElement(2, 3, 3, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(3, 0, 3, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(4, 0, 3, BattlefieldElement.BattlefieldElementType.BLOC);
 
         battlefield.addBattlefieldElement(0, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(1, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(2, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
+        battlefield.addBattlefieldElement(2, 2, 4, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(3, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
+        battlefield.addBattlefieldElement(3, 1, 4, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(4, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
 
         todraw = battlefield.toDrawableList();
@@ -182,11 +185,9 @@ public class BattleScene implements Scene {
         if (cursor.getZ() != 0) {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
             cursor.setZ(cursor.getZ() - 1);
-            if (null == todraw.get(cursor)) {
-                List<Position> possiblePositions = getPossiblePositions(cursor.getX(), cursor.getZ());
-                cursor.setX(possiblePositions.get(0).getX());
-                cursor.setY(possiblePositions.get(0).getY());
-                cursor.setZ(possiblePositions.get(0).getZ());
+            if (!todraw.containsKey(cursor)) {
+                Position closestPosition = getClosestPosition(cursor);
+                cursor = new Position(closestPosition);
             }
             todraw.get(cursor).setHighlight(HighlightColor.BLUE);
         }
@@ -196,11 +197,9 @@ public class BattleScene implements Scene {
         if (cursor.getZ() != battlefield.getDepth() - 1) {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
             cursor.setZ(cursor.getZ() + 1);
-            if (null == todraw.get(cursor)) {
-                List<Position> possiblePositions = getPossiblePositions(cursor.getX(), cursor.getZ());
-                cursor.setX(possiblePositions.get(0).getX());
-                cursor.setY(possiblePositions.get(0).getY());
-                cursor.setZ(possiblePositions.get(0).getZ());
+            if (!todraw.containsKey(cursor)) {
+                Position closestPosition = getClosestPosition(cursor);
+                cursor = new Position(closestPosition);
             }
             todraw.get(cursor).setHighlight(HighlightColor.BLUE);
         }
@@ -210,11 +209,9 @@ public class BattleScene implements Scene {
         if (cursor.getX() != 0) {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
             cursor.setX(cursor.getX() - 1);
-            if (null == todraw.get(cursor)) {
-                List<Position> possiblePositions = getPossiblePositions(cursor.getX(), cursor.getZ());
-                cursor.setX(possiblePositions.get(0).getX());
-                cursor.setY(possiblePositions.get(0).getY());
-                cursor.setZ(possiblePositions.get(0).getZ());
+            if (!todraw.containsKey(cursor)) {
+                Position closestPosition = getClosestPosition(cursor);
+                cursor = new Position(closestPosition);
             }
             todraw.get(cursor).setHighlight(HighlightColor.BLUE);
         }
@@ -224,11 +221,9 @@ public class BattleScene implements Scene {
         if (cursor.getX() != battlefield.getLength() - 1) {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
             cursor.setX(cursor.getX() + 1);
-            if (null == todraw.get(cursor)) {
-                List<Position> possiblePositions = getPossiblePositions(cursor.getX(), cursor.getZ());
-                cursor.setX(possiblePositions.get(0).getX());
-                cursor.setY(possiblePositions.get(0).getY());
-                cursor.setZ(possiblePositions.get(0).getZ());
+            if (!todraw.containsKey(cursor)) {
+                Position closestPosition = getClosestPosition(cursor);
+                cursor = new Position(closestPosition);
             }
             todraw.get(cursor).setHighlight(HighlightColor.BLUE);
         }
@@ -261,6 +256,21 @@ public class BattleScene implements Scene {
             Collections.sort(possiblePositions);
         }
         return possiblePositions;
+    }
+
+    private Position getClosestPosition(Position cursor) {
+        List<Position> possiblePositions = getPossiblePositions(cursor.getX(), cursor.getZ());
+        for (int delta = 0; delta < battlefield.getHeight() - 1; delta++) {
+            Position deltaUp = new Position(cursor.getX(), cursor.getY() + delta, cursor.getZ());
+            Position deltaDown = new Position(cursor.getX(), cursor.getY() - delta, cursor.getZ());
+            if (possiblePositions.contains(deltaUp)) {
+                return deltaUp;
+            }
+            if (possiblePositions.contains(deltaDown)) {
+                return deltaDown;
+            }
+        }
+        return cursor;
     }
 
     public enum BattlePhases {

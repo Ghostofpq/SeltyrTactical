@@ -27,6 +27,12 @@ public class Position implements Serializable, Comparable<Position> {
         this.setZ(z);
     }
 
+    public Position(Position position) {
+        this.setX(position.getX());
+        this.setY(position.getY());
+        this.setZ(position.getZ());
+    }
+
     public PositionAbsolute toAbsolute() {
         return new PositionAbsolute((float) x, (float) y, (float) z);
     }
