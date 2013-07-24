@@ -4,13 +4,16 @@ import com.ghostofpq.seltyrtactical.main.entities.battlefield.Battlefield;
 import com.ghostofpq.seltyrtactical.main.entities.battlefield.BattlefieldElement;
 import com.ghostofpq.seltyrtactical.main.graphics.Cube;
 import com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
+import com.ghostofpq.seltyrtactical.main.graphics.Position;
 import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.main.utils.HighlightColor;
 import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.input.Keyboard;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -22,8 +25,11 @@ import java.util.List;
 @Slf4j
 public class BattleScene implements Scene {
     private static volatile BattleScene instance = null;
-    List<Cube> todraw;
+    private Map<Position, Cube> todraw;
+    private List<Position> positionsToDraw;
     private boolean graphicManagerIsWorking;
+    private Position cursor;
+    private Battlefield battlefield;
     private int currentTileOnFocusX;
     private int currentTileOnFocusY;
     private int currentTileOnFocusZ;
@@ -44,7 +50,7 @@ public class BattleScene implements Scene {
 
     @Override
     public void init() {
-        Battlefield battlefield = new Battlefield(5, 5, 5);
+        battlefield = new Battlefield(5, 5, 5);
 
         battlefield.addBattlefieldElement(0, 0, 0, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(1, 0, 0, BattlefieldElement.BattlefieldElementType.BLOC);
@@ -61,6 +67,7 @@ public class BattleScene implements Scene {
         battlefield.addBattlefieldElement(0, 0, 2, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(1, 0, 2, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(2, 0, 2, BattlefieldElement.BattlefieldElementType.BLOC);
+        battlefield.addBattlefieldElement(2, 3, 2, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(3, 0, 2, BattlefieldElement.BattlefieldElementType.BLOC);
         battlefield.addBattlefieldElement(4, 0, 2, BattlefieldElement.BattlefieldElementType.BLOC);
 
@@ -77,15 +84,12 @@ public class BattleScene implements Scene {
         battlefield.addBattlefieldElement(4, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
 
         todraw = battlefield.toDrawableList();
-        Collections.sort(todraw);
-
-        todraw.get(5).setHighlight(HighlightColor.BLUE);
-        todraw.get(12).setHighlight(HighlightColor.RED);
-        todraw.get(17).setHighlight(HighlightColor.GREEN);
+        updateDrawingOrder();
+        cursor = new Position(0, 0, 0);
+        todraw.get(cursor).setHighlight(HighlightColor.BLUE);
 
         GraphicsManager.getInstance().setupLigths();
         GraphicsManager.getInstance().ready3D();
-
 
         currentTileOnFocusX = 0;
         currentTileOnFocusY = 0;
@@ -112,7 +116,6 @@ public class BattleScene implements Scene {
         if (!graphicManagerIsWorking) {
             while (Keyboard.next()) {
                 if (Keyboard.getEventKeyState()) {
-                    System.out.println("Key Pressed");
                     if (Keyboard.getEventKey() == Keyboard.KEY_O) {
                         GraphicsManager.getInstance().requestPointOfView(PointOfView.NORTH);
                         graphicManagerIsWorking = true;
@@ -135,16 +138,38 @@ public class BattleScene implements Scene {
                     if (Keyboard.getEventKey() == Keyboard.KEY_M) {
                         GraphicsManager.getInstance().zoomOut();
                     }
+
+
+                    if (Keyboard.getEventKey() == Keyboard.KEY_UP) {
+                        cursorUp();
+                    }
+                    if (Keyboard.getEventKey() == Keyboard.KEY_DOWN) {
+                        cursorDown();
+                    }
+                    if (Keyboard.getEventKey() == Keyboard.KEY_LEFT) {
+                        cursorLeft();
+                    }
+                    if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT) {
+                        cursorRight();
+                    }
+                    if (Keyboard.getEventKey() == Keyboard.KEY_TAB) {
+                        cursorTab();
+                    }
                 }
             }
         }
 
     }
 
+    private void updateDrawingOrder() {
+        positionsToDraw = new ArrayList<Position>(todraw.keySet());
+        Collections.sort(positionsToDraw);
+    }
+
     private void render3D() {
         GraphicsManager.getInstance().make3D();
-        for (Cube cube : todraw) {
-            cube.draw(GraphicsManager.getInstance().getCurrentPointOfView());
+        for (Position position : positionsToDraw) {
+            todraw.get(position).draw(GraphicsManager.getInstance().getCurrentPointOfView());
         }
     }
 
@@ -153,9 +178,93 @@ public class BattleScene implements Scene {
         // hud.render();
     }
 
+    private void cursorUp() {
+        if (cursor.getZ() != 0) {
+            todraw.get(cursor).setHighlight(HighlightColor.NONE);
+            cursor.setZ(cursor.getZ() - 1);
+            if (null == todraw.get(cursor)) {
+                List<Position> possiblePositions = getPossiblePositions(cursor.getX(), cursor.getZ());
+                cursor.setX(possiblePositions.get(0).getX());
+                cursor.setY(possiblePositions.get(0).getY());
+                cursor.setZ(possiblePositions.get(0).getZ());
+            }
+            todraw.get(cursor).setHighlight(HighlightColor.BLUE);
+        }
+    }
+
+    private void cursorDown() {
+        if (cursor.getZ() != battlefield.getDepth() - 1) {
+            todraw.get(cursor).setHighlight(HighlightColor.NONE);
+            cursor.setZ(cursor.getZ() + 1);
+            if (null == todraw.get(cursor)) {
+                List<Position> possiblePositions = getPossiblePositions(cursor.getX(), cursor.getZ());
+                cursor.setX(possiblePositions.get(0).getX());
+                cursor.setY(possiblePositions.get(0).getY());
+                cursor.setZ(possiblePositions.get(0).getZ());
+            }
+            todraw.get(cursor).setHighlight(HighlightColor.BLUE);
+        }
+    }
+
+    private void cursorLeft() {
+        if (cursor.getX() != 0) {
+            todraw.get(cursor).setHighlight(HighlightColor.NONE);
+            cursor.setX(cursor.getX() - 1);
+            if (null == todraw.get(cursor)) {
+                List<Position> possiblePositions = getPossiblePositions(cursor.getX(), cursor.getZ());
+                cursor.setX(possiblePositions.get(0).getX());
+                cursor.setY(possiblePositions.get(0).getY());
+                cursor.setZ(possiblePositions.get(0).getZ());
+            }
+            todraw.get(cursor).setHighlight(HighlightColor.BLUE);
+        }
+    }
+
+    private void cursorRight() {
+        if (cursor.getX() != battlefield.getLength() - 1) {
+            todraw.get(cursor).setHighlight(HighlightColor.NONE);
+            cursor.setX(cursor.getX() + 1);
+            if (null == todraw.get(cursor)) {
+                List<Position> possiblePositions = getPossiblePositions(cursor.getX(), cursor.getZ());
+                cursor.setX(possiblePositions.get(0).getX());
+                cursor.setY(possiblePositions.get(0).getY());
+                cursor.setZ(possiblePositions.get(0).getZ());
+            }
+            todraw.get(cursor).setHighlight(HighlightColor.BLUE);
+        }
+    }
+
+    private void cursorTab() {
+        List<Position> possiblePositions = getPossiblePositions(cursor.getX(), cursor.getZ());
+
+        if (possiblePositions.size() != 1) {
+            int i = possiblePositions.indexOf(cursor);
+            if (i == possiblePositions.size() - 1) {
+                i = 0;
+            } else {
+                i++;
+            }
+            todraw.get(cursor).setHighlight(HighlightColor.NONE);
+            cursor.setY(possiblePositions.get(i).getY());
+            todraw.get(cursor).setHighlight(HighlightColor.BLUE);
+        }
+    }
+
+    private List<Position> getPossiblePositions(int x, int z) {
+        List<Position> possiblePositions = new ArrayList<Position>();
+        for (Position position : positionsToDraw) {
+            if ((position.getX() == x) && (position.getZ() == z)) {
+                possiblePositions.add(position);
+            }
+        }
+        if (possiblePositions.size() != 1) {
+            Collections.sort(possiblePositions);
+        }
+        return possiblePositions;
+    }
+
     public enum BattlePhases {
         PLACING,
     }
-
 
 }
