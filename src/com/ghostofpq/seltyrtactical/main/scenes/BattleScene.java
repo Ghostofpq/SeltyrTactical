@@ -138,16 +138,68 @@ public class BattleScene implements Scene {
 
 
                     if (Keyboard.getEventKey() == Keyboard.KEY_UP) {
-                        cursorUp();
+                        switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                            case EAST:
+                                cursorLeft();
+                                break;
+                            case NORTH:
+                                cursorDown();
+                                break;
+                            case SOUTH:
+                                cursorUp();
+                                break;
+                            case WEST:
+                                cursorRight();
+                                break;
+                        }
                     }
                     if (Keyboard.getEventKey() == Keyboard.KEY_DOWN) {
-                        cursorDown();
+                        switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                            case EAST:
+                                cursorRight();
+                                break;
+                            case NORTH:
+                                cursorUp();
+                                break;
+                            case SOUTH:
+                                cursorDown();
+                                break;
+                            case WEST:
+                                cursorLeft();
+                                break;
+                        }
                     }
                     if (Keyboard.getEventKey() == Keyboard.KEY_LEFT) {
-                        cursorLeft();
+                        switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                            case EAST:
+                                cursorDown();
+                                break;
+                            case NORTH:
+                                cursorRight();
+                                break;
+                            case SOUTH:
+                                cursorLeft();
+                                break;
+                            case WEST:
+                                cursorUp();
+                                break;
+                        }
                     }
                     if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT) {
-                        cursorRight();
+                        switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                            case EAST:
+                                cursorUp();
+                                break;
+                            case NORTH:
+                                cursorLeft();
+                                break;
+                            case SOUTH:
+                                cursorRight();
+                                break;
+                            case WEST:
+                                cursorDown();
+                                break;
+                        }
                     }
                     if (Keyboard.getEventKey() == Keyboard.KEY_TAB) {
                         cursorTab();
