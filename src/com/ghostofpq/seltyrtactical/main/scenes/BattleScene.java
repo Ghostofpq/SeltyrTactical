@@ -89,7 +89,7 @@ public class BattleScene implements Scene {
         cursor = new Position(0, 0, 0);
         todraw.get(cursor).setHighlight(HighlightColor.BLUE);
 
-        GraphicsManager.getInstance().setupLigths();
+        GraphicsManager.getInstance().setupLights();
         GraphicsManager.getInstance().ready3D();
 
         graphicManagerIsWorking = false;

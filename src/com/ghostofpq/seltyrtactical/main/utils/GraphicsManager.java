@@ -58,7 +58,7 @@ public class GraphicsManager {
         return instance;
     }
 
-    public void setupLigths() {
+    public void setupLights() {
         FloatBuffer matSpecular;
         FloatBuffer lightPosition;
         FloatBuffer whiteLight;
