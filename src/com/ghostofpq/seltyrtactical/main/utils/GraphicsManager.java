@@ -243,21 +243,18 @@ public class GraphicsManager {
         }
 
         if (rotationToGo != 0) {
-            double a = Math.sin(Math.PI / 180) * (1 / 2);
-            double b = Math.sin(Math.PI / 180) * (1 / 2);
-
+            GL11.glTranslated(scale / 2, 0, scale / 2);
             if (rotationToGo < 0) {
                 GL11.glRotatef(1f, 0, 1, 0);
-                GL11.glTranslated(-b, 0, a);
                 updateLights();
                 rotationToGo += 1f;
             }
             if (rotationToGo > 0) {
                 GL11.glRotatef(-1f, 0, 1, 0);
-                GL11.glTranslated(b, 0, -a);
                 updateLights();
                 rotationToGo -= 1f;
             }
+            GL11.glTranslated(-scale / 2, 0, -scale / 2);
 
 
             if (rotationToGo == -45f || rotationToGo == -135f || rotationToGo == -225f || rotationToGo == -315f) {
