@@ -136,7 +136,6 @@ public class BattleScene implements Scene {
                         GraphicsManager.getInstance().zoomOut();
                     }
 
-
                     if (Keyboard.getEventKey() == Keyboard.KEY_UP) {
                         switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
                             case EAST:
@@ -152,7 +151,10 @@ public class BattleScene implements Scene {
                                 cursorRight();
                                 break;
                         }
+                        GraphicsManager.getInstance().requestCenterPosition(cursor);
+                        graphicManagerIsWorking = true;
                     }
+
                     if (Keyboard.getEventKey() == Keyboard.KEY_DOWN) {
                         switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
                             case EAST:
@@ -168,7 +170,10 @@ public class BattleScene implements Scene {
                                 cursorLeft();
                                 break;
                         }
+                        GraphicsManager.getInstance().requestCenterPosition(cursor);
+                        graphicManagerIsWorking = true;
                     }
+
                     if (Keyboard.getEventKey() == Keyboard.KEY_LEFT) {
                         switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
                             case EAST:
@@ -184,7 +189,10 @@ public class BattleScene implements Scene {
                                 cursorUp();
                                 break;
                         }
+                        GraphicsManager.getInstance().requestCenterPosition(cursor);
+                        graphicManagerIsWorking = true;
                     }
+
                     if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT) {
                         switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
                             case EAST:
@@ -200,14 +208,32 @@ public class BattleScene implements Scene {
                                 cursorDown();
                                 break;
                         }
+                        GraphicsManager.getInstance().requestCenterPosition(cursor);
+                        graphicManagerIsWorking = true;
                     }
+
                     if (Keyboard.getEventKey() == Keyboard.KEY_TAB) {
                         cursorTab();
+                        GraphicsManager.getInstance().requestCenterPosition(cursor);
+                        graphicManagerIsWorking = true;
                     }
                 }
             }
         }
 
+    }
+
+
+    private void render3D() {
+        GraphicsManager.getInstance().make3D();
+        for (Position position : positionsToDraw) {
+            todraw.get(position).draw(GraphicsManager.getInstance().getCurrentPointOfView());
+        }
+    }
+
+    private void render2D() {
+        GraphicsManager.getInstance().make2D();
+        // hud.render();
     }
 
     private void updatePositionLists() {
@@ -226,18 +252,6 @@ public class BattleScene implements Scene {
             }
         }
         Collections.sort(positionsToSelect);
-    }
-
-    private void render3D() {
-        GraphicsManager.getInstance().make3D();
-        for (Position position : positionsToDraw) {
-            todraw.get(position).draw(GraphicsManager.getInstance().getCurrentPointOfView());
-        }
-    }
-
-    private void render2D() {
-        GraphicsManager.getInstance().make2D();
-        // hud.render();
     }
 
     private void cursorUp() {
@@ -322,10 +336,10 @@ public class BattleScene implements Scene {
         for (int delta = 0; delta < battlefield.getHeight() - 1; delta++) {
             Position deltaUp = new Position(cursor.getX(), cursor.getY() + delta, cursor.getZ());
             Position deltaDown = new Position(cursor.getX(), cursor.getY() - delta, cursor.getZ());
-            if (positionsToSelect.contains(deltaUp)) {
+            if (possiblePositions.contains(deltaUp)) {
                 return deltaUp;
             }
-            if (positionsToSelect.contains(deltaDown)) {
+            if (possiblePositions.contains(deltaDown)) {
                 return deltaDown;
             }
         }

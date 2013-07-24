@@ -2,6 +2,7 @@ package com.ghostofpq.seltyrtactical.main.utils;
 
 import com.ghostofpq.seltyrtactical.main.Game;
 import com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
+import com.ghostofpq.seltyrtactical.main.graphics.Position;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.BufferUtils;
@@ -39,7 +40,7 @@ public class GraphicsManager {
     private GraphicsManager() {
         originZ = 0;
         originX = 0;
-        originY = -2;
+        originY = 0;
         scaleToGo = 0;
         rotationToGo = 0f;
         scale = 0.2f;
@@ -141,6 +142,12 @@ public class GraphicsManager {
         scale -= 0.1 * scale;
     }
 
+    public void requestCenterPosition(Position position) {
+        focusXToGo = position.getX() - originX;
+        focusYToGo = position.getY() - originY;
+        focusZToGo = position.getZ() - originZ;
+    }
+
     public void requestPointOfView(PointOfView v) {
         if (!v.equals(currentPointOfView)) {
             switch (currentPointOfView) {
@@ -206,43 +213,32 @@ public class GraphicsManager {
         focusYToGo = (float) Math.round(focusYToGo * 100) / 100;
         focusZToGo = (float) Math.round(focusZToGo * 100) / 100;
         rotationToGo = (float) Math.round(rotationToGo * 100) / 100;
-        float step = 0.05f;
+        float step = 0.1f;
         if (focusXToGo != 0) {
             if (focusXToGo < 0) {
-                originZ -= step;
+                originX -= step;
                 focusXToGo += step;
             } else if (focusXToGo > 0) {
-                originZ += step;
+                originX += step;
                 focusXToGo -= step;
             }
         }
         if (focusYToGo != 0) {
             if (focusYToGo < 0) {
-                originX -= step;
+                originY -= step;
                 focusYToGo += step;
             } else if (focusYToGo > 0) {
-                originX += step;
+                originY += step;
                 focusYToGo -= step;
             }
         }
         if (focusZToGo != 0) {
-            focusZToGo = 0;
             if (focusZToGo < 0) {
-                if (-step < focusZToGo) {
-                    GL11.glTranslated(0, -focusZToGo, 0);
-                    focusZToGo = 0;
-                } else {
-                    GL11.glTranslated(0, -step, 0);
-                    focusZToGo += step;
-                }
+                originZ -= step;
+                focusZToGo += step;
             } else if (focusZToGo > 0) {
-                if (step > focusZToGo) {
-                    GL11.glTranslated(0, focusZToGo, 0);
-                    focusZToGo = 0;
-                } else {
-                    GL11.glTranslated(0, step, 0);
-                    focusZToGo -= step;
-                }
+                originZ += step;
+                focusZToGo -= step;
             }
         }
             /*
