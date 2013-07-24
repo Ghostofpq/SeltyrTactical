@@ -29,11 +29,13 @@ public class Cube implements Serializable, Comparable<Cube> {
     private TextureKey textureTop;
     private TextureKey side;
     private boolean visible;
+    private boolean selectable;
     private HighlightColor highlight;
 
     public Cube(Position position) {
         this.setPosition(position);
         this.setVisible(true);
+        this.setSelectable(true);
         textureTop = TextureKey.GRASS;
         side = TextureKey.EARTH;
         highlight = HighlightColor.NONE;

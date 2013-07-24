@@ -55,6 +55,23 @@ public class Battlefield implements Serializable {
                 }
             }
         }
+        for (Position position : toDraw.keySet()) {
+            Cube cube = toDraw.get(position);
+            Position positionAbove = new Position(position.getX(), position.getY() + 1, position.getZ());
+            Position positionLeft = new Position(position.getX() - 1, position.getY(), position.getZ());
+            Position positionRight = new Position(position.getX() + 1, position.getY(), position.getZ());
+            Position positionUp = new Position(position.getX(), position.getY(), position.getZ() - 1);
+            Position positionDown = new Position(position.getX(), position.getY(), position.getZ() + 1);
+
+            if (toDraw.keySet().contains(positionAbove)) {
+                cube.setSelectable(false);
+                if (toDraw.keySet().contains(positionLeft) && toDraw.keySet().contains(positionRight) && toDraw.keySet().contains(positionUp) && toDraw.keySet().contains(positionDown)) {
+                    cube.setVisible(false);
+                }
+            }
+
+        }
+
         return toDraw;
     }
 

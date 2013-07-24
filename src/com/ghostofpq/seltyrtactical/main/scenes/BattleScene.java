@@ -27,12 +27,10 @@ public class BattleScene implements Scene {
     private static volatile BattleScene instance = null;
     private Map<Position, Cube> todraw;
     private List<Position> positionsToDraw;
+    private List<Position> positionsToSelect;
     private boolean graphicManagerIsWorking;
     private Position cursor;
     private Battlefield battlefield;
-    private int currentTileOnFocusX;
-    private int currentTileOnFocusY;
-    private int currentTileOnFocusZ;
 
     private BattleScene() {
     }
@@ -87,16 +85,12 @@ public class BattleScene implements Scene {
         battlefield.addBattlefieldElement(4, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
 
         todraw = battlefield.toDrawableList();
-        updateDrawingOrder();
+        updatePositionLists();
         cursor = new Position(0, 0, 0);
         todraw.get(cursor).setHighlight(HighlightColor.BLUE);
 
         GraphicsManager.getInstance().setupLigths();
         GraphicsManager.getInstance().ready3D();
-
-        currentTileOnFocusX = 0;
-        currentTileOnFocusY = 0;
-        currentTileOnFocusZ = 0;
 
         graphicManagerIsWorking = false;
     }
@@ -164,9 +158,22 @@ public class BattleScene implements Scene {
 
     }
 
-    private void updateDrawingOrder() {
-        positionsToDraw = new ArrayList<Position>(todraw.keySet());
+    private void updatePositionLists() {
+        positionsToDraw = new ArrayList<Position>();
+        for (Position position : todraw.keySet()) {
+            if (todraw.get(position).isVisible()) {
+                positionsToDraw.add(position);
+            }
+        }
         Collections.sort(positionsToDraw);
+
+        positionsToSelect = new ArrayList<Position>();
+        for (Position position : positionsToDraw) {
+            if (todraw.get(position).isSelectable()) {
+                positionsToSelect.add(position);
+            }
+        }
+        Collections.sort(positionsToSelect);
     }
 
     private void render3D() {
@@ -185,7 +192,7 @@ public class BattleScene implements Scene {
         if (cursor.getZ() != 0) {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
             cursor.setZ(cursor.getZ() - 1);
-            if (!todraw.containsKey(cursor)) {
+            if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
                 cursor = new Position(closestPosition);
             }
@@ -197,7 +204,7 @@ public class BattleScene implements Scene {
         if (cursor.getZ() != battlefield.getDepth() - 1) {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
             cursor.setZ(cursor.getZ() + 1);
-            if (!todraw.containsKey(cursor)) {
+            if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
                 cursor = new Position(closestPosition);
             }
@@ -209,7 +216,7 @@ public class BattleScene implements Scene {
         if (cursor.getX() != 0) {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
             cursor.setX(cursor.getX() - 1);
-            if (!todraw.containsKey(cursor)) {
+            if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
                 cursor = new Position(closestPosition);
             }
@@ -221,7 +228,7 @@ public class BattleScene implements Scene {
         if (cursor.getX() != battlefield.getLength() - 1) {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
             cursor.setX(cursor.getX() + 1);
-            if (!todraw.containsKey(cursor)) {
+            if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
                 cursor = new Position(closestPosition);
             }
@@ -247,7 +254,7 @@ public class BattleScene implements Scene {
 
     private List<Position> getPossiblePositions(int x, int z) {
         List<Position> possiblePositions = new ArrayList<Position>();
-        for (Position position : positionsToDraw) {
+        for (Position position : positionsToSelect) {
             if ((position.getX() == x) && (position.getZ() == z)) {
                 possiblePositions.add(position);
             }
@@ -263,10 +270,10 @@ public class BattleScene implements Scene {
         for (int delta = 0; delta < battlefield.getHeight() - 1; delta++) {
             Position deltaUp = new Position(cursor.getX(), cursor.getY() + delta, cursor.getZ());
             Position deltaDown = new Position(cursor.getX(), cursor.getY() - delta, cursor.getZ());
-            if (possiblePositions.contains(deltaUp)) {
+            if (positionsToSelect.contains(deltaUp)) {
                 return deltaUp;
             }
-            if (possiblePositions.contains(deltaDown)) {
+            if (positionsToSelect.contains(deltaDown)) {
                 return deltaDown;
             }
         }
