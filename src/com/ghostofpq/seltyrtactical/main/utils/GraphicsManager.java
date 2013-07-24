@@ -241,10 +241,7 @@ public class GraphicsManager {
                 focusZToGo -= step;
             }
         }
-            /*
-             * if (scaleToGo != 0) { if (scaleToGo < scale) { scale -= 0.001f; }
-			 * if (scaleToGo > scale) { scale += 0.001f; } }
-			 */
+
         if (rotationToGo != 0) {
             double a = Math.sin(Math.PI / 180) * (1 / 2);
             double b = Math.sin(Math.PI / 180) * (1 / 2);
