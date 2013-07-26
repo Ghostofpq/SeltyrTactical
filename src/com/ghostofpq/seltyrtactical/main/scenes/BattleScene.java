@@ -219,10 +219,12 @@ public class BattleScene implements Scene {
                     }
                 }
             }
+        } else {
+            while (Keyboard.next()) {
+                // DO NOTHING
+            }
         }
-
     }
-
 
     private void render3D() {
         GraphicsManager.getInstance().make3D();
