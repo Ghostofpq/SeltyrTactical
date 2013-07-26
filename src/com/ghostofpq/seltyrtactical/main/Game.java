@@ -11,6 +11,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
+import java.io.File;
+
 /**
  * User: GhostOfPQ
  * Date: 11/06/13
@@ -47,6 +49,7 @@ public class Game {
     }
 
     public static void main(String[] argv) {
+        System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
         Game g = Game.getInstance();
         g.setCurrentScene(BattleScene.getInstance());
         g.run();

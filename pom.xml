@@ -13,7 +13,7 @@
         <slick.version>274</slick.version>
         <junit.version>4.10</junit.version>
         <finalName>${project.artifactId}-${project.version}.jar</finalName>
-        <main.class>com.gop.engine.Game</main.class>
+        <main.class>com.ghostofpq.seltyrtactical.main.Game</main.class>
         <natives>${basedir}/target/natives/</natives>
         <natives.version>0.0.6</natives.version>
         <release.natives>natives/</release.natives>
@@ -98,6 +98,25 @@
                             <descriptors>
                                 <descriptor>src/META-INF/assembly.xml</descriptor>
                             </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>false</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
                         </configuration>
                     </execution>
                 </executions>
