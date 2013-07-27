@@ -49,7 +49,7 @@ public class Game {
     }
 
     public static void main(String[] argv) {
-        System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
+        //System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
         Game g = Game.getInstance();
         g.setCurrentScene(BattleScene.getInstance());
         g.run();
