@@ -7,6 +7,7 @@ import com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
 import com.ghostofpq.seltyrtactical.main.graphics.Position;
 import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.main.utils.HighlightColor;
+import com.ghostofpq.seltyrtactical.main.utils.SaveManager;
 import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.input.Keyboard;
 
@@ -48,41 +49,7 @@ public class BattleScene implements Scene {
 
     @Override
     public void init() {
-        battlefield = new Battlefield(5, 5, 5);
-
-        battlefield.addBattlefieldElement(0, 0, 0, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(1, 0, 0, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(2, 0, 0, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(3, 0, 0, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(4, 0, 0, BattlefieldElement.BattlefieldElementType.BLOC);
-
-        battlefield.addBattlefieldElement(0, 0, 1, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(1, 0, 1, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(2, 0, 1, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(3, 0, 1, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(4, 0, 1, BattlefieldElement.BattlefieldElementType.BLOC);
-
-        battlefield.addBattlefieldElement(0, 0, 2, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(1, 0, 2, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(2, 0, 2, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(2, 3, 2, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(3, 0, 2, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(4, 0, 2, BattlefieldElement.BattlefieldElementType.BLOC);
-
-        battlefield.addBattlefieldElement(0, 0, 3, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(1, 0, 3, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(2, 0, 3, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(2, 3, 3, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(3, 0, 3, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(4, 0, 3, BattlefieldElement.BattlefieldElementType.BLOC);
-
-        battlefield.addBattlefieldElement(0, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(1, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(2, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(2, 2, 4, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(3, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(3, 1, 4, BattlefieldElement.BattlefieldElementType.BLOC);
-        battlefield.addBattlefieldElement(4, 0, 4, BattlefieldElement.BattlefieldElementType.BLOC);
+        battlefield =SaveManager.getInstance().loadMap("mapTest1");
 
         todraw = battlefield.toDrawableList();
         updatePositionLists();
@@ -93,6 +60,7 @@ public class BattleScene implements Scene {
         GraphicsManager.getInstance().ready3D();
 
         graphicManagerIsWorking = false;
+
     }
 
     @Override

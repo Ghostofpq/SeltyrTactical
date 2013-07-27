@@ -1,6 +1,7 @@
 package com.ghostofpq.seltyrtactical.main.utils;
 
 import com.ghostofpq.seltyrtactical.main.entities.Player;
+import com.ghostofpq.seltyrtactical.main.entities.battlefield.Battlefield;
 
 import java.io.*;
 import java.util.Arrays;
@@ -59,7 +60,9 @@ public class SaveManager {
         StringBuilder path = new StringBuilder();
         path.append("./saves/players/");
         path.append(playerPseudo);
-        //path.append(".pla");
+        if (!playerPseudo.endsWith(".pla")) {
+            path.append(".pla");
+        }
         Player player = null;
         try {
             FileInputStream fileIn =
@@ -71,12 +74,52 @@ public class SaveManager {
         } catch (IOException i) {
             i.printStackTrace();
         } catch (ClassNotFoundException c) {
-            System.out.println("Player class not found");
             c.printStackTrace();
         }
-        System.out.println("Deserialized Player...");
-        System.out.println(player.getPseudo());
         return player;
+    }
+
+    public void saveMap(Battlefield battlefield, String mapName) {
+        try {
+            StringBuilder path = new StringBuilder();
+            path.append("./saves/maps/");
+            path.append(mapName);
+            if (!mapName.endsWith(".map")) {
+                path.append(".map");
+            }
+            FileOutputStream fileOut =
+                    new FileOutputStream(path.toString());
+            ObjectOutputStream out =
+                    new ObjectOutputStream(fileOut);
+            out.writeObject(battlefield);
+            out.close();
+            fileOut.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+        }
+    }
+
+    public Battlefield loadMap(String mapName) {
+        StringBuilder path = new StringBuilder();
+        path.append("./saves/maps/");
+        path.append(mapName);
+        if (!mapName.endsWith(".map")) {
+            path.append(".map");
+        }
+        Battlefield battlefield = null;
+        try {
+            FileInputStream fileIn =
+                    new FileInputStream(path.toString());
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            battlefield = (Battlefield) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (IOException i) {
+            i.printStackTrace();
+        } catch (ClassNotFoundException c) {
+            c.printStackTrace();
+        }
+        return battlefield;
     }
 
     public void checkDirectoriesExist() {
