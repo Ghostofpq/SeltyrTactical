@@ -1,7 +1,6 @@
 package com.ghostofpq.seltyrtactical.main.scenes;
 
 import com.ghostofpq.seltyrtactical.main.entities.battlefield.Battlefield;
-import com.ghostofpq.seltyrtactical.main.entities.battlefield.BattlefieldElement;
 import com.ghostofpq.seltyrtactical.main.graphics.Cube;
 import com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
 import com.ghostofpq.seltyrtactical.main.graphics.Position;
@@ -49,17 +48,17 @@ public class BattleScene implements Scene {
 
     @Override
     public void init() {
-        battlefield =SaveManager.getInstance().loadMap("mapTest1");
+        battlefield = SaveManager.getInstance().loadMap("mapTest1");
 
         todraw = battlefield.toDrawableList();
         updatePositionLists();
-        cursor = new Position(0, 0, 0);
+        cursor = new Position(4, 0, 4);
         todraw.get(cursor).setHighlight(HighlightColor.BLUE);
 
         GraphicsManager.getInstance().setupLights();
         GraphicsManager.getInstance().ready3D();
-
-        graphicManagerIsWorking = false;
+        GraphicsManager.getInstance().requestCenterPosition(cursor);
+        graphicManagerIsWorking = true;
 
     }
 

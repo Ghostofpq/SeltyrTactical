@@ -23,12 +23,24 @@ public class Battlefield implements Serializable {
     private int height;  //y
     private int depth;  //z
     private Map<Position, BattlefieldElement> battlefieldElementMap;
+    private int numberOfPlayers;
+    private Map<Integer, Position> deployementZones;
 
-    public Battlefield(int length, int height, int depth) {
+    public Battlefield(int length, int height, int depth, int numberOfPlayers) {
         this.length = length;
         this.height = height;
         this.depth = depth;
+        this.numberOfPlayers = numberOfPlayers;
         battlefieldElementMap = new HashMap<Position, BattlefieldElement>();
+        deployementZones = new HashMap<Integer, Position>();
+    }
+
+    public void addDeployementZone(Integer playerNumber, Position position) {
+        if (null != playerNumber) {
+            if (playerNumber <= this.numberOfPlayers) {
+                deployementZones.put(playerNumber, position);
+            }
+        }
     }
 
     public void addBattlefieldElement(int x, int y, int z, BattlefieldElement.BattlefieldElementType type) {
