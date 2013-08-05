@@ -5,16 +5,11 @@ import com.ghostofpq.seltyrtactical.main.graphics.Position;
 import lombok.Getter;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: GhostOfPQ
- * Date: 05/07/13
- * Time: 08:41
- * To change this template use File | Settings | File Templates.
- */
 @Getter
 public class Battlefield implements Serializable {
 
@@ -24,7 +19,7 @@ public class Battlefield implements Serializable {
     private int depth;  //z
     private Map<Position, BattlefieldElement> battlefieldElementMap;
     private int numberOfPlayers;
-    private Map<Integer, Position> deployementZones;
+    private Map<Integer, List<Position>> deploymentZones;
 
     public Battlefield(int length, int height, int depth, int numberOfPlayers) {
         this.length = length;
@@ -32,14 +27,17 @@ public class Battlefield implements Serializable {
         this.depth = depth;
         this.numberOfPlayers = numberOfPlayers;
         battlefieldElementMap = new HashMap<Position, BattlefieldElement>();
-        deployementZones = new HashMap<Integer, Position>();
+        deploymentZones = new HashMap<Integer, List<Position>>();
     }
 
     public void addDeployementZone(Integer playerNumber, Position position) {
         if (null != playerNumber) {
-            if (playerNumber <= this.numberOfPlayers) {
-                deployementZones.put(playerNumber, position);
+            List<Position> deploymentZone = deploymentZones.get(playerNumber);
+            if (null == deploymentZone) {
+                deploymentZone = new ArrayList<Position>();
             }
+            deploymentZone.add(position);
+            deploymentZones.put(playerNumber, deploymentZone);
         }
     }
 

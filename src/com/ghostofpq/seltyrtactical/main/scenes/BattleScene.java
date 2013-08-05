@@ -15,13 +15,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created with IntelliJ IDEA.
- * User: vmpx4526
- * Date: 04/07/13
- * Time: 13:27
- * To change this template use File | Settings | File Templates.
- */
 @Slf4j
 public class BattleScene implements Scene {
     private static volatile BattleScene instance = null;
@@ -31,6 +24,8 @@ public class BattleScene implements Scene {
     private boolean graphicManagerIsWorking;
     private Position cursor;
     private Battlefield battlefield;
+    private BattleSceneState currentState;
+    private int currentPlayer;
 
     private BattleScene() {
     }
@@ -48,6 +43,8 @@ public class BattleScene implements Scene {
 
     @Override
     public void init() {
+        currentState = BattleSceneState.DEPLOY;
+        currentPlayer = 1;
         battlefield = SaveManager.getInstance().loadMap("mapTest1");
 
         todraw = battlefield.toDrawableList();
@@ -59,7 +56,14 @@ public class BattleScene implements Scene {
         GraphicsManager.getInstance().ready3D();
         GraphicsManager.getInstance().requestCenterPosition(cursor);
         graphicManagerIsWorking = true;
+        highlightDeploymentZones();
+    }
 
+    private void highlightDeploymentZones() {
+        List<Position> deploymentZonePlayer1 = battlefield.getDeploymentZones().get(currentPlayer);
+        for (Position deploymentPosition : deploymentZonePlayer1) {
+            todraw.get(deploymentPosition).setHighlight(HighlightColor.GREEN);
+        }
     }
 
     @Override
@@ -224,8 +228,16 @@ public class BattleScene implements Scene {
     }
 
     private void cursorUp() {
+
         if (cursor.getZ() != 0) {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
+
+            if (currentState.equals(BattleSceneState.DEPLOY)) {
+                if (battlefield.getDeploymentZones().get(currentPlayer).contains(cursor)) {
+                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
+                }
+            }
+
             cursor.setZ(cursor.getZ() - 1);
             if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
@@ -238,6 +250,13 @@ public class BattleScene implements Scene {
     private void cursorDown() {
         if (cursor.getZ() != battlefield.getDepth() - 1) {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
+
+            if (currentState.equals(BattleSceneState.DEPLOY)) {
+                if (battlefield.getDeploymentZones().get(currentPlayer).contains(cursor)) {
+                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
+                }
+            }
+
             cursor.setZ(cursor.getZ() + 1);
             if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
@@ -250,6 +269,13 @@ public class BattleScene implements Scene {
     private void cursorLeft() {
         if (cursor.getX() != 0) {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
+
+            if (currentState.equals(BattleSceneState.DEPLOY)) {
+                if (battlefield.getDeploymentZones().get(currentPlayer).contains(cursor)) {
+                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
+                }
+            }
+
             cursor.setX(cursor.getX() - 1);
             if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
@@ -262,6 +288,13 @@ public class BattleScene implements Scene {
     private void cursorRight() {
         if (cursor.getX() != battlefield.getLength() - 1) {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
+
+            if (currentState.equals(BattleSceneState.DEPLOY)) {
+                if (battlefield.getDeploymentZones().get(currentPlayer).contains(cursor)) {
+                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
+                }
+            }
+
             cursor.setX(cursor.getX() + 1);
             if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
@@ -315,8 +348,7 @@ public class BattleScene implements Scene {
         return cursor;
     }
 
-    public enum BattlePhases {
-        PLACING,
+    private enum BattleSceneState {
+        DEPLOY, FIGHT
     }
-
 }
