@@ -34,6 +34,7 @@
         <dependency>
             <artifactId>commons</artifactId>
             <groupId>SeltyrTactical</groupId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

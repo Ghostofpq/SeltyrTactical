@@ -1,22 +1,15 @@
 package com.ghostofpq.seltyrtactical.main.scenes;
 
-import org.lwjgl.input.Keyboard;
-
 import com.ghostofpq.seltyrtactical.main.Game;
 import com.ghostofpq.seltyrtactical.main.entities.Player;
 import com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
 import com.ghostofpq.seltyrtactical.main.utils.SaveManager;
+import org.lwjgl.input.Keyboard;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created with IntelliJ IDEA.
- * User: VMPX4526
- * Date: 28/06/13
- * Time: 09:19
- * To change this template use File | Settings | File Templates.
- */
 public class LoadMenu implements Scene {
     private static LoadMenu instance = new LoadMenu();
     private MenuSelect menuLoad;
