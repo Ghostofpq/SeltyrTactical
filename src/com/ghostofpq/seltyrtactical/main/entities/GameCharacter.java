@@ -1,20 +1,20 @@
-package java.com.ghostofpq.seltyrtactical.main.entities;
+package com.ghostofpq.seltyrtactical.main.entities;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.lwjgl.opengl.GL11;
 
-import java.com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
-import java.com.ghostofpq.seltyrtactical.main.entities.characteristics.SecondaryCharacteristics;
-import java.com.ghostofpq.seltyrtactical.main.entities.job.Job;
-import java.com.ghostofpq.seltyrtactical.main.entities.job.Warrior;
-import java.com.ghostofpq.seltyrtactical.main.entities.race.Race;
-import java.com.ghostofpq.seltyrtactical.main.entities.race.RaceType;
-import java.com.ghostofpq.seltyrtactical.main.graphics.Position;
-import java.com.ghostofpq.seltyrtactical.main.graphics.PositionAbsolute;
-import java.com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
-import java.com.ghostofpq.seltyrtactical.main.utils.TextureKey;
-import java.com.ghostofpq.seltyrtactical.main.utils.TextureManager;
+import com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
+import com.ghostofpq.seltyrtactical.main.entities.characteristics.SecondaryCharacteristics;
+import com.ghostofpq.seltyrtactical.main.entities.job.Job;
+import com.ghostofpq.seltyrtactical.main.entities.job.Warrior;
+import com.ghostofpq.seltyrtactical.main.entities.race.Race;
+import com.ghostofpq.seltyrtactical.main.entities.race.RaceType;
+import com.ghostofpq.seltyrtactical.main.graphics.Position;
+import com.ghostofpq.seltyrtactical.main.graphics.PositionAbsolute;
+import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
+import com.ghostofpq.seltyrtactical.main.utils.TextureKey;
+import com.ghostofpq.seltyrtactical.main.utils.TextureManager;
 import java.io.Serializable;
 
 /**
@@ -66,7 +66,7 @@ public class GameCharacter implements Serializable {
 
     // Learnings
     /**
-     * Current {@link java.com.ghostofpq.seltyrtactical.main.entities.job.Job} of the character
+     * Current {@link com.ghostofpq.seltyrtactical.main.entities.job.Job} of the character
      */
     private Job currentJob;
     /**
@@ -76,11 +76,11 @@ public class GameCharacter implements Serializable {
 
     // Caracteristics
     /**
-     * {@link java.com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics} of the character acquired by leveling
+     * {@link com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics} of the character acquired by leveling
      */
     private PrimaryCharacteristics characteristics;
     /**
-     * {@link java.com.ghostofpq.seltyrtactical.main.entities.characteristics.SecondaryCharacteristics} of the character acquired by calculation
+     * {@link com.ghostofpq.seltyrtactical.main.entities.characteristics.SecondaryCharacteristics} of the character acquired by calculation
      * from leveling
      */
     private SecondaryCharacteristics secondaryCharacteristics;

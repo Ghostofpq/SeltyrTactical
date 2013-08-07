@@ -1,7 +1,7 @@
-package java.com.ghostofpq.seltyrtactical.main.utils;
+package com.ghostofpq.seltyrtactical.main.utils;
 
-import java.com.ghostofpq.seltyrtactical.main.entities.Player;
-import java.com.ghostofpq.seltyrtactical.main.entities.battlefield.Battlefield;
+import com.ghostofpq.seltyrtactical.main.entities.Player;
+import com.ghostofpq.seltyrtactical.main.entities.battlefield.Battlefield;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;

@@ -1,9 +1,9 @@
-package java.com.ghostofpq.seltyrtactical.main.entities.job.capacity;
+package com.ghostofpq.seltyrtactical.main.entities.job.capacity;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
+import com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
 import java.util.ArrayList;
 
 @Getter

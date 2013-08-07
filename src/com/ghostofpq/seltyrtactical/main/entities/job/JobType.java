@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main.entities.job;
+package com.ghostofpq.seltyrtactical.main.entities.job;
 
 /**
  * Created with IntelliJ IDEA.

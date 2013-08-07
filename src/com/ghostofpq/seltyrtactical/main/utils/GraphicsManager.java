@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main.utils;
+package com.ghostofpq.seltyrtactical.main.utils;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -6,8 +6,8 @@ import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import com.ghostofpq.seltyrtactical.main.Game;
-import java.com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
-import java.com.ghostofpq.seltyrtactical.main.graphics.Position;
+import com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
+import com.ghostofpq.seltyrtactical.main.graphics.Position;
 import java.nio.FloatBuffer;
 
 /**

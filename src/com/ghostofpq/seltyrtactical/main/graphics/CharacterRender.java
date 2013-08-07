@@ -1,9 +1,9 @@
-package java.com.ghostofpq.seltyrtactical.main.graphics;
+package com.ghostofpq.seltyrtactical.main.graphics;
 
 import org.newdawn.slick.Color;
 
-import java.com.ghostofpq.seltyrtactical.main.entities.GameCharacter;
-import java.com.ghostofpq.seltyrtactical.main.utils.FontManager;
+import com.ghostofpq.seltyrtactical.main.entities.GameCharacter;
+import com.ghostofpq.seltyrtactical.main.utils.FontManager;
 
 /**
  * Created with IntelliJ IDEA.

@@ -1,8 +1,8 @@
-package java.com.ghostofpq.seltyrtactical.main.entities.job;
+package com.ghostofpq.seltyrtactical.main.entities.job;
 
-import java.com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
-import java.com.ghostofpq.seltyrtactical.main.entities.job.capacity.Amelioration;
-import java.com.ghostofpq.seltyrtactical.main.entities.job.capacity.Capacity;
+import com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
+import com.ghostofpq.seltyrtactical.main.entities.job.capacity.Amelioration;
+import com.ghostofpq.seltyrtactical.main.entities.job.capacity.Capacity;
 import java.util.ArrayList;
 import java.util.List;
 

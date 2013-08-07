@@ -1,12 +1,12 @@
-package java.com.ghostofpq.seltyrtactical.main.entities.job;
+package com.ghostofpq.seltyrtactical.main.entities.job;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
-import java.com.ghostofpq.seltyrtactical.main.entities.job.capacity.Amelioration;
-import java.com.ghostofpq.seltyrtactical.main.entities.job.capacity.Capacity;
-import java.com.ghostofpq.seltyrtactical.main.entities.job.capacity.Move;
+import com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
+import com.ghostofpq.seltyrtactical.main.entities.job.capacity.Amelioration;
+import com.ghostofpq.seltyrtactical.main.entities.job.capacity.Capacity;
+import com.ghostofpq.seltyrtactical.main.entities.job.capacity.Move;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

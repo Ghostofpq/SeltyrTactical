@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main.entities.job.capacity;
+package com.ghostofpq.seltyrtactical.main.entities.job.capacity;
 
 /**
  * Created with IntelliJ IDEA.

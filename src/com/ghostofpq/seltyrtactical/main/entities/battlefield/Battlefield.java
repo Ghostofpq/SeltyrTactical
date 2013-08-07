@@ -1,9 +1,9 @@
-package java.com.ghostofpq.seltyrtactical.main.entities.battlefield;
+package com.ghostofpq.seltyrtactical.main.entities.battlefield;
 
 import lombok.Getter;
 
-import java.com.ghostofpq.seltyrtactical.main.graphics.Cube;
-import java.com.ghostofpq.seltyrtactical.main.graphics.Position;
+import com.ghostofpq.seltyrtactical.main.graphics.Cube;
+import com.ghostofpq.seltyrtactical.main.graphics.Position;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;

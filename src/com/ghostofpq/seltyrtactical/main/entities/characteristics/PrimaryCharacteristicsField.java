@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main.entities.characteristics;
+package com.ghostofpq.seltyrtactical.main.entities.characteristics;
 
 /**
  * Created with IntelliJ IDEA.

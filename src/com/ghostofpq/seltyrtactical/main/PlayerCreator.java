@@ -1,10 +1,10 @@
 package com.ghostofpq.seltyrtactical.main;
 
-import java.com.ghostofpq.seltyrtactical.main.entities.GameCharacter;
-import java.com.ghostofpq.seltyrtactical.main.entities.Gender;
-import java.com.ghostofpq.seltyrtactical.main.entities.Player;
-import java.com.ghostofpq.seltyrtactical.main.entities.race.RaceType;
-import java.com.ghostofpq.seltyrtactical.main.utils.SaveManager;
+import com.ghostofpq.seltyrtactical.main.entities.GameCharacter;
+import com.ghostofpq.seltyrtactical.main.entities.Gender;
+import com.ghostofpq.seltyrtactical.main.entities.Player;
+import com.ghostofpq.seltyrtactical.main.entities.race.RaceType;
+import com.ghostofpq.seltyrtactical.main.utils.SaveManager;
 
 /**
  * Created with IntelliJ IDEA.

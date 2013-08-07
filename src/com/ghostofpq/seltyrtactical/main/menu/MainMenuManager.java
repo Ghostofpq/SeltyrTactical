@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main.menu;
+package com.ghostofpq.seltyrtactical.main.menu;
 
 /**
  * Created with IntelliJ IDEA.

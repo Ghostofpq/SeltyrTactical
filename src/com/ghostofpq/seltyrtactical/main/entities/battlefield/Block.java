@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main.entities.battlefield;
+package com.ghostofpq.seltyrtactical.main.entities.battlefield;
 
 /**
  * Created with IntelliJ IDEA.

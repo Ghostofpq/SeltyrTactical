@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main.entities.job.capacity;
+package com.ghostofpq.seltyrtactical.main.entities.job.capacity;
 
 import lombok.Getter;
 import lombok.Setter;

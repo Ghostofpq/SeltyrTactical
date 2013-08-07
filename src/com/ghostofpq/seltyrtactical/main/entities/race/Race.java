@@ -1,9 +1,9 @@
-package java.com.ghostofpq.seltyrtactical.main.entities.race;
+package com.ghostofpq.seltyrtactical.main.entities.race;
 
 import lombok.Getter;
 import lombok.Setter;
 
-import java.com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
+import com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
 import java.io.Serializable;
 
 @Getter

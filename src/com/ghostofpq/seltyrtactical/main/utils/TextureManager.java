@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main.utils;
+package com.ghostofpq.seltyrtactical.main.utils;
 
 import lombok.Getter;
 import org.newdawn.slick.opengl.Texture;

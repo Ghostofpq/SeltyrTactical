@@ -1,12 +1,12 @@
-package java.com.ghostofpq.seltyrtactical.main.scenes;
+package com.ghostofpq.seltyrtactical.main.scenes;
 
 import org.lwjgl.input.Keyboard;
 
 import com.ghostofpq.seltyrtactical.main.Game;
-import java.com.ghostofpq.seltyrtactical.main.entities.Player;
-import java.com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
-import java.com.ghostofpq.seltyrtactical.main.graphics.TextField;
-import java.com.ghostofpq.seltyrtactical.main.utils.SaveManager;
+import com.ghostofpq.seltyrtactical.main.entities.Player;
+import com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
+import com.ghostofpq.seltyrtactical.main.graphics.TextField;
+import com.ghostofpq.seltyrtactical.main.utils.SaveManager;
 import java.util.ArrayList;
 import java.util.List;
 

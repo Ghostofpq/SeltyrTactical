@@ -1,12 +1,12 @@
-package java.com.ghostofpq.seltyrtactical.main.graphics;
+package com.ghostofpq.seltyrtactical.main.graphics;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.lwjgl.opengl.GL11;
 
-import java.com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
-import java.com.ghostofpq.seltyrtactical.main.utils.TextureKey;
-import java.com.ghostofpq.seltyrtactical.main.utils.TextureManager;
+import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
+import com.ghostofpq.seltyrtactical.main.utils.TextureKey;
+import com.ghostofpq.seltyrtactical.main.utils.TextureManager;
 import java.io.Serializable;
 
 /**

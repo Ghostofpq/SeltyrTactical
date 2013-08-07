@@ -1,19 +1,19 @@
-package java.com.ghostofpq.seltyrtactical.main.scenes;
+package com.ghostofpq.seltyrtactical.main.scenes;
 
 import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
-import java.com.ghostofpq.seltyrtactical.main.entities.GameCharacter;
-import java.com.ghostofpq.seltyrtactical.main.entities.Player;
-import java.com.ghostofpq.seltyrtactical.main.entities.battlefield.Battlefield;
-import java.com.ghostofpq.seltyrtactical.main.graphics.CharacterRender;
-import java.com.ghostofpq.seltyrtactical.main.graphics.Cube;
-import java.com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
-import java.com.ghostofpq.seltyrtactical.main.graphics.Position;
-import java.com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
-import java.com.ghostofpq.seltyrtactical.main.utils.HighlightColor;
-import java.com.ghostofpq.seltyrtactical.main.utils.SaveManager;
+import com.ghostofpq.seltyrtactical.main.entities.GameCharacter;
+import com.ghostofpq.seltyrtactical.main.entities.Player;
+import com.ghostofpq.seltyrtactical.main.entities.battlefield.Battlefield;
+import com.ghostofpq.seltyrtactical.main.graphics.CharacterRender;
+import com.ghostofpq.seltyrtactical.main.graphics.Cube;
+import com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
+import com.ghostofpq.seltyrtactical.main.graphics.Position;
+import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
+import com.ghostofpq.seltyrtactical.main.utils.HighlightColor;
+import com.ghostofpq.seltyrtactical.main.utils.SaveManager;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

@@ -1,9 +1,9 @@
 package com.ghostofpq.seltyrtactical.main;
 
-import java.com.ghostofpq.seltyrtactical.main.entities.battlefield.Battlefield;
-import java.com.ghostofpq.seltyrtactical.main.entities.battlefield.BattlefieldElement;
-import java.com.ghostofpq.seltyrtactical.main.graphics.Position;
-import java.com.ghostofpq.seltyrtactical.main.utils.SaveManager;
+import com.ghostofpq.seltyrtactical.main.entities.battlefield.Battlefield;
+import com.ghostofpq.seltyrtactical.main.entities.battlefield.BattlefieldElement;
+import com.ghostofpq.seltyrtactical.main.graphics.Position;
+import com.ghostofpq.seltyrtactical.main.utils.SaveManager;
 
 /**
  * Created with IntelliJ IDEA.

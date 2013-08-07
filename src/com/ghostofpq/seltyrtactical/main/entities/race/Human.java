@@ -1,7 +1,7 @@
-package java.com.ghostofpq.seltyrtactical.main.entities.race;
+package com.ghostofpq.seltyrtactical.main.entities.race;
 
 
-import java.com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
+import com.ghostofpq.seltyrtactical.main.entities.characteristics.PrimaryCharacteristics;
 
 public class Human extends Race {
 

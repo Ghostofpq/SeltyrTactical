@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main.entities.race;
+package com.ghostofpq.seltyrtactical.main.entities.race;
 
 /**
  * Created with IntelliJ IDEA.

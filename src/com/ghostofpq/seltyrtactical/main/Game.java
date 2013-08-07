@@ -7,11 +7,11 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
-import java.com.ghostofpq.seltyrtactical.main.entities.Player;
-import java.com.ghostofpq.seltyrtactical.main.scenes.BattleScene;
-import java.com.ghostofpq.seltyrtactical.main.scenes.Scene;
-import java.com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
-import java.com.ghostofpq.seltyrtactical.main.utils.SaveManager;
+import com.ghostofpq.seltyrtactical.main.entities.Player;
+import com.ghostofpq.seltyrtactical.main.scenes.BattleScene;
+import com.ghostofpq.seltyrtactical.main.scenes.Scene;
+import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
+import com.ghostofpq.seltyrtactical.main.utils.SaveManager;
 import java.util.ArrayList;
 import java.util.List;
 

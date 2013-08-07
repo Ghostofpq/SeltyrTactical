@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main.scenes;
+package com.ghostofpq.seltyrtactical.main.scenes;
 
 /**
  * Created with IntelliJ IDEA.

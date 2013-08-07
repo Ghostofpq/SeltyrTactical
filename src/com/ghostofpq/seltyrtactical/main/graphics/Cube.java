@@ -1,11 +1,11 @@
-package java.com.ghostofpq.seltyrtactical.main.graphics;
+package com.ghostofpq.seltyrtactical.main.graphics;
 
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import java.com.ghostofpq.seltyrtactical.main.utils.HighlightColor;
-import java.com.ghostofpq.seltyrtactical.main.utils.TextureKey;
+import com.ghostofpq.seltyrtactical.main.utils.HighlightColor;
+import com.ghostofpq.seltyrtactical.main.utils.TextureKey;
 import java.io.Serializable;
 
 /**
