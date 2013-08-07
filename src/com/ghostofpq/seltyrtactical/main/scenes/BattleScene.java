@@ -76,13 +76,13 @@ public class BattleScene implements Scene {
         if (indexOfChar == currentPlayer.getTeam().getTeam().size() - 1) {
             if (indexOfPlayer == players.size() - 1) {
                 currentState = BattleSceneState.FIGHT;
-                cleanHighlights();
+                cleanHighlightDeploymentZone();
             } else {
-                cleanHighlights();
+                cleanHighlightDeploymentZone();
                 currentPlayer = players.get(indexOfPlayer + 1);
                 currentGameCharacter = currentPlayer.getTeam().getTeam().get(0);
                 characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
-                highlightDeploymentZones();
+                highlightDeploymentZone();
             }
         } else {
             currentGameCharacter = currentPlayer.getTeam().getTeam().get(indexOfChar + 1);
@@ -96,10 +96,10 @@ public class BattleScene implements Scene {
         currentPlayer = players.get(0);
         currentGameCharacter = currentPlayer.getTeam().getTeam().get(0);
         characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
-        highlightDeploymentZones();
+        highlightDeploymentZone();
     }
 
-    private void highlightDeploymentZones() {
+    private void highlightDeploymentZone() {
         int indexOfPlayer = players.indexOf(currentPlayer);
         List<Position> deploymentZonePlayer = battlefield.getDeploymentZones().get(indexOfPlayer);
         for (Position deploymentPosition : deploymentZonePlayer) {
@@ -107,7 +107,7 @@ public class BattleScene implements Scene {
         }
     }
 
-    private void cleanHighlights() {
+    private void cleanHighlightDeploymentZone() {
         int indexOfPlayer = players.indexOf(currentPlayer);
         List<Position> deploymentZonePlayer = battlefield.getDeploymentZones().get(indexOfPlayer);
         for (Position deploymentPosition : deploymentZonePlayer) {
@@ -242,6 +242,7 @@ public class BattleScene implements Scene {
 
 
                     if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
+                        System.out.println("pos: " + cursor.getX() + "/" + cursor.getY() + "/" + cursor.getZ());
                         placeCharacter();
                     }
                 }
@@ -257,6 +258,13 @@ public class BattleScene implements Scene {
         GraphicsManager.getInstance().make3D();
         for (Position position : positionsToDraw) {
             todraw.get(position).draw(GraphicsManager.getInstance().getCurrentPointOfView());
+        }
+        for (Player player : players) {
+            for (GameCharacter chara : player.getTeam().getTeam()) {
+                if (chara.getPositionOnMap() != null) {
+                    chara.render();
+                }
+            }
         }
     }
 

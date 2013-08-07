@@ -8,8 +8,12 @@ import com.ghostofpq.seltyrtactical.main.entities.race.Race;
 import com.ghostofpq.seltyrtactical.main.entities.race.RaceType;
 import com.ghostofpq.seltyrtactical.main.graphics.Position;
 import com.ghostofpq.seltyrtactical.main.graphics.PositionAbsolute;
+import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
+import com.ghostofpq.seltyrtactical.main.utils.TextureKey;
+import com.ghostofpq.seltyrtactical.main.utils.TextureManager;
 import lombok.Getter;
 import lombok.Setter;
+import org.lwjgl.opengl.GL11;
 
 import java.io.Serializable;
 
@@ -25,7 +29,10 @@ import java.io.Serializable;
 @Setter
 public class GameCharacter implements Serializable {
     private static final long serialVersionUID = 1519266158170332774L;
-
+    // Evolution
+    private final int DEFAULT_START_LEVEL = 1;
+    private final int DEFAULT_START_XP = 0;
+    private final int DEFAULT_START_NEXT_LEVEL = 250;
     /**
      * Name
      */
@@ -42,14 +49,8 @@ public class GameCharacter implements Serializable {
      * Background story of the character
      */
     private String story;
-
     private transient Position positionOnMap;
     private transient PositionAbsolute positionAbsoluteOnMap;
-
-    // Evolution
-    private final int DEFAULT_START_LEVEL = 1;
-    private final int DEFAULT_START_XP = 0;
-    private final int DEFAULT_START_NEXT_LEVEL = 250;
     /**
      * Level of the character
      */
@@ -83,7 +84,6 @@ public class GameCharacter implements Serializable {
      * from leveling
      */
     private SecondaryCharacteristics secondaryCharacteristics;
-
     /**
      * Aggregated {@link PrimaryCharacteristics} of the character (with job and
      * equipement)
@@ -94,7 +94,6 @@ public class GameCharacter implements Serializable {
      * and equipement)
      */
     private SecondaryCharacteristics aggregatedSecondaryCharacteristics;
-
     /**
      * Health point of the character
      */
@@ -189,4 +188,46 @@ public class GameCharacter implements Serializable {
         this.aggregatedCharacteristics.plus(getBonusFromEquipement());
     }
 
+    public void render() {
+
+        GL11.glColor4f(1f, 1f, 1f, 1f);
+        TextureManager.getInstance().getTexture(TextureKey.CHAR).bind();
+
+        float x1 = (positionOnMap.getX() - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale();
+        float x2 = (positionOnMap.getX() + 1f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale();
+
+        float y1 = (positionOnMap.getY() - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale();
+        float y2 = (positionOnMap.getY() + 1f - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale();
+
+        float z1 = (positionOnMap.getZ() - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale();
+        float z2 = (positionOnMap.getZ() + 1f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale();
+
+        x1 = ((float) (Math.round(x1 * 100))) / 100;
+        x2 = ((float) (Math.round(x2 * 100))) / 100;
+
+        y1 = ((float) (Math.round(y1 * 100))) / 100;
+        y2 = ((float) (Math.round(y2 * 100))) / 100;
+
+        z1 = ((float) (Math.round(z1 * 100))) / 100;
+        z2 = ((float) (Math.round(z2 * 100))) / 100;
+
+
+        System.out.println("posD: " + positionOnMap.getX() + "/" + positionOnMap.getY() + "/" + positionOnMap.getZ());
+        GL11.glBegin(GL11.GL_QUADS);
+        GL11.glTexCoord2d(0, 0);
+        System.out.println(x1 + "/" + y2 + "/" + 0);
+        GL11.glVertex3d(x1, y2, 0);
+        GL11.glTexCoord2d(1, 0);
+        System.out.println(x1 + "/" + y1 + "/" + 0);
+        GL11.glVertex3d(x1, y1, 0);
+        GL11.glTexCoord2d(1, 1);
+        System.out.println(x2 + "/" + y1 + "/" + 0);
+        GL11.glVertex3d(x2, y1, 0);
+        GL11.glTexCoord2d(0, 1);
+        System.out.println(x2 + "/" + y2 + "/" + 0);
+        GL11.glVertex3d(x2, y2, 0);
+        GL11.glEnd();
+
+
+    }
 }

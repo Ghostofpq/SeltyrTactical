@@ -25,13 +25,15 @@ public class TextureManager {
             Texture highlightB = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/textures/HighlightB.png"));
             Texture highlightG = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/textures/HighlightG.png"));
             Texture highlightR = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/textures/HighlightR.png"));
-
+            Texture charac = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("resources/textures/perso1.png"));
             textureMap.put(TextureKey.GRASS, grass);
             textureMap.put(TextureKey.EARTH, earth);
 
             textureMap.put(TextureKey.HIGHLIGHT_BLUE, highlightB);
             textureMap.put(TextureKey.HIGHLIGHT_GREEN, highlightG);
             textureMap.put(TextureKey.HIGHLIGHT_RED, highlightR);
+
+            textureMap.put(TextureKey.CHAR, charac);
 
         } catch (IOException e) {
             e.printStackTrace();
