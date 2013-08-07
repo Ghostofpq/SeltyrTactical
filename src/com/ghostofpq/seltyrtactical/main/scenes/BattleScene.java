@@ -29,9 +29,9 @@ public class BattleScene implements Scene {
     private Position cursor;
     private Battlefield battlefield;
     private BattleSceneState currentState;
-    private int currentPlayer;
     private List<Player> players;
-    private GameCharacter currenGameCharacter;
+    private Player currentPlayer;
+    private GameCharacter currentGameCharacter;
     private GameCharacter targetGameCharacter;
     private CharacterRender characterRenderLeft;
     private CharacterRender characterRenderRight;
@@ -53,7 +53,6 @@ public class BattleScene implements Scene {
     @Override
     public void init() {
         currentState = BattleSceneState.DEPLOY;
-        currentPlayer = 1;
         battlefield = SaveManager.getInstance().loadMap("mapTest1");
 
         todraw = battlefield.toDrawableList();
@@ -65,19 +64,56 @@ public class BattleScene implements Scene {
         GraphicsManager.getInstance().ready3D();
         GraphicsManager.getInstance().requestCenterPosition(cursor);
         graphicManagerIsWorking = true;
-        highlightDeploymentZones();
+
+    }
+
+    public void placeCharacter() {
+        currentGameCharacter.setPositionOnMap(new Position(cursor));
+
+        int indexOfPlayer = players.indexOf(currentPlayer);
+        int indexOfChar = currentPlayer.getTeam().getTeam().indexOf(currentGameCharacter);
+
+        if (indexOfChar == currentPlayer.getTeam().getTeam().size() - 1) {
+            if (indexOfPlayer == players.size() - 1) {
+                currentState = BattleSceneState.FIGHT;
+                cleanHighlights();
+            } else {
+                cleanHighlights();
+                currentPlayer = players.get(indexOfPlayer + 1);
+                currentGameCharacter = currentPlayer.getTeam().getTeam().get(0);
+                characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
+                highlightDeploymentZones();
+            }
+        } else {
+            currentGameCharacter = currentPlayer.getTeam().getTeam().get(indexOfChar + 1);
+            characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
+        }
+        battlefield.getDeploymentZones().get(indexOfPlayer).remove(cursor);
     }
 
     public void setPlayer(List<Player> players) {
         this.players = players;
-        currenGameCharacter = players.get(0).getTeam().getTeam().get(0);
-        characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currenGameCharacter);
+        currentPlayer = players.get(0);
+        currentGameCharacter = currentPlayer.getTeam().getTeam().get(0);
+        characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
+        highlightDeploymentZones();
     }
 
     private void highlightDeploymentZones() {
-        List<Position> deploymentZonePlayer1 = battlefield.getDeploymentZones().get(currentPlayer);
-        for (Position deploymentPosition : deploymentZonePlayer1) {
+        int indexOfPlayer = players.indexOf(currentPlayer);
+        List<Position> deploymentZonePlayer = battlefield.getDeploymentZones().get(indexOfPlayer);
+        for (Position deploymentPosition : deploymentZonePlayer) {
             todraw.get(deploymentPosition).setHighlight(HighlightColor.GREEN);
+        }
+    }
+
+    private void cleanHighlights() {
+        int indexOfPlayer = players.indexOf(currentPlayer);
+        List<Position> deploymentZonePlayer = battlefield.getDeploymentZones().get(indexOfPlayer);
+        for (Position deploymentPosition : deploymentZonePlayer) {
+            if (todraw.get(deploymentPosition).getHighlight().equals(HighlightColor.GREEN)) {
+                todraw.get(deploymentPosition).setHighlight(HighlightColor.NONE);
+            }
         }
     }
 
@@ -206,7 +242,7 @@ public class BattleScene implements Scene {
 
 
                     if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
-                        GraphicsManager.getInstance().zoomOut();
+                        placeCharacter();
                     }
                 }
             }
@@ -254,7 +290,8 @@ public class BattleScene implements Scene {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
 
             if (currentState.equals(BattleSceneState.DEPLOY)) {
-                if (battlefield.getDeploymentZones().get(currentPlayer).contains(cursor)) {
+                int indexOfPlayer = players.indexOf(currentPlayer);
+                if (battlefield.getDeploymentZones().get(indexOfPlayer).contains(cursor)) {
                     todraw.get(cursor).setHighlight(HighlightColor.GREEN);
                 }
             }
@@ -273,7 +310,8 @@ public class BattleScene implements Scene {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
 
             if (currentState.equals(BattleSceneState.DEPLOY)) {
-                if (battlefield.getDeploymentZones().get(currentPlayer).contains(cursor)) {
+                int indexOfPlayer = players.indexOf(currentPlayer);
+                if (battlefield.getDeploymentZones().get(indexOfPlayer).contains(cursor)) {
                     todraw.get(cursor).setHighlight(HighlightColor.GREEN);
                 }
             }
@@ -292,7 +330,8 @@ public class BattleScene implements Scene {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
 
             if (currentState.equals(BattleSceneState.DEPLOY)) {
-                if (battlefield.getDeploymentZones().get(currentPlayer).contains(cursor)) {
+                int indexOfPlayer = players.indexOf(currentPlayer);
+                if (battlefield.getDeploymentZones().get(indexOfPlayer).contains(cursor)) {
                     todraw.get(cursor).setHighlight(HighlightColor.GREEN);
                 }
             }
@@ -311,7 +350,8 @@ public class BattleScene implements Scene {
             todraw.get(cursor).setHighlight(HighlightColor.NONE);
 
             if (currentState.equals(BattleSceneState.DEPLOY)) {
-                if (battlefield.getDeploymentZones().get(currentPlayer).contains(cursor)) {
+                int indexOfPlayer = players.indexOf(currentPlayer);
+                if (battlefield.getDeploymentZones().get(indexOfPlayer).contains(cursor)) {
                     todraw.get(cursor).setHighlight(HighlightColor.GREEN);
                 }
             }

@@ -29,9 +29,9 @@ public class MapCreator {
 
         for (int i = 0; i < length; i++) {
             Position position = new Position(i, 0, 0);
-            battlefield.addDeployementZone(1, position);
+            battlefield.addDeployementZone(0, position);
             Position position2 = new Position(i, 0, depth - 1);
-            battlefield.addDeployementZone(2, position2);
+            battlefield.addDeployementZone(1, position2);
         }
 
 
