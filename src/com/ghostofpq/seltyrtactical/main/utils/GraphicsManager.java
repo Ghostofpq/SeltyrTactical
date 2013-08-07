@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
-import java.com.ghostofpq.seltyrtactical.main.Game;
+import com.ghostofpq.seltyrtactical.main.Game;
 import java.com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
 import java.com.ghostofpq.seltyrtactical.main.graphics.Position;
 import java.nio.FloatBuffer;

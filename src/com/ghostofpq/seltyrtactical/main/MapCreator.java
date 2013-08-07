@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main;
+package com.ghostofpq.seltyrtactical.main;
 
 import java.com.ghostofpq.seltyrtactical.main.entities.battlefield.Battlefield;
 import java.com.ghostofpq.seltyrtactical.main.entities.battlefield.BattlefieldElement;

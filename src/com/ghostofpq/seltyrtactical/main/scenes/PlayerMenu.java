@@ -2,7 +2,7 @@ package java.com.ghostofpq.seltyrtactical.main.scenes;
 
 import org.newdawn.slick.Color;
 
-import java.com.ghostofpq.seltyrtactical.main.Game;
+import com.ghostofpq.seltyrtactical.main.Game;
 import java.com.ghostofpq.seltyrtactical.main.entities.Player;
 import java.com.ghostofpq.seltyrtactical.main.graphics.CharacterRender;
 

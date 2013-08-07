@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main;
+package com.ghostofpq.seltyrtactical.main;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -2,7 +2,7 @@ package java.com.ghostofpq.seltyrtactical.main.scenes;
 
 import org.lwjgl.input.Keyboard;
 
-import java.com.ghostofpq.seltyrtactical.main.Game;
+import com.ghostofpq.seltyrtactical.main.Game;
 import java.com.ghostofpq.seltyrtactical.main.graphics.MenuSelect;
 import java.util.ArrayList;
 import java.util.List;

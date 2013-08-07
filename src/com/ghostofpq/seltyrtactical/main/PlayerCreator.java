@@ -1,4 +1,4 @@
-package java.com.ghostofpq.seltyrtactical.main;
+package com.ghostofpq.seltyrtactical.main;
 
 import java.com.ghostofpq.seltyrtactical.main.entities.GameCharacter;
 import java.com.ghostofpq.seltyrtactical.main.entities.Gender;
