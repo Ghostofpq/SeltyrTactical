@@ -4,6 +4,7 @@ import com.ghostofpq.seltyrtactical.main.entities.Player;
 import com.ghostofpq.seltyrtactical.main.scenes.BattleScene;
 import com.ghostofpq.seltyrtactical.main.scenes.Scene;
 import com.ghostofpq.seltyrtactical.main.utils.GraphicsManager;
+import com.ghostofpq.seltyrtactical.main.utils.SaveManager;
 import lombok.Getter;
 import lombok.Setter;
 import org.lwjgl.LWJGLException;
@@ -11,7 +12,8 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
-import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: GhostOfPQ
@@ -52,6 +54,18 @@ public class Game {
         //System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
         Game g = Game.getInstance();
         g.setCurrentScene(BattleScene.getInstance());
+
+        SaveManager sm = SaveManager.getInstance();
+        Player p1 = sm.loadPlayer("Bob");
+        Player p2 = sm.loadPlayer("Jack");
+        List<Player> players = new ArrayList<Player>();
+        players.add(p1);
+        players.add(p2);
+
+
+        System.out.println(p1.getTeam().getTeam().get(2).getName());
+
+        BattleScene.getInstance().setPlayer(players);
         g.run();
     }
 

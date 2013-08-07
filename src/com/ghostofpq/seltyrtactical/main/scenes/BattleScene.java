@@ -1,6 +1,9 @@
 package com.ghostofpq.seltyrtactical.main.scenes;
 
+import com.ghostofpq.seltyrtactical.main.entities.GameCharacter;
+import com.ghostofpq.seltyrtactical.main.entities.Player;
 import com.ghostofpq.seltyrtactical.main.entities.battlefield.Battlefield;
+import com.ghostofpq.seltyrtactical.main.graphics.CharacterRender;
 import com.ghostofpq.seltyrtactical.main.graphics.Cube;
 import com.ghostofpq.seltyrtactical.main.graphics.PointOfView;
 import com.ghostofpq.seltyrtactical.main.graphics.Position;
@@ -9,6 +12,7 @@ import com.ghostofpq.seltyrtactical.main.utils.HighlightColor;
 import com.ghostofpq.seltyrtactical.main.utils.SaveManager;
 import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.input.Keyboard;
+import org.newdawn.slick.Color;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,6 +30,11 @@ public class BattleScene implements Scene {
     private Battlefield battlefield;
     private BattleSceneState currentState;
     private int currentPlayer;
+    private List<Player> players;
+    private GameCharacter currenGameCharacter;
+    private GameCharacter targetGameCharacter;
+    private CharacterRender characterRenderLeft;
+    private CharacterRender characterRenderRight;
 
     private BattleScene() {
     }
@@ -57,6 +66,12 @@ public class BattleScene implements Scene {
         GraphicsManager.getInstance().requestCenterPosition(cursor);
         graphicManagerIsWorking = true;
         highlightDeploymentZones();
+    }
+
+    public void setPlayer(List<Player> players) {
+        this.players = players;
+        currenGameCharacter = players.get(0).getTeam().getTeam().get(0);
+        characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currenGameCharacter);
     }
 
     private void highlightDeploymentZones() {
@@ -188,6 +203,11 @@ public class BattleScene implements Scene {
                         GraphicsManager.getInstance().requestCenterPosition(cursor);
                         graphicManagerIsWorking = true;
                     }
+
+
+                    if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
+                        GraphicsManager.getInstance().zoomOut();
+                    }
                 }
             }
         } else {
@@ -206,6 +226,7 @@ public class BattleScene implements Scene {
 
     private void render2D() {
         GraphicsManager.getInstance().make2D();
+        characterRenderLeft.render(Color.white);
         // hud.render();
     }
 

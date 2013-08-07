@@ -1,6 +1,5 @@
 package com.ghostofpq.seltyrtactical.main.entities;
 
-import com.ghostofpq.seltyrtactical.main.entities.race.RaceType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -32,9 +31,6 @@ public class Player implements Serializable {
         teamNameBuilder.append(pseudo);
         teamNameBuilder.append("'s Team");
         team = new Team(teamNameBuilder.toString());
-
-        GameCharacter mainChar = new GameCharacter("Jacky la fripouille", RaceType.HUMAN, Gender.MALE);
-        team.getTeam().add(mainChar);
     }
 
 

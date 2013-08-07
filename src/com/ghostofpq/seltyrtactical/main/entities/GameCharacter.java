@@ -6,6 +6,8 @@ import com.ghostofpq.seltyrtactical.main.entities.job.Job;
 import com.ghostofpq.seltyrtactical.main.entities.job.Warrior;
 import com.ghostofpq.seltyrtactical.main.entities.race.Race;
 import com.ghostofpq.seltyrtactical.main.entities.race.RaceType;
+import com.ghostofpq.seltyrtactical.main.graphics.Position;
+import com.ghostofpq.seltyrtactical.main.graphics.PositionAbsolute;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,7 +26,6 @@ import java.io.Serializable;
 public class GameCharacter implements Serializable {
     private static final long serialVersionUID = 1519266158170332774L;
 
-
     /**
      * Name
      */
@@ -41,6 +42,9 @@ public class GameCharacter implements Serializable {
      * Background story of the character
      */
     private String story;
+
+    private transient Position positionOnMap;
+    private transient PositionAbsolute positionAbsoluteOnMap;
 
     // Evolution
     private final int DEFAULT_START_LEVEL = 1;

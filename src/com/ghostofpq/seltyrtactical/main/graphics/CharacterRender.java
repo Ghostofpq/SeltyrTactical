@@ -171,7 +171,7 @@ public class CharacterRender {
         experienceBar = new BarRender(character.getExperience(), character.getNextLevel(), posXBar3, posYBar3, barsLength, barsHeight, Color.yellow, Color.gray);
 
         //Characs Frame
-        characsFrameLength = (1 * frameLength / 3) + frameWidth;
+        characsFrameLength = (1 * frameLength / 3) + frameWidth / 2;
         characsFrameHeight = barsFrameHeight + frameWidth;
 
         posXCharacsFrame = posX + barsFrameLength - frameWidth;

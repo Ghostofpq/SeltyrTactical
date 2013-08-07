@@ -101,6 +101,9 @@ public class GraphicsManager {
 
     public void make2D() {
         // Remove the Z axis
+
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
@@ -113,6 +116,9 @@ public class GraphicsManager {
     }
 
     public void make3D() {
+
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glEnable(GL11.GL_BLEND);
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPopMatrix();
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
