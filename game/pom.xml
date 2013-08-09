@@ -2,14 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <artifactId>seltyrtactical</artifactId>
         <groupId>com.ghostofpq.seltyrtactical</groupId>
         <version>0.0.1</version>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
     <artifactId>game</artifactId>
+
+    <properties>
+        <main.class>com.ghostofpq.seltyrtactical.game.main.Game</main.class>
+        <natives>${basedir}/target/natives/</natives>
+        <natives.version>0.0.6</natives.version>
+        <release.natives>natives/</release.natives>
+    </properties>
 
     <build>
         <directory>target</directory>
@@ -28,6 +36,7 @@
                 <directory>src/test/resources</directory>
             </testResource>
         </testResources>
+
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>

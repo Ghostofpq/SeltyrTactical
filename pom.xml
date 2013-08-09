@@ -3,10 +3,12 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <artifactId>seltyrtactical</artifactId>
     <groupId>com.ghostofpq.seltyrtactical</groupId>
     <packaging>pom</packaging>
     <version>0.0.1</version>
+
     <modules>
         <module>entities</module>
         <module>commons</module>
@@ -20,10 +22,6 @@
         <slick.version>274</slick.version>
         <junit.version>4.10</junit.version>
         <finalName>${project.artifactId}-${project.version}.jar</finalName>
-        <main.class>java.com.ghostofpq.seltyrtactical.game.main.Game</main.class>
-        <natives>${basedir}/target/natives/</natives>
-        <natives.version>0.0.6</natives.version>
-        <release.natives>natives/</release.natives>
     </properties>
 
     <dependencyManagement>
@@ -32,16 +30,22 @@
                 <groupId>com.ghostofpq.seltyrtactical</groupId>
                 <artifactId>commons</artifactId>
                 <version>0.0.1</version>
+                <type>jar</type>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>com.ghostofpq.seltyrtactical</groupId>
                 <artifactId>entities</artifactId>
                 <version>0.0.1</version>
+                <type>jar</type>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>com.ghostofpq.seltyrtactical</groupId>
                 <artifactId>game</artifactId>
                 <version>0.0.1</version>
+                <type>jar</type>
+                <scope>compile</scope>
             </dependency>
 
             <dependency>
@@ -85,82 +89,34 @@
     </dependencyManagement>
 
     <build>
-        <sourceDirectory>src</sourceDirectory>
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
+                <inherited>true</inherited>
                 <configuration>
                     <source>1.6</source>
                     <target>1.6</target>
+                    <encoding>UTF-8</encoding>
                 </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>${main.class}</mainClass>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2.1</version>
-                <executions>
-                    <execution>
-                        <id>bundle-project-sources</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>src/META-INF/assembly.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
-                            <overWriteReleases>false</overWriteReleases>
-                            <overWriteSnapshots>false</overWriteSnapshots>
-                            <overWriteIfNewer>true</overWriteIfNewer>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.googlecode.mavennatives</groupId>
-                <artifactId>maven-nativedependencies-plugin</artifactId>
-                <version>${natives.version}</version>
-                <executions>
-                    <execution>
-                        <id>unpacknatives</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <!--suppress MavenModelInspection (this line is for IDEA) -->
-                            <goal>copy</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.3.2</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.3.1</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.2.1</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>

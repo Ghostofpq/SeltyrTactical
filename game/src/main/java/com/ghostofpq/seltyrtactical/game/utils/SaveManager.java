@@ -27,14 +27,14 @@ public class SaveManager {
     }
 
     public List<String> checkFolderForPlayers() throws IOException {
-        File players = new File("./saves/players/");
+        File players = new File("../saves/players/");
         return Arrays.asList(players.list());
     }
 
     public void savePlayer(Player player) {
         try {
             StringBuilder path = new StringBuilder();
-            path.append("./saves/players/");
+            path.append("../saves/players/");
             path.append(player.getPseudo());
             path.append(".pla");
             FileOutputStream fileOut =
@@ -51,7 +51,7 @@ public class SaveManager {
 
     public Player loadPlayer(String playerPseudo) {
         StringBuilder path = new StringBuilder();
-        path.append("./saves/players/");
+        path.append("../saves/players/");
         path.append(playerPseudo);
         if (!playerPseudo.endsWith(".pla")) {
             path.append(".pla");
@@ -75,7 +75,7 @@ public class SaveManager {
     public void saveMap(Battlefield battlefield, String mapName) {
         try {
             StringBuilder path = new StringBuilder();
-            path.append("./saves/maps/");
+            path.append("../saves/maps/");
             path.append(mapName);
             if (!mapName.endsWith(".map")) {
                 path.append(".map");
@@ -94,7 +94,7 @@ public class SaveManager {
 
     public Battlefield loadMap(String mapName) {
         StringBuilder path = new StringBuilder();
-        path.append("./saves/maps/");
+        path.append("../saves/maps/");
         path.append(mapName);
         if (!mapName.endsWith(".map")) {
             path.append(".map");
@@ -116,15 +116,15 @@ public class SaveManager {
     }
 
     public void checkDirectoriesExist() {
-        File main = new File("./saves/");
+        File main = new File("../saves/");
         if (!main.exists()) {
             main.mkdir();
         }
-        File players = new File("./saves/players/");
+        File players = new File("../saves/players/");
         if (!players.exists()) {
             players.mkdir();
         }
-        File maps = new File("./saves/maps/");
+        File maps = new File("../saves/maps/");
         if (!maps.exists()) {
             maps.mkdir();
         }
