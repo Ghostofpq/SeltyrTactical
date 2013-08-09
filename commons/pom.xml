@@ -29,6 +29,7 @@
             </testResource>
         </testResources>
     </build>
+
     <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
