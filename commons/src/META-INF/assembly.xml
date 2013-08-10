@@ -31,9 +31,9 @@
 
     <dependencySets>
         <dependencySet>
-            <useProjectArtifact>false</useProjectArtifact>
+            <useProjectArtifact>true</useProjectArtifact>
             <outputDirectory>lib</outputDirectory>
-            <scope>runtime</scope>
+            <scope>compile</scope>
             <excludes>
                 <exclude>*:natives-*</exclude>
             </excludes>

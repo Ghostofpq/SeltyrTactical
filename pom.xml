@@ -21,7 +21,7 @@
         <project.version>0.0.1</project.version>
         <slick.version>274</slick.version>
         <junit.version>4.10</junit.version>
-        <finalName>${project.artifactId}-${project.version}.jar</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
     </properties>
 
     <dependencyManagement>

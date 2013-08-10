@@ -16,7 +16,7 @@ public class Battlefield implements Serializable {
     private int length;  //x
     private int height;  //y
     private int depth;  //z
-    public Map<Position, BattlefieldElement> battlefieldElementMap;
+    private Map<Position, BattlefieldElement> battlefieldElementMap;
     private int numberOfPlayers;
     private Map<Integer, List<Position>> deploymentZones;
 
@@ -52,5 +52,4 @@ public class Battlefield implements Serializable {
             battlefieldElementMap.put(position, battlefieldElement);
         }
     }
-
 }
