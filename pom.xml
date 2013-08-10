@@ -30,22 +30,16 @@
                 <groupId>com.ghostofpq.seltyrtactical</groupId>
                 <artifactId>commons</artifactId>
                 <version>0.0.1</version>
-                <type>jar</type>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>com.ghostofpq.seltyrtactical</groupId>
                 <artifactId>entities</artifactId>
                 <version>0.0.1</version>
-                <type>jar</type>
-                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>com.ghostofpq.seltyrtactical</groupId>
                 <artifactId>game</artifactId>
                 <version>0.0.1</version>
-                <type>jar</type>
-                <scope>compile</scope>
             </dependency>
 
             <dependency>
