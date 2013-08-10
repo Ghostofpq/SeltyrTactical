@@ -1,6 +1,6 @@
 target
 .idea
 SeltyrTactical.iml
-./game/game.iml
-./commons/commons.iml
-./entities/entities.iml
+game/game.iml
+commons/commons.iml
+entities/entities.iml
