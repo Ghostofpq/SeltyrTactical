@@ -7,9 +7,14 @@ import com.ghostofpq.seltyrtactical.entities.job.Job;
 import com.ghostofpq.seltyrtactical.entities.job.Warrior;
 import com.ghostofpq.seltyrtactical.entities.race.Race;
 import com.ghostofpq.seltyrtactical.entities.race.RaceType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 
+
+@Getter
+@Setter
 public class GameCharacter implements Serializable {
     private static final long serialVersionUID = 1519266158170332774L;
     // Evolution
@@ -167,146 +172,5 @@ public class GameCharacter implements Serializable {
         this.aggregatedCharacteristics = this.characteristics;
         this.aggregatedCharacteristics.plus(getBonusFromJobs());
         this.aggregatedCharacteristics.plus(getBonusFromEquipement());
-    }
-
-
-    /**
-     * Getters and Setters
-     */
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Race getRace() {
-        return race;
-    }
-
-    public void setRace(Race race) {
-        this.race = race;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public String getStory() {
-        return story;
-    }
-
-    public void setStory(String story) {
-        this.story = story;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public int getExperience() {
-        return experience;
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
-    }
-
-    public int getNextLevel() {
-        return nextLevel;
-    }
-
-    public void setNextLevel(int nextLevel) {
-        this.nextLevel = nextLevel;
-    }
-
-    public Job getCurrentJob() {
-        return currentJob;
-    }
-
-    public void setCurrentJob(Job currentJob) {
-        this.currentJob = currentJob;
-    }
-
-    public Warrior getJobWarrior() {
-        return jobWarrior;
-    }
-
-    public void setJobWarrior(Warrior jobWarrior) {
-        this.jobWarrior = jobWarrior;
-    }
-
-    public PrimaryCharacteristics getCharacteristics() {
-        return characteristics;
-    }
-
-    public void setCharacteristics(PrimaryCharacteristics characteristics) {
-        this.characteristics = characteristics;
-    }
-
-    public SecondaryCharacteristics getSecondaryCharacteristics() {
-        return secondaryCharacteristics;
-    }
-
-    public void setSecondaryCharacteristics(SecondaryCharacteristics secondaryCharacteristics) {
-        this.secondaryCharacteristics = secondaryCharacteristics;
-    }
-
-    public PrimaryCharacteristics getAggregatedCharacteristics() {
-        return aggregatedCharacteristics;
-    }
-
-    public void setAggregatedCharacteristics(PrimaryCharacteristics aggregatedCharacteristics) {
-        this.aggregatedCharacteristics = aggregatedCharacteristics;
-    }
-
-    public SecondaryCharacteristics getAggregatedSecondaryCharacteristics() {
-        return aggregatedSecondaryCharacteristics;
-    }
-
-    public void setAggregatedSecondaryCharacteristics(SecondaryCharacteristics aggregatedSecondaryCharacteristics) {
-        this.aggregatedSecondaryCharacteristics = aggregatedSecondaryCharacteristics;
-    }
-
-    public int getCurrentHealthPoint() {
-        return currentHealthPoint;
-    }
-
-    public void setCurrentHealthPoint(int currentHealthPoint) {
-        this.currentHealthPoint = currentHealthPoint;
-    }
-
-    public int getMaxHealthPoint() {
-        return maxHealthPoint;
-    }
-
-    public void setMaxHealthPoint(int maxHealthPoint) {
-        this.maxHealthPoint = maxHealthPoint;
-    }
-
-    public int getCurrentManaPoint() {
-        return currentManaPoint;
-    }
-
-    public void setCurrentManaPoint(int currentManaPoint) {
-        this.currentManaPoint = currentManaPoint;
-    }
-
-    public int getMaxManaPoint() {
-        return maxManaPoint;
-    }
-
-    public void setMaxManaPoint(int maxManaPoint) {
-        this.maxManaPoint = maxManaPoint;
     }
 }

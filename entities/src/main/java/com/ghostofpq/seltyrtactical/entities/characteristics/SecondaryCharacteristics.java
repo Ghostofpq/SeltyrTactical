@@ -1,7 +1,12 @@
 package com.ghostofpq.seltyrtactical.entities.characteristics;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class SecondaryCharacteristics implements Serializable {
 
     private static final long serialVersionUID = -2135901452592205936L;
@@ -108,113 +113,5 @@ public class SecondaryCharacteristics implements Serializable {
                 + secondaryCharacteristics.getLifeRegeneration());
         this.setManaRegeneration(this.getManaRegeneration()
                 + secondaryCharacteristics.getManaRegeneration());
-    }
-
-    /**
-     * Getters and Setters
-     */
-
-    public int getAttackDamage() {
-        return attackDamage;
-    }
-
-    public void setAttackDamage(int attackDamage) {
-        this.attackDamage = attackDamage;
-    }
-
-    public int getMagicalDamage() {
-        return magicalDamage;
-    }
-
-    public void setMagicalDamage(int magicalDamage) {
-        this.magicalDamage = magicalDamage;
-    }
-
-    public int getArmor() {
-        return armor;
-    }
-
-    public void setArmor(int armor) {
-        this.armor = armor;
-    }
-
-    public int getMagicResist() {
-        return magicResist;
-    }
-
-    public void setMagicResist(int magicResist) {
-        this.magicResist = magicResist;
-    }
-
-    public int getArmorPenetration() {
-        return armorPenetration;
-    }
-
-    public void setArmorPenetration(int armorPenetration) {
-        this.armorPenetration = armorPenetration;
-    }
-
-    public int getMagicPenetration() {
-        return magicPenetration;
-    }
-
-    public void setMagicPenetration(int magicPenetration) {
-        this.magicPenetration = magicPenetration;
-    }
-
-    public int getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    public int getLifeRegeneration() {
-        return lifeRegeneration;
-    }
-
-    public void setLifeRegeneration(int lifeRegeneration) {
-        this.lifeRegeneration = lifeRegeneration;
-    }
-
-    public int getManaRegeneration() {
-        return manaRegeneration;
-    }
-
-    public void setManaRegeneration(int manaRegeneration) {
-        this.manaRegeneration = manaRegeneration;
-    }
-
-    public float getEscape() {
-        return escape;
-    }
-
-    public void setEscape(float escape) {
-        this.escape = escape;
-    }
-
-    public float getCriticalStrike() {
-        return criticalStrike;
-    }
-
-    public void setCriticalStrike(float criticalStrike) {
-        this.criticalStrike = criticalStrike;
-    }
-
-    public float getPrecision() {
-        return precision;
-    }
-
-    public void setPrecision(float precision) {
-        this.precision = precision;
-    }
-
-    public float getResilience() {
-        return resilience;
-    }
-
-    public void setResilience(float resilience) {
-        this.resilience = resilience;
     }
 }
