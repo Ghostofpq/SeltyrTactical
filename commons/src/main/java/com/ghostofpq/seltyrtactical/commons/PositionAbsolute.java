@@ -1,12 +1,7 @@
 package com.ghostofpq.seltyrtactical.commons;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 
-@Getter
-@Setter
 public class PositionAbsolute implements Serializable, Comparable<PositionAbsolute> {
     private static final long serialVersionUID = 8427348252935902307L;
     private float x;  // Length
@@ -47,5 +42,33 @@ public class PositionAbsolute implements Serializable, Comparable<PositionAbsolu
                 }
             }
         }
+    }
+
+    /**
+     * Getters and Setters
+     */
+
+    public float getX() {
+        return x;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public float getY() {
+        return y;
+    }
+
+    public void setY(float y) {
+        this.y = y;
+    }
+
+    public float getZ() {
+        return z;
+    }
+
+    public void setZ(float z) {
+        this.z = z;
     }
 }

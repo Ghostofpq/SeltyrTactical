@@ -1,12 +1,7 @@
 package com.ghostofpq.seltyrtactical.commons;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.io.Serializable;
 
-@Getter
-@Setter
 public class Position implements Serializable, Comparable<Position> {
     private static final long serialVersionUID = 8427348252935902307L;
     private int x;  // Length
@@ -75,5 +70,33 @@ public class Position implements Serializable, Comparable<Position> {
         result = 31 * result + y;
         result = 31 * result + z;
         return result;
+    }
+
+    /**
+     * Getters and Setters
+     */
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public int getZ() {
+        return z;
+    }
+
+    public void setZ(int z) {
+        this.z = z;
     }
 }

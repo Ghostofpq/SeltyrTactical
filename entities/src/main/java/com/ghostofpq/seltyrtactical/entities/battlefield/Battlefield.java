@@ -1,7 +1,6 @@
 package com.ghostofpq.seltyrtactical.entities.battlefield;
 
 import com.ghostofpq.seltyrtactical.commons.Position;
-import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Getter
 public class Battlefield implements Serializable {
 
     private static final long serialVersionUID = -6878010880627782277L;
@@ -51,5 +49,32 @@ public class Battlefield implements Serializable {
         if (battlefieldElement != null) {
             battlefieldElementMap.put(position, battlefieldElement);
         }
+    }
+
+    /**
+     * Getters and Setters
+     */
+    public int getLength() {
+        return length;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getDepth() {
+        return depth;
+    }
+
+    public Map<Position, BattlefieldElement> getBattlefieldElementMap() {
+        return battlefieldElementMap;
+    }
+
+    public int getNumberOfPlayers() {
+        return numberOfPlayers;
+    }
+
+    public Map<Integer, List<Position>> getDeploymentZones() {
+        return deploymentZones;
     }
 }
