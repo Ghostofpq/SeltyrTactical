@@ -4,14 +4,10 @@ import com.ghostofpq.seltyrtactical.commons.PositionAbsolute;
 import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.game.utils.TextureKey;
 import com.ghostofpq.seltyrtactical.game.utils.TextureManager;
-import lombok.Getter;
-import lombok.Setter;
 import org.lwjgl.opengl.GL11;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
 public class Facet implements Serializable {
 
     private static final long serialVersionUID = 5436385396379038962L;
@@ -54,5 +50,57 @@ public class Facet implements Serializable {
                     , (corner4.getZ() - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
             GL11.glEnd();
         }
+    }
+
+    /**
+     * Getters and Setters
+     */
+
+    public PositionAbsolute getCorner1() {
+        return corner1;
+    }
+
+    public void setCorner1(PositionAbsolute corner1) {
+        this.corner1 = corner1;
+    }
+
+    public PositionAbsolute getCorner2() {
+        return corner2;
+    }
+
+    public void setCorner2(PositionAbsolute corner2) {
+        this.corner2 = corner2;
+    }
+
+    public PositionAbsolute getCorner3() {
+        return corner3;
+    }
+
+    public void setCorner3(PositionAbsolute corner3) {
+        this.corner3 = corner3;
+    }
+
+    public PositionAbsolute getCorner4() {
+        return corner4;
+    }
+
+    public void setCorner4(PositionAbsolute corner4) {
+        this.corner4 = corner4;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public TextureKey getTexture() {
+        return texture;
+    }
+
+    public void setTexture(TextureKey texture) {
+        this.texture = texture;
     }
 }

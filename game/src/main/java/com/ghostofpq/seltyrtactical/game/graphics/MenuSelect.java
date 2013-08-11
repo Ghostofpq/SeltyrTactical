@@ -1,15 +1,11 @@
 package com.ghostofpq.seltyrtactical.game.graphics;
 
 import com.ghostofpq.seltyrtactical.game.utils.FontManager;
-import lombok.Getter;
-import lombok.Setter;
 import org.newdawn.slick.Color;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
 public class MenuSelect {
 
     private List<MenuElementSelect> options;
@@ -121,6 +117,50 @@ public class MenuSelect {
 
     public boolean isFinished() {
         return (state.equals(MenuState.FINISHED));
+    }
+
+    /**
+     * Getters and Setters
+     */
+
+    public List<MenuElementSelect> getOptions() {
+        return options;
+    }
+
+    public void setOptions(List<MenuElementSelect> options) {
+        this.options = options;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public MenuState getState() {
+        return state;
+    }
+
+    public void setState(MenuState state) {
+        this.state = state;
+    }
+
+    public float getScreenHeight() {
+        return screenHeight;
+    }
+
+    public void setScreenHeight(float screenHeight) {
+        this.screenHeight = screenHeight;
+    }
+
+    public float getScreenWidth() {
+        return screenWidth;
+    }
+
+    public void setScreenWidth(float screenWidth) {
+        this.screenWidth = screenWidth;
     }
 
     public enum MenuState {

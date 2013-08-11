@@ -1,6 +1,5 @@
 package com.ghostofpq.seltyrtactical.game.utils;
 
-import lombok.Getter;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 import org.newdawn.slick.util.ResourceLoader;
@@ -8,7 +7,6 @@ import org.newdawn.slick.util.ResourceLoader;
 import java.io.IOException;
 import java.util.HashMap;
 
-@Getter
 public class TextureManager {
 
     private static TextureManager instance = new TextureManager();
@@ -52,5 +50,13 @@ public class TextureManager {
 
     public Texture getTexture(TextureKey texture) {
         return textureMap.get(texture);
+    }
+
+    /**
+     * Getters and Setters
+     */
+
+    public HashMap<TextureKey, Texture> getTextureMap() {
+        return textureMap;
     }
 }

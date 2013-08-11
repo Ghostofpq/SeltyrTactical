@@ -3,27 +3,19 @@ package com.ghostofpq.seltyrtactical.game.utils;
 import com.ghostofpq.seltyrtactical.commons.Position;
 import com.ghostofpq.seltyrtactical.game.graphics.PointOfView;
 import com.ghostofpq.seltyrtactical.game.main.Game;
-import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
 import java.nio.FloatBuffer;
 
-@Slf4j
 public class GraphicsManager {
     private static volatile GraphicsManager instance = null;
     private final float STEP_ROTATION = 2f;
     private final float STEP_TRANSLATION = 0.2f;
-    @Getter
     private float originX;
-    @Getter
     private float originY;
-    @Getter
     private float originZ;
-    @Getter
     private PointOfView currentPointOfView;
-    @Getter
     private float scale;
     private float zscale;
     private float scaleToGo;
@@ -310,5 +302,28 @@ public class GraphicsManager {
         return true;
     }
 
+    /**
+     * Getters and Setters
+     */
+
+    public float getOriginX() {
+        return originX;
+    }
+
+    public float getOriginY() {
+        return originY;
+    }
+
+    public float getOriginZ() {
+        return originZ;
+    }
+
+    public PointOfView getCurrentPointOfView() {
+        return currentPointOfView;
+    }
+
+    public float getScale() {
+        return scale;
+    }
 }
 

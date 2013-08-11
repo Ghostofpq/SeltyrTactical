@@ -1,6 +1,5 @@
 package com.ghostofpq.seltyrtactical.game.utils;
 
-import lombok.Getter;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
@@ -8,11 +7,9 @@ import org.newdawn.slick.SlickException;
 
 import java.util.HashMap;
 
-@Getter
 public class FontManager {
 
     private static FontManager instance = new FontManager();
-    @Getter
     private HashMap<String, AngelCodeFont> fontMap;
 
     private FontManager() {
@@ -48,5 +45,13 @@ public class FontManager {
         GL11.glEnable(GL11.GL_BLEND);
         fontMap.get(font + "_" + size).drawString(x, y, str, color);
         GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    /**
+     * Getters and Setters
+     */
+
+    public HashMap<String, AngelCodeFont> getFontMap() {
+        return fontMap;
     }
 }

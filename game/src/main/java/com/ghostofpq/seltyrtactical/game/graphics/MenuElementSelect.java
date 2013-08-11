@@ -1,17 +1,13 @@
 package com.ghostofpq.seltyrtactical.game.graphics;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
 
-@Getter
 public class MenuElementSelect {
     private float posX;
     private float posY;
     private float offset;
-    @Setter
     private String text;
     private boolean placed;
     private AngelCodeFont font;
@@ -52,4 +48,35 @@ public class MenuElementSelect {
         return ((posX - offset) >= width);
     }
 
+    /**
+     * Getters and Setters
+     */
+
+    public float getPosX() {
+        return posX;
+    }
+
+    public float getPosY() {
+        return posY;
+    }
+
+    public float getOffset() {
+        return offset;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public boolean isPlaced() {
+        return placed;
+    }
+
+    public AngelCodeFont getFont() {
+        return font;
+    }
 }

@@ -11,13 +11,11 @@ import com.ghostofpq.seltyrtactical.game.graphics.PointOfView;
 import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.game.utils.HighlightColor;
 import com.ghostofpq.seltyrtactical.game.utils.SaveManager;
-import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
 import java.util.*;
 
-@Slf4j
 public class BattleScene implements Scene {
     private static volatile BattleScene instance = null;
     private Map<Position, Cube> todraw;

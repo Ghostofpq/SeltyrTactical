@@ -5,8 +5,6 @@ import com.ghostofpq.seltyrtactical.game.scenes.BattleScene;
 import com.ghostofpq.seltyrtactical.game.scenes.Scene;
 import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.game.utils.SaveManager;
-import lombok.Getter;
-import lombok.Setter;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -15,14 +13,12 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
 public class Game {
     private static volatile Game instance = null;
     boolean requestClose;
     private int height;
     private int width;
     private Scene currentScene;
-    @Setter
     private Player player;
 
     private Game() {
@@ -109,9 +105,32 @@ public class Game {
         requestClose = true;
     }
 
+    /**
+     * Getters and Setters
+     */
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public Scene getCurrentScene() {
+        return currentScene;
+    }
+
     public void setCurrentScene(Scene currentScene) {
         this.currentScene = currentScene;
         this.currentScene.init();
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 }

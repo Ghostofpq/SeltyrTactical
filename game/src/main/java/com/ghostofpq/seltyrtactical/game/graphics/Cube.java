@@ -4,15 +4,9 @@ import com.ghostofpq.seltyrtactical.commons.Position;
 import com.ghostofpq.seltyrtactical.commons.PositionAbsolute;
 import com.ghostofpq.seltyrtactical.game.utils.HighlightColor;
 import com.ghostofpq.seltyrtactical.game.utils.TextureKey;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 
-@Slf4j
-@Getter
-@Setter
 public class Cube implements Serializable, Comparable<Cube> {
     private static final long serialVersionUID = 4804104249115278769L;
     private Position position;
@@ -98,4 +92,95 @@ public class Cube implements Serializable, Comparable<Cube> {
     }
 
 
+    /**
+     * Getters and Setters
+     */
+
+    public Position getPosition() {
+        return position;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public Facet getFacetZenith() {
+        return facetZenith;
+    }
+
+    public void setFacetZenith(Facet facetZenith) {
+        this.facetZenith = facetZenith;
+    }
+
+    public Facet getFacetNorth() {
+        return facetNorth;
+    }
+
+    public void setFacetNorth(Facet facetNorth) {
+        this.facetNorth = facetNorth;
+    }
+
+    public Facet getFacetEast() {
+        return facetEast;
+    }
+
+    public void setFacetEast(Facet facetEast) {
+        this.facetEast = facetEast;
+    }
+
+    public Facet getFacetWest() {
+        return facetWest;
+    }
+
+    public void setFacetWest(Facet facetWest) {
+        this.facetWest = facetWest;
+    }
+
+    public Facet getFacetSouth() {
+        return facetSouth;
+    }
+
+    public void setFacetSouth(Facet facetSouth) {
+        this.facetSouth = facetSouth;
+    }
+
+    public TextureKey getTextureTop() {
+        return textureTop;
+    }
+
+    public void setTextureTop(TextureKey textureTop) {
+        this.textureTop = textureTop;
+    }
+
+    public TextureKey getSide() {
+        return side;
+    }
+
+    public void setSide(TextureKey side) {
+        this.side = side;
+    }
+
+    public boolean isVisible() {
+        return visible;
+    }
+
+    public void setVisible(boolean visible) {
+        this.visible = visible;
+    }
+
+    public boolean isSelectable() {
+        return selectable;
+    }
+
+    public void setSelectable(boolean selectable) {
+        this.selectable = selectable;
+    }
+
+    public HighlightColor getHighlight() {
+        return highlight;
+    }
+
+    public void setHighlight(HighlightColor highlight) {
+        this.highlight = highlight;
+    }
 }
