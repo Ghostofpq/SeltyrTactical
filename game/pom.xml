@@ -103,10 +103,12 @@
         <dependency>
             <artifactId>commons</artifactId>
             <groupId>com.ghostofpq.seltyrtactical</groupId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <artifactId>entities</artifactId>
             <groupId>com.ghostofpq.seltyrtactical</groupId>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.lwjgl.lwjgl</groupId>

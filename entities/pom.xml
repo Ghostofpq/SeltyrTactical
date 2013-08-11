@@ -36,6 +36,7 @@
         <dependency>
             <artifactId>commons</artifactId>
             <groupId>com.ghostofpq.seltyrtactical</groupId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 
