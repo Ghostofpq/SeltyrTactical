@@ -12,7 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="commons" />
-    <orderEntry type="library" name="Maven: com.ghostofpq.seltyrtactical:entities:0.0.1" level="project" />
+    <orderEntry type="module" module-name="entities" />
     <orderEntry type="library" name="Maven: org.lwjgl.lwjgl:lwjgl:2.8.3" level="project" />
     <orderEntry type="library" name="Maven: org.lwjgl.lwjgl:lwjgl-platform:natives-windows:2.8.3" level="project" />
     <orderEntry type="library" name="Maven: org.lwjgl.lwjgl:lwjgl-platform:natives-linux:2.8.3" level="project" />
