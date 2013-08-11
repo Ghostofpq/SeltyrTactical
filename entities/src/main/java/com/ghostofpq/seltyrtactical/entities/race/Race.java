@@ -1,13 +1,9 @@
 package com.ghostofpq.seltyrtactical.entities.race;
 
 import com.ghostofpq.seltyrtactical.entities.characteristics.PrimaryCharacteristics;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.io.Serializable;
 
-@Getter
-@Setter
 public abstract class Race implements Serializable {
 
     private static final long serialVersionUID = -3933914420338387526L;
@@ -30,5 +26,49 @@ public abstract class Race implements Serializable {
             default:
                 return null;
         }
+    }
+
+    /**
+     * Getters and Setters
+     */
+
+    public RaceType getRace() {
+        return race;
+    }
+
+    public void setRace(RaceType race) {
+        this.race = race;
+    }
+
+    public PrimaryCharacteristics getBaseCaracteristics() {
+        return baseCaracteristics;
+    }
+
+    public void setBaseCaracteristics(PrimaryCharacteristics baseCaracteristics) {
+        this.baseCaracteristics = baseCaracteristics;
+    }
+
+    public PrimaryCharacteristics getLevelUpCaracteristics() {
+        return levelUpCaracteristics;
+    }
+
+    public void setLevelUpCaracteristics(PrimaryCharacteristics levelUpCaracteristics) {
+        this.levelUpCaracteristics = levelUpCaracteristics;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

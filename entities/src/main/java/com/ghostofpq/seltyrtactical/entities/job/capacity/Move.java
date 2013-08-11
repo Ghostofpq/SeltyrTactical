@@ -1,12 +1,7 @@
 package com.ghostofpq.seltyrtactical.entities.job.capacity;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.ArrayList;
 
-@Getter
-@Setter
 public class Move extends Capacity {
 
     private static final long serialVersionUID = 768372563773451676L;

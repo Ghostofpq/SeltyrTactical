@@ -1,13 +1,9 @@
 package com.ghostofpq.seltyrtactical.entities.job.capacity;
 
 import com.ghostofpq.seltyrtactical.entities.characteristics.PrimaryCharacteristics;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 
-@Getter
-@Setter
 public class Amelioration extends Capacity {
 
     private static final long serialVersionUID = -7036564291741868266L;
@@ -29,4 +25,15 @@ public class Amelioration extends Capacity {
         this.caracteristics = caracteristics;
     }
 
+    /**
+     * Getters and Setters
+     */
+
+    public PrimaryCharacteristics getCaracteristics() {
+        return caracteristics;
+    }
+
+    public void setCaracteristics(PrimaryCharacteristics caracteristics) {
+        this.caracteristics = caracteristics;
+    }
 }
