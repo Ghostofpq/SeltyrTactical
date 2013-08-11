@@ -1,8 +1,13 @@
 package com.ghostofpq.seltyrtactical.entities.job.capacity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.util.List;
 
+@Getter
+@Setter
 public abstract class Capacity implements Serializable {
 
     private static final long serialVersionUID = 6338786566341517746L;
@@ -31,57 +36,5 @@ public abstract class Capacity implements Serializable {
 
     public void addPrerequisites(Capacity prerequisite) {
         prerequisites.add(prerequisite);
-    }
-
-    /**
-     * Getters and Setters
-     */
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public CapacityType getType() {
-        return type;
-    }
-
-    public void setType(CapacityType type) {
-        this.type = type;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public boolean isLocked() {
-        return locked;
-    }
-
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
-
-    public List<Capacity> getPrerequisites() {
-        return prerequisites;
-    }
-
-    public void setPrerequisites(List<Capacity> prerequisites) {
-        this.prerequisites = prerequisites;
     }
 }

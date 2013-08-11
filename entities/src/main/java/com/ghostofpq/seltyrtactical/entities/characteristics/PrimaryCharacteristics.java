@@ -1,7 +1,12 @@
 package com.ghostofpq.seltyrtactical.entities.characteristics;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 
+@Getter
+@Setter
 public class PrimaryCharacteristics implements Serializable {
 
     private static final long serialVersionUID = 6681761667504505940L;
@@ -40,57 +45,5 @@ public class PrimaryCharacteristics implements Serializable {
         this.setWill(this.getWill() + characteristics.getWill());
         this.setAgility(this.getAgility() + characteristics.getAgility());
         this.setMovement(this.getMovement() + characteristics.getMovement());
-    }
-
-    /**
-     * Getters and Setters
-     */
-
-    public int getStrength() {
-        return strength;
-    }
-
-    public void setStrength(int strength) {
-        this.strength = strength;
-    }
-
-    public int getEndurance() {
-        return endurance;
-    }
-
-    public void setEndurance(int endurance) {
-        this.endurance = endurance;
-    }
-
-    public int getIntelligence() {
-        return intelligence;
-    }
-
-    public void setIntelligence(int intelligence) {
-        this.intelligence = intelligence;
-    }
-
-    public int getWill() {
-        return will;
-    }
-
-    public void setWill(int will) {
-        this.will = will;
-    }
-
-    public int getAgility() {
-        return agility;
-    }
-
-    public void setAgility(int agility) {
-        this.agility = agility;
-    }
-
-    public int getMovement() {
-        return movement;
-    }
-
-    public void setMovement(int movement) {
-        this.movement = movement;
     }
 }
