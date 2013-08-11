@@ -1,6 +1,11 @@
-target
 .idea
-SeltyrTactical.iml
+
+target
+commons/target
+entities/target
+game/target
+
+seltyrtactical.iml
 game/game.iml
 commons/commons.iml
 entities/entities.iml
