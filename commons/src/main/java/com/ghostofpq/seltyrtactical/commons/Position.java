@@ -26,10 +26,10 @@ public class Position implements Serializable, Comparable<Position> {
 
     @Override
     public int compareTo(Position other) {
-        // Priority on Z axis
-        if (this.getZ() < other.getZ()) {
+        // Priority on Y axis
+        if (this.getY() < other.getY()) {
             return -1;
-        } else if (this.getZ() > other.getZ()) {
+        } else if (this.getY() > other.getY()) {
             return 1;
         } else {
             // Then X axis
@@ -38,10 +38,10 @@ public class Position implements Serializable, Comparable<Position> {
             } else if (this.getX() > other.getX()) {
                 return 1;
             } else {
-                // Finally Y axis
-                if (this.getY() < other.getY()) {
+                // Finally Z axis
+                if (this.getZ() < other.getZ()) {
                     return -1;
-                } else if (this.getY() > other.getY()) {
+                } else if (this.getZ() > other.getZ()) {
                     return 1;
                 } else {
                     return 0;
