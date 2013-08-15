@@ -1,5 +1,6 @@
 package com.ghostofpq.seltyrtactical.game.graphics;
 
+import com.ghostofpq.seltyrtactical.commons.Position;
 import com.ghostofpq.seltyrtactical.commons.PositionAbsolute;
 import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.game.utils.TextureKey;
@@ -8,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 
 import java.io.Serializable;
 
-public class Facet implements Serializable {
+public class Facet extends DrawableObject implements Serializable {
 
     private static final long serialVersionUID = 5436385396379038962L;
     private PositionAbsolute corner1;
@@ -18,7 +19,8 @@ public class Facet implements Serializable {
     private boolean visible;
     private TextureKey texture;
 
-    public Facet(PositionAbsolute corner1, PositionAbsolute corner2, PositionAbsolute corner3, PositionAbsolute corner4, TextureKey texture) {
+    public Facet(Position position, PositionAbsolute corner1, PositionAbsolute corner2, PositionAbsolute corner3, PositionAbsolute corner4, TextureKey texture) {
+        this.setPosition(position);
         this.setCorner1(corner1);
         this.setCorner2(corner2);
         this.setCorner3(corner3);

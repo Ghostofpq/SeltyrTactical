@@ -56,10 +56,6 @@ public class Game {
         players.add(p1);
         players.add(p2);
 
-        log.debug("debug");
-        log.info("info");
-        log.warn("warn");
-        log.error("error");
         BattleScene.getInstance().setPlayer(players);
         g.run();
     }

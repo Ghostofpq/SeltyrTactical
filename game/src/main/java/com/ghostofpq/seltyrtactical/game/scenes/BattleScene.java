@@ -11,11 +11,13 @@ import com.ghostofpq.seltyrtactical.game.graphics.PointOfView;
 import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.game.utils.HighlightColor;
 import com.ghostofpq.seltyrtactical.game.utils.SaveManager;
+import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.input.Keyboard;
 import org.newdawn.slick.Color;
 
 import java.util.*;
 
+@Slf4j
 public class BattleScene implements Scene {
     private static volatile BattleScene instance = null;
     private Map<Position, Cube> todraw;
@@ -237,7 +239,7 @@ public class BattleScene implements Scene {
 
 
                     if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
-                        System.out.println("pos: " + cursor.getX() + "/" + cursor.getY() + "/" + cursor.getZ());
+                        log.debug("pos: {}/{}/{}", cursor.getX(), cursor.getY(), cursor.getZ());
                         placeCharacter();
                     }
                 }
@@ -252,7 +254,7 @@ public class BattleScene implements Scene {
     private void render3D() {
         GraphicsManager.getInstance().make3D();
         for (Position position : positionsToDraw) {
-            todraw.get(position).draw(GraphicsManager.getInstance().getCurrentPointOfView());
+            todraw.get(position).draw();
         }
 
     }

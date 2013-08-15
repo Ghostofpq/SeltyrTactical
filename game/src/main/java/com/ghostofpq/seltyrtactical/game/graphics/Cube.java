@@ -2,12 +2,13 @@ package com.ghostofpq.seltyrtactical.game.graphics;
 
 import com.ghostofpq.seltyrtactical.commons.Position;
 import com.ghostofpq.seltyrtactical.commons.PositionAbsolute;
+import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.game.utils.HighlightColor;
 import com.ghostofpq.seltyrtactical.game.utils.TextureKey;
 
 import java.io.Serializable;
 
-public class Cube implements Serializable, Comparable<Cube> {
+public class Cube extends DrawableObject implements Serializable {
     private static final long serialVersionUID = 4804104249115278769L;
     private Position position;
     private Facet facetZenith;
@@ -40,14 +41,15 @@ public class Cube implements Serializable, Comparable<Cube> {
         PositionAbsolute p7 = positionAbsolute.plus(1f, 1f, 1f);
         PositionAbsolute p8 = positionAbsolute.plus(1f, 1f, 0);
 
-        facetZenith = new Facet(p5, p8, p7, p6, textureTop);
-        facetSouth = new Facet(p6, p7, p3, p2, side);
-        facetWest = new Facet(p5, p6, p2, p1, side);
-        facetNorth = new Facet(p8, p5, p1, p4, side);
-        facetEast = new Facet(p7, p8, p4, p3, side);
+        facetZenith = new Facet(position, p5, p8, p7, p6, textureTop);
+        facetSouth = new Facet(position, p6, p7, p3, p2, side);
+        facetWest = new Facet(position, p5, p6, p2, p1, side);
+        facetNorth = new Facet(position, p8, p5, p1, p4, side);
+        facetEast = new Facet(position, p7, p8, p4, p3, side);
     }
 
-    public void draw(PointOfView pointOfView) {
+    public void draw() {
+        PointOfView pointOfView = GraphicsManager.getInstance().getCurrentPointOfView();
         if (isVisible()) {
             if (!highlight.equals(HighlightColor.NONE)) {
                 TextureKey texture = TextureKey.HIGHLIGHT_BLUE;
@@ -85,12 +87,6 @@ public class Cube implements Serializable, Comparable<Cube> {
             }
         }
     }
-
-    @Override
-    public int compareTo(Cube other) {
-        return this.getPosition().compareTo(other.getPosition());
-    }
-
 
     /**
      * Getters and Setters
