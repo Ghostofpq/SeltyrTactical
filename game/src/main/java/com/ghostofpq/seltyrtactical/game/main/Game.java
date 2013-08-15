@@ -5,6 +5,7 @@ import com.ghostofpq.seltyrtactical.game.scenes.BattleScene;
 import com.ghostofpq.seltyrtactical.game.scenes.Scene;
 import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.game.utils.SaveManager;
+import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -13,6 +14,7 @@ import org.lwjgl.opengl.GL11;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 public class Game {
     private static volatile Game instance = null;
     boolean requestClose;
@@ -54,9 +56,10 @@ public class Game {
         players.add(p1);
         players.add(p2);
 
-
-        System.out.println(p1.getTeam().getTeam().get(2).getName());
-
+        log.debug("debug");
+        log.info("info");
+        log.warn("warn");
+        log.error("error");
         BattleScene.getInstance().setPlayer(players);
         g.run();
     }
