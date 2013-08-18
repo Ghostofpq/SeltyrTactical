@@ -9,7 +9,7 @@ public class MapCreator {
     public static void main(String[] argv) {
 
         int length = 10;
-        int height = 3;
+        int height = 5;
         int depth = 10;
 
         Battlefield battlefield = new Battlefield(length, height, depth, 2);
@@ -27,6 +27,9 @@ public class MapCreator {
             battlefield.addDeployementZone(1, position2);
         }
 
+        battlefield.addBattlefieldElement(0, 1, 0, BattlefieldElement.BattlefieldElementType.BLOC);
+        battlefield.addBattlefieldElement(0, 2, 1, BattlefieldElement.BattlefieldElementType.BLOC);
+        battlefield.addBattlefieldElement(0, 3, 2, BattlefieldElement.BattlefieldElementType.BLOC);
 
         SaveManager saveManager = SaveManager.getInstance();
         saveManager.saveMap(battlefield, "mapTest1");

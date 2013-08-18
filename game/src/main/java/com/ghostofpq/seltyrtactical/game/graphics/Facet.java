@@ -54,6 +54,10 @@ public class Facet extends DrawableObject implements Serializable {
         }
     }
 
+    public String toString() {
+        return "Facet";
+    }
+
     /**
      * Getters and Setters
      */

@@ -5,9 +5,7 @@ import com.ghostofpq.seltyrtactical.entities.battlefield.Battlefield;
 import com.ghostofpq.seltyrtactical.entities.battlefield.BattlefieldElement;
 import com.ghostofpq.seltyrtactical.entities.character.GameCharacter;
 import com.ghostofpq.seltyrtactical.entities.character.Player;
-import com.ghostofpq.seltyrtactical.game.graphics.CharacterRender;
-import com.ghostofpq.seltyrtactical.game.graphics.Cube;
-import com.ghostofpq.seltyrtactical.game.graphics.PointOfView;
+import com.ghostofpq.seltyrtactical.game.graphics.*;
 import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.game.utils.HighlightColor;
 import com.ghostofpq.seltyrtactical.game.utils.SaveManager;
@@ -21,6 +19,7 @@ import java.util.*;
 public class BattleScene implements Scene {
     private static volatile BattleScene instance = null;
     private Map<Position, Cube> todraw;
+    private List<DrawableObject> toDrawList;
     private List<Position> positionsToDraw;
     private List<Position> positionsToSelect;
     private boolean graphicManagerIsWorking;
@@ -54,10 +53,13 @@ public class BattleScene implements Scene {
         battlefield = SaveManager.getInstance().loadMap("mapTest1");
 
         todraw = toDrawableList(battlefield);
+        toDrawList = new ArrayList<DrawableObject>();
+        toDrawList.addAll(todraw.values());
+        Collections.sort(toDrawList);
+
         updatePositionLists();
         cursor = new Position(4, 0, 4);
         todraw.get(cursor).setHighlight(HighlightColor.BLUE);
-
         GraphicsManager.getInstance().setupLights();
         GraphicsManager.getInstance().ready3D();
         GraphicsManager.getInstance().requestCenterPosition(cursor);
@@ -70,22 +72,33 @@ public class BattleScene implements Scene {
         int indexOfPlayer = players.indexOf(currentPlayer);
         int indexOfChar = currentPlayer.getTeam().getTeam().indexOf(currentGameCharacter);
 
-        if (indexOfChar == currentPlayer.getTeam().getTeam().size() - 1) {
-            if (indexOfPlayer == players.size() - 1) {
-                currentState = BattleSceneState.FIGHT;
-                cleanHighlightDeploymentZone();
-            } else {
-                cleanHighlightDeploymentZone();
-                currentPlayer = players.get(indexOfPlayer + 1);
-                currentGameCharacter = currentPlayer.getTeam().getTeam().get(0);
-                characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
-                highlightDeploymentZone();
+        if (battlefield.getDeploymentZones().get(indexOfPlayer).contains(cursor)) {
+            Position position = new Position(cursor);
+            position.plusY(1);
+            GameCharacterRepresentation gameCharacterRepresentation = new GameCharacterRepresentation(currentGameCharacter, position);
+            toDrawList.add(gameCharacterRepresentation);
+            Collections.sort(toDrawList);
+            for (int i = 0; i < toDrawList.size(); i++) {
+                log.debug("{} : ", toDrawList.get(i).getPosition().toString(), toDrawList.get(i).toString());
             }
-        } else {
-            currentGameCharacter = currentPlayer.getTeam().getTeam().get(indexOfChar + 1);
-            characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
+
+            if (indexOfChar == currentPlayer.getTeam().getTeam().size() - 1) {
+                if (indexOfPlayer == players.size() - 1) {
+                    currentState = BattleSceneState.FIGHT;
+                    cleanHighlightDeploymentZone();
+                } else {
+                    cleanHighlightDeploymentZone();
+                    currentPlayer = players.get(indexOfPlayer + 1);
+                    currentGameCharacter = currentPlayer.getTeam().getTeam().get(0);
+                    characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
+                    highlightDeploymentZone();
+                }
+            } else {
+                currentGameCharacter = currentPlayer.getTeam().getTeam().get(indexOfChar + 1);
+                characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
+            }
+            battlefield.getDeploymentZones().get(indexOfPlayer).remove(cursor);
         }
-        battlefield.getDeploymentZones().get(indexOfPlayer).remove(cursor);
     }
 
     public void setPlayer(List<Player> players) {
@@ -253,9 +266,13 @@ public class BattleScene implements Scene {
 
     private void render3D() {
         GraphicsManager.getInstance().make3D();
-        for (Position position : positionsToDraw) {
-            todraw.get(position).draw();
+        for (int i = 0; i < toDrawList.size(); i++) {
+            toDrawList.get(i).draw();
         }
+        /**
+         for (Position position : positionsToDraw) {
+         todraw.get(position).draw();
+         }  */
 
     }
 
@@ -282,6 +299,10 @@ public class BattleScene implements Scene {
         }
         Collections.sort(positionsToSelect);
     }
+
+    /**
+     * CURSOR
+     */
 
     private void cursorUp() {
 
@@ -408,10 +429,6 @@ public class BattleScene implements Scene {
         return cursor;
     }
 
-    private enum BattleSceneState {
-        DEPLOY, FIGHT
-    }
-
     private Map<Position, Cube> toDrawableList(Battlefield battlefield) {
         Map<Position, Cube> toDraw = new HashMap<Position, Cube>();
         for (Position position : battlefield.getBattlefieldElementMap().keySet()) {
@@ -441,5 +458,9 @@ public class BattleScene implements Scene {
         }
 
         return toDraw;
+    }
+
+    private enum BattleSceneState {
+        DEPLOY, FIGHT
     }
 }

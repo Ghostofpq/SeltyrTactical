@@ -13,6 +13,8 @@ public abstract class DrawableObject implements Comparable<DrawableObject> {
         return this.getPosition().compareTo(other.getPosition());
     }
 
+    public abstract String toString();
+
     public Position getPosition() {
         return position;
     }

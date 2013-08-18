@@ -18,6 +18,30 @@ public class PositionAbsolute implements Serializable, Comparable<PositionAbsolu
         return new PositionAbsolute(this.getX() + x, this.getY() + y, this.getZ() + z);
     }
 
+
+    public void plusX(float x) {
+        this.setX(this.getX() + x);
+    }
+
+    public void plusY(float y) {
+        this.setY(this.getY() + y);
+    }
+
+    public void plusZ(float z) {
+        this.setZ(this.getZ() + z);
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("X: ");
+        sb.append(this.getX());
+        sb.append(" Y: ");
+        sb.append(this.getY());
+        sb.append(" Z: ");
+        sb.append(this.getZ());
+        return sb.toString();
+    }
+
     @Override
     public int compareTo(PositionAbsolute other) {
         // Priority on Y axis

@@ -88,6 +88,10 @@ public class Cube extends DrawableObject implements Serializable {
         }
     }
 
+    public String toString() {
+        return "Cube";
+    }
+
     /**
      * Getters and Setters
      */

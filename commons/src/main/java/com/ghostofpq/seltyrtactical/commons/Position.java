@@ -72,6 +72,29 @@ public class Position implements Serializable, Comparable<Position> {
         return result;
     }
 
+    public void plusX(int x) {
+        this.setX(this.getX() + x);
+    }
+
+    public void plusY(int y) {
+        this.setY(this.getY() + y);
+    }
+
+    public void plusZ(int z) {
+        this.setZ(this.getZ() + z);
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("X: ");
+        sb.append(this.getX());
+        sb.append(" Y: ");
+        sb.append(this.getY());
+        sb.append(" Z: ");
+        sb.append(this.getZ());
+        return sb.toString();
+    }
+
     /**
      * Getters and Setters
      */
