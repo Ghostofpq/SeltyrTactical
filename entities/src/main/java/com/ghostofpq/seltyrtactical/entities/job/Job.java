@@ -4,15 +4,12 @@ import com.ghostofpq.seltyrtactical.entities.characteristics.PrimaryCharacterist
 import com.ghostofpq.seltyrtactical.entities.job.capacity.Amelioration;
 import com.ghostofpq.seltyrtactical.entities.job.capacity.Capacity;
 import com.ghostofpq.seltyrtactical.entities.job.capacity.Move;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
 public abstract class Job implements Serializable {
 
     private static final long serialVersionUID = 7613901055857944135L;
@@ -75,5 +72,65 @@ public abstract class Job implements Serializable {
         }
 
         return result;
+    }
+
+    /**
+     * Getters and Setters
+     */
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public List<Capacity> getSkillTree() {
+        return skillTree;
+    }
+
+    public void setSkillTree(List<Capacity> skillTree) {
+        this.skillTree = skillTree;
+    }
+
+    public List<Move> getUnlockedMoves() {
+        return unlockedMoves;
+    }
+
+    public void setUnlockedMoves(List<Move> unlockedMoves) {
+        this.unlockedMoves = unlockedMoves;
+    }
+
+    public List<Amelioration> getUnlockedAmeliorations() {
+        return unlockedAmeliorations;
+    }
+
+    public void setUnlockedAmeliorations(List<Amelioration> unlockedAmeliorations) {
+        this.unlockedAmeliorations = unlockedAmeliorations;
+    }
+
+    public int getJobPoints() {
+        return jobPoints;
+    }
+
+    public void setJobPoints(int jobPoints) {
+        this.jobPoints = jobPoints;
+    }
+
+    public int getCumulatedJobPoints() {
+        return cumulatedJobPoints;
+    }
+
+    public void setCumulatedJobPoints(int cumulatedJobPoints) {
+        this.cumulatedJobPoints = cumulatedJobPoints;
     }
 }
