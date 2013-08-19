@@ -28,6 +28,9 @@ public class GameCharacterRepresentation extends DrawableObject {
         animation.addFrame(spriteSheet.getSubImage(10, 300, 32, 36), 100);
         animation.addFrame(spriteSheet.getSubImage(42, 300, 32, 36), 100);
         animation.addFrame(spriteSheet.getSubImage(74, 300, 32, 36), 100);
+        animation.addFrame(spriteSheet.getSubImage(106, 300, 32, 36), 100);
+        animation.addFrame(spriteSheet.getSubImage(74, 300, 32, 36), 100);
+        animation.addFrame(spriteSheet.getSubImage(42, 300, 32, 36), 100);
 
         chara = TextureManager.getInstance().getTexture(TextureKey.CHAR);
     }
