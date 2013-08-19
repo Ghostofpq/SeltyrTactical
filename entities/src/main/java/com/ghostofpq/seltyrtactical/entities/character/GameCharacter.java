@@ -169,7 +169,6 @@ public class GameCharacter implements Serializable {
         this.aggregatedCharacteristics.plus(getBonusFromEquipement());
     }
 
-
     /**
      * Getters and Setters
      */

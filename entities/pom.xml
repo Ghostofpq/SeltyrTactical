@@ -7,9 +7,11 @@
         <groupId>com.ghostofpq.seltyrtactical</groupId>
         <version>0.0.1</version>
     </parent>
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>entities</artifactId>
+    <packaging>jar</packaging>
 
     <build>
         <directory>target</directory>
@@ -34,6 +36,7 @@
         <dependency>
             <artifactId>commons</artifactId>
             <groupId>com.ghostofpq.seltyrtactical</groupId>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

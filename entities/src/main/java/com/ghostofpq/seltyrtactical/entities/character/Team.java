@@ -1,5 +1,6 @@
 package com.ghostofpq.seltyrtactical.entities.character;
 
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,18 +14,9 @@ public class Team implements Serializable {
         team = new ArrayList<GameCharacter>();
     }
 
-
     /**
      * Getters and Setters
      */
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public List<GameCharacter> getTeam() {
         return team;

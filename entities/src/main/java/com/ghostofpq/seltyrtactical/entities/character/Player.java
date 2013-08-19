@@ -21,7 +21,6 @@ public class Player implements Serializable {
         team = new Team(teamNameBuilder.toString());
     }
 
-
     /**
      * Getters and Setters
      */
