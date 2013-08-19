@@ -5,7 +5,6 @@ import com.ghostofpq.seltyrtactical.entities.job.capacity.Amelioration;
 import com.ghostofpq.seltyrtactical.entities.job.capacity.Capacity;
 import com.ghostofpq.seltyrtactical.entities.job.capacity.Move;
 
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;

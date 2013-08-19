@@ -1,4 +1,5 @@
 package com.ghostofpq.seltyrtactical.entities.battlefield;
+
 import java.io.Serializable;
 
 public abstract class BattlefieldElement implements Serializable {

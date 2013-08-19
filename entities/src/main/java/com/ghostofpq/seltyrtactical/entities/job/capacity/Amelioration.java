@@ -2,7 +2,6 @@ package com.ghostofpq.seltyrtactical.entities.job.capacity;
 
 import com.ghostofpq.seltyrtactical.entities.characteristics.PrimaryCharacteristics;
 
-
 import java.util.ArrayList;
 
 public class Amelioration extends Capacity {
