@@ -22,13 +22,12 @@ public class GameCharacterRepresentation extends DrawableObject {
         this.setCharacter(character);
         this.setPosition(position);
 
-        SpriteSheet spriteSheet = SpritesheetManager.getInstance().getSpriteSheet("Ramza");
+        SpriteSheet spriteSheet = SpritesheetManager.getInstance().getSpriteSheet("Arthur");
         animation = new Animation();
         animation.setAutoUpdate(true);
-        animation.addFrame(spriteSheet.getSprite(1, 0), 100);
-        animation.addFrame(spriteSheet.getSprite(1, 1), 100);
-        animation.addFrame(spriteSheet.getSprite(1, 2), 100);
-        animation.addFrame(spriteSheet.getSprite(1, 1), 100);
+        animation.addFrame(spriteSheet.getSubImage(10, 300, 32, 36), 100);
+        animation.addFrame(spriteSheet.getSubImage(42, 300, 32, 36), 100);
+        animation.addFrame(spriteSheet.getSubImage(74, 300, 32, 36), 100);
 
         chara = TextureManager.getInstance().getTexture(TextureKey.CHAR);
     }
@@ -37,30 +36,36 @@ public class GameCharacterRepresentation extends DrawableObject {
         PointOfView pointOfView = GraphicsManager.getInstance().getCurrentPointOfView();
         GL11.glColor4f(1f, 1f, 1f, 1f);
 
-        PositionAbsolute corner1 = new PositionAbsolute((this.getPosition().getX() - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
-                (this.getPosition().getY() + 1 - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
-                (this.getPosition().getZ() + 1 - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
-        PositionAbsolute corner2 = new PositionAbsolute((this.getPosition().getX() + 1 - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
-                (this.getPosition().getY() + 1 - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
-                (this.getPosition().getZ() - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
-        PositionAbsolute corner3 = new PositionAbsolute((this.getPosition().getX() + 1 - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
+        PositionAbsolute corner1 = new PositionAbsolute(
+                (this.getPosition().getX() + 0.1f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
+                (this.getPosition().getY() + 1.5f - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
+                (this.getPosition().getZ() + 0.9f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
+        PositionAbsolute corner2 = new PositionAbsolute(
+                (this.getPosition().getX() + 0.9f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
+                (this.getPosition().getY() + 1.5f - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
+                (this.getPosition().getZ() + 0.1f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
+        PositionAbsolute corner3 = new PositionAbsolute(
+                (this.getPosition().getX() + 0.9f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
                 (this.getPosition().getY() - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
-                (this.getPosition().getZ() - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
-        PositionAbsolute corner4 = new PositionAbsolute((this.getPosition().getX() - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
+                (this.getPosition().getZ() + 0.1f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
+        PositionAbsolute corner4 = new PositionAbsolute(
+                (this.getPosition().getX() + 0.1f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
                 (this.getPosition().getY() - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
-                (this.getPosition().getZ() + 1 - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
+                (this.getPosition().getZ() + 0.9f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
 
 
-        chara.bind();
+        animation.getCurrentFrame().bind();
         GL11.glBegin(GL11.GL_QUADS);
-        GL11.glTexCoord2d(0, 0);
+        GL11.glTexCoord2d(animation.getCurrentFrame().getTextureOffsetX(), animation.getCurrentFrame().getTextureOffsetY());
         GL11.glVertex3d(corner1.getX(), corner1.getY(), corner1.getZ());
-        GL11.glTexCoord2d(1, 0);
+        GL11.glTexCoord2d(animation.getCurrentFrame().getTextureOffsetX() + animation.getCurrentFrame().getTextureWidth(), animation.getCurrentFrame().getTextureOffsetY());
         GL11.glVertex3d(corner2.getX(), corner2.getY(), corner2.getZ());
-        GL11.glTexCoord2d(1, 1);
+        GL11.glTexCoord2d(animation.getCurrentFrame().getTextureOffsetX() + animation.getCurrentFrame().getTextureWidth(), animation.getCurrentFrame().getTextureOffsetY() + animation.getCurrentFrame().getTextureHeight());
         GL11.glVertex3d(corner3.getX(), corner3.getY(), corner3.getZ());
-        GL11.glTexCoord2d(0, 1);
+        GL11.glTexCoord2d(animation.getCurrentFrame().getTextureOffsetX(), animation.getCurrentFrame().getTextureOffsetY() + animation.getCurrentFrame().getTextureHeight());
         GL11.glVertex3d(corner4.getX(), corner4.getY(), corner4.getZ());
+        animation.update(5);
+
         GL11.glEnd();
     }
 
