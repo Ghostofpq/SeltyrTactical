@@ -78,9 +78,6 @@ public class BattleScene implements Scene {
             GameCharacterRepresentation gameCharacterRepresentation = new GameCharacterRepresentation(currentGameCharacter, position);
             toDrawList.add(gameCharacterRepresentation);
             Collections.sort(toDrawList);
-            for (int i = 0; i < toDrawList.size(); i++) {
-                log.debug("{} : ", toDrawList.get(i).getPosition().toString(), toDrawList.get(i).toString());
-            }
 
             if (indexOfChar == currentPlayer.getTeam().getTeam().size() - 1) {
                 if (indexOfPlayer == players.size() - 1) {

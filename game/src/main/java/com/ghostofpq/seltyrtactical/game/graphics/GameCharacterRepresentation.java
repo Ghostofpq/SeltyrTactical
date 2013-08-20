@@ -7,6 +7,7 @@ import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.game.utils.SpritesheetManager;
 import com.ghostofpq.seltyrtactical.game.utils.TextureKey;
 import com.ghostofpq.seltyrtactical.game.utils.TextureManager;
+import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SpriteSheet;
@@ -15,6 +16,7 @@ import org.newdawn.slick.opengl.Texture;
 import java.util.HashMap;
 import java.util.Map;
 
+@Slf4j
 public class GameCharacterRepresentation extends DrawableObject {
 
     private GameCharacter character;
@@ -22,6 +24,8 @@ public class GameCharacterRepresentation extends DrawableObject {
     private Map<PointOfView, Animation> animationWalk;
     private Texture chara;
     private boolean hasMoved;
+    private PointOfView headingAngle;
+
 
     public GameCharacterRepresentation(GameCharacter character, Position position) {
         this.setCharacter(character);
@@ -29,7 +33,7 @@ public class GameCharacterRepresentation extends DrawableObject {
         this.setPositionAbsolute(position.toAbsolute());
 
         SpriteSheet spriteSheet = SpritesheetManager.getInstance().getSpriteSheet("Arthur");
-
+        headingAngle = GraphicsManager.getInstance().getCurrentPointOfView();
 
         animationWalk = new HashMap<PointOfView, Animation>();
 
@@ -56,12 +60,12 @@ public class GameCharacterRepresentation extends DrawableObject {
 
         animation = new Animation();
         animation.setAutoUpdate(true);
-        animation.addFrame(spriteSheet.getSubImage(138, 300, 32, 36), 100);
-        animation.addFrame(spriteSheet.getSubImage(170, 300, 32, 36), 100);
-        animation.addFrame(spriteSheet.getSubImage(202, 300, 32, 36), 100);
-        animation.addFrame(spriteSheet.getSubImage(234, 300, 32, 36), 100);
-        animation.addFrame(spriteSheet.getSubImage(202, 300, 32, 36), 100);
-        animation.addFrame(spriteSheet.getSubImage(170, 300, 32, 36), 100);
+        animation.addFrame(spriteSheet.getSubImage(292, 251, 32, 36), 100);
+        animation.addFrame(spriteSheet.getSubImage(324, 251, 32, 36), 100);
+        animation.addFrame(spriteSheet.getSubImage(356, 251, 32, 36), 100);
+        animation.addFrame(spriteSheet.getSubImage(388, 251, 32, 36), 100);
+        animation.addFrame(spriteSheet.getSubImage(356, 251, 32, 36), 100);
+        animation.addFrame(spriteSheet.getSubImage(324, 251, 32, 36), 100);
         animationWalk.put(PointOfView.WEST, animation);
 
         animation = new Animation();
@@ -118,25 +122,24 @@ public class GameCharacterRepresentation extends DrawableObject {
                     (this.getPositionAbsolute().getX() + 0.9f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
                     (this.getPositionAbsolute().getY() - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
                     (this.getPositionAbsolute().getZ() + 0.1f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
-        }  /**else if (pointOfView.equals(PointOfView.WEST)) {
-         corner1 = new PositionAbsolute(
-         (this.getPositionAbsolute().getX() + 0.1f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
-         (this.getPositionAbsolute().getY() + 1.5f - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
-         (this.getPositionAbsolute().getZ() + 0.1f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
-         corner2 = new PositionAbsolute(
-         (this.getPositionAbsolute().getX() + 0.9f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
-         (this.getPositionAbsolute().getY() + 1.5f - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
-         (this.getPositionAbsolute().getZ() + 0.9f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
-         corner3 = new PositionAbsolute(
-         (this.getPositionAbsolute().getX() + 0.9f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
-         (this.getPositionAbsolute().getY() - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
-         (this.getPositionAbsolute().getZ() + 0.9f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
-         corner4 = new PositionAbsolute(
-         (this.getPositionAbsolute().getX() + 0.1f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
-         (this.getPositionAbsolute().getY() - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
-         (this.getPositionAbsolute().getZ() + 0.1f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
-         }*/
-        else {  //if(pointOfView.equals(PointOfView.EAST))
+        } else if (pointOfView.equals(PointOfView.WEST)) {
+            corner1 = new PositionAbsolute(
+                    (this.getPositionAbsolute().getX() + 0.1f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
+                    (this.getPositionAbsolute().getY() + 1.5f - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
+                    (this.getPositionAbsolute().getZ() + 0.1f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
+            corner2 = new PositionAbsolute(
+                    (this.getPositionAbsolute().getX() + 0.9f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
+                    (this.getPositionAbsolute().getY() + 1.5f - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
+                    (this.getPositionAbsolute().getZ() + 0.9f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
+            corner3 = new PositionAbsolute(
+                    (this.getPositionAbsolute().getX() + 0.9f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
+                    (this.getPositionAbsolute().getY() - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
+                    (this.getPositionAbsolute().getZ() + 0.9f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
+            corner4 = new PositionAbsolute(
+                    (this.getPositionAbsolute().getX() + 0.1f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
+                    (this.getPositionAbsolute().getY() - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
+                    (this.getPositionAbsolute().getZ() + 0.1f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
+        } else {  //if(pointOfView.equals(PointOfView.EAST))
             corner1 = new PositionAbsolute(
                     (this.getPositionAbsolute().getX() + 0.9f - GraphicsManager.getInstance().getOriginX()) * GraphicsManager.getInstance().getScale(),
                     (this.getPositionAbsolute().getY() + 1.5f - GraphicsManager.getInstance().getOriginY()) * GraphicsManager.getInstance().getScale(),
@@ -155,7 +158,7 @@ public class GameCharacterRepresentation extends DrawableObject {
                     (this.getPositionAbsolute().getZ() + 0.9f - GraphicsManager.getInstance().getOriginZ()) * GraphicsManager.getInstance().getScale());
         }
 
-        Animation animation = animationWalk.get(pointOfView);
+        Animation animation = animationWalk.get(getEquivalentPointOfView(pointOfView, headingAngle));
         animation.getCurrentFrame().bind();
 
         GL11.glBegin(GL11.GL_QUADS);
@@ -219,4 +222,79 @@ public class GameCharacterRepresentation extends DrawableObject {
     public void setHasMoved(boolean hasMoved) {
         this.hasMoved = hasMoved;
     }
+
+    private PointOfView getEquivalentPointOfView(PointOfView boardPointOfView, PointOfView charPointOfView) {
+        PointOfView result = PointOfView.SOUTH;
+
+
+        switch (boardPointOfView) {
+            case NORTH:
+                switch (charPointOfView) {
+                    case NORTH:
+                        result = PointOfView.SOUTH;
+                        break;
+                    case SOUTH:
+                        result = PointOfView.NORTH;
+                        break;
+                    case EAST:
+                        result = PointOfView.EAST;
+                        break;
+                    case WEST:
+                        result = PointOfView.WEST;
+                        break;
+                }
+                break;
+            case SOUTH:
+                switch (charPointOfView) {
+                    case NORTH:
+                        result = PointOfView.NORTH;
+                        break;
+                    case SOUTH:
+                        result = PointOfView.SOUTH;
+                        break;
+                    case EAST:
+                        result = PointOfView.WEST;
+                        break;
+                    case WEST:
+                        result = PointOfView.EAST;
+                        break;
+                }
+                break;
+            case EAST:
+                switch (charPointOfView) {
+                    case NORTH:
+                        result = PointOfView.WEST;
+                        break;
+                    case SOUTH:
+                        result = PointOfView.EAST;
+                        break;
+                    case EAST:
+                        result = PointOfView.SOUTH;
+                        break;
+                    case WEST:
+                        result = PointOfView.NORTH;
+                        break;
+                }
+                break;
+            case WEST:
+                switch (charPointOfView) {
+                    case NORTH:
+                        result = PointOfView.EAST;
+                        break;
+                    case SOUTH:
+                        result = PointOfView.WEST;
+                        break;
+                    case EAST:
+                        result = PointOfView.NORTH;
+                        break;
+                    case WEST:
+                        result = PointOfView.SOUTH;
+                        break;
+                }
+                break;
+        }
+        return result;
+    }
+
+
 }
