@@ -41,7 +41,7 @@ public class PlayerMenu implements Scene {
     }
 
     @Override
-    public void update() {
+    public void update(long deltaTime) {
         player.getTeam().getTeam().get(0).setCurrentHealthPoint(player.getTeam().getTeam().get(0).getCurrentHealthPoint() - 1);
     }
 

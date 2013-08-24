@@ -81,6 +81,12 @@ public class GameCharacterRepresentation extends DrawableObject {
         chara = TextureManager.getInstance().getTexture(TextureKey.CHAR);
     }
 
+    public void update(long deltaTime) {
+        for (Animation animation : animationWalk.values()) {
+            animation.update(deltaTime);
+        }
+    }
+
     public void draw() {
         PointOfView pointOfView = GraphicsManager.getInstance().getCurrentPointOfView();
         GL11.glColor4f(1f, 1f, 1f, 1f);
@@ -171,11 +177,6 @@ public class GameCharacterRepresentation extends DrawableObject {
         GL11.glTexCoord2d(animation.getCurrentFrame().getTextureOffsetX(), animation.getCurrentFrame().getTextureOffsetY() + animation.getCurrentFrame().getTextureHeight());
         GL11.glVertex3d(corner4.getX(), corner4.getY(), corner4.getZ());
         GL11.glEnd();
-
-        for (Animation anim : animationWalk.values()) {
-            anim.update(5);
-        }
-
     }
 
     public String toString() {

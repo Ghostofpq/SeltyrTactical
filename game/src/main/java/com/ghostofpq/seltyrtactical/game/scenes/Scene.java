@@ -4,7 +4,7 @@ public interface Scene {
 
     public void init();
 
-    public void update();
+    public void update(long deltaTime);
 
     public void render();
 

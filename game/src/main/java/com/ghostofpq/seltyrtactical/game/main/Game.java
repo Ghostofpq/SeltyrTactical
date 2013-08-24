@@ -7,6 +7,7 @@ import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.game.utils.SaveManager;
 import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.LWJGLException;
+import org.lwjgl.Sys;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
@@ -22,12 +23,13 @@ public class Game {
     private int width;
     private Scene currentScene;
     private Player player;
+    private long lastTimeTick;
 
     private Game() {
         this.height = 600;
         this.width = 800;
         this.requestClose = false;
-
+        this.lastTimeTick = Sys.getTime();
         player = new Player("Jack");
         init();
 
@@ -75,20 +77,29 @@ public class Game {
 
     public void run() {
         while (!requestClose) {
+            log.debug("delta: {}", deltaTimeInMillis());
             manageInput();
-            update();
+            update(deltaTimeInMillis());
             render();
+            lastTimeTick = Sys.getTime();
+            while (deltaTimeInMillis() <= 4) {
+                // waiting for at least 4 millis
+            }
         }
         Display.destroy();
+    }
+
+    private long deltaTimeInMillis() {
+        return Sys.getTime() - lastTimeTick;
     }
 
     public void manageInput() {
         currentScene.manageInput();
     }
 
-    public void update() {
+    public void update(long deltaTime) {
         requestClose = Display.isCloseRequested();
-        currentScene.update();
+        currentScene.update(deltaTime);
     }
 
     public void render() {

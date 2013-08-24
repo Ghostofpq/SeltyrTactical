@@ -29,6 +29,10 @@ public class Facet extends DrawableObject implements Serializable {
         this.setVisible(true);
     }
 
+    public void update(long deltaTime) {
+
+    }
+
     public void draw() {
         if (isVisible()) {
             GL11.glColor4f(1f, 1f, 1f, 1f);

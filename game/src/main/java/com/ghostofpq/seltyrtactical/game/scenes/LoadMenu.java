@@ -49,7 +49,7 @@ public class LoadMenu implements Scene {
     }
 
     @Override
-    public void update() {
+    public void update(long deltaTime) {
         menuLoad.update();
         if (menuLoad.isFinished()) {
             if (menuLoad.getIndex() == (menuLoad.getOptions().size() - 1)) {

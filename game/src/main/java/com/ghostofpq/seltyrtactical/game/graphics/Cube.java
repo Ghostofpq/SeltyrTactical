@@ -48,6 +48,10 @@ public class Cube extends DrawableObject implements Serializable {
         facetEast = new Facet(position, p7, p8, p4, p3, side);
     }
 
+    public void update(long deltaTime) {
+
+    }
+
     public void draw() {
         PointOfView pointOfView = GraphicsManager.getInstance().getCurrentPointOfView();
         if (isVisible()) {

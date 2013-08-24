@@ -36,7 +36,7 @@ public class MainMenu implements Scene {
     }
 
     @Override
-    public void update() {
+    public void update(long deltaTime) {
         menu.update();
         if (menu.isFinished()) {
             if (menu.getIndex() == 0) {

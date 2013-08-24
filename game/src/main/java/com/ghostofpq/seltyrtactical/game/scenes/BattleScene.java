@@ -128,13 +128,17 @@ public class BattleScene implements Scene {
     }
 
     @Override
-    public void update() {
+    public void update(long deltaTime) {
         if (pointOfViewHasChanged()) {
             log.debug("Point of view has changed");
             sortToDrawList();
         }
         if (graphicManagerIsWorking) {
             graphicManagerIsWorking = GraphicsManager.getInstance().update3DMovement();
+        }
+
+        for (DrawableObject drawableObject : toDrawList) {
+            drawableObject.update(deltaTime);
         }
     }
 

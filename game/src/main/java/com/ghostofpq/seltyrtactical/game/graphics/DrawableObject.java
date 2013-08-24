@@ -8,6 +8,8 @@ public abstract class DrawableObject implements Comparable<DrawableObject> {
 
     public abstract void draw();
 
+    public abstract void update(long deltaTime);
+
     @Override
     public int compareTo(DrawableObject other) {
         return this.getPosition().compareTo(other.getPosition());
