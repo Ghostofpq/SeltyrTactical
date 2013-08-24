@@ -10,6 +10,14 @@ public abstract class DrawableObject implements Comparable<DrawableObject> {
 
     public abstract void update(long deltaTime);
 
+    public boolean hasMoved() {
+        return false;
+    }
+
+    public void setHasMoved(boolean hasMoved) {
+
+    }
+
     @Override
     public int compareTo(DrawableObject other) {
         return this.getPosition().compareTo(other.getPosition());

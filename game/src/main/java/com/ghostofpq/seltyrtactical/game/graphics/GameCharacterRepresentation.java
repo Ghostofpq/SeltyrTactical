@@ -25,13 +25,14 @@ public class GameCharacterRepresentation extends DrawableObject {
     private Texture chara;
     private boolean hasMoved;
     private PointOfView headingAngle;
+    private PositionAbsolute positionToGo;
 
 
     public GameCharacterRepresentation(GameCharacter character, Position position) {
         this.setCharacter(character);
         this.setPosition(position);
         this.setPositionAbsolute(position.toAbsolute());
-
+        this.setPositionToGo(position.toAbsolute());
         SpriteSheet spriteSheet = SpritesheetManager.getInstance().getSpriteSheet("Arthur");
         headingAngle = GraphicsManager.getInstance().getCurrentPointOfView();
 
@@ -85,6 +86,76 @@ public class GameCharacterRepresentation extends DrawableObject {
         for (Animation animation : animationWalk.values()) {
             animation.update(deltaTime);
         }
+
+        boolean xDifferent = getPositionAbsolute().getX() != getPositionToGo().getX();
+        boolean yDifferent = getPositionAbsolute().getY() != getPositionToGo().getY();
+        boolean zDifferent = getPositionAbsolute().getZ() != getPositionToGo().getZ();
+
+        if (xDifferent || yDifferent || zDifferent) {
+            log.debug("to go : {}/{}/{} ({}/{}/{}) => {}/{}/{} ",
+                    getPositionAbsolute().getX(), getPositionAbsolute().getY(), getPositionAbsolute().getZ(),
+                    getPosition().getX(), getPosition().getY(), getPosition().getZ(),
+                    getPositionToGo().getX(), getPositionToGo().getY(), getPositionToGo().getZ());
+            setHeadingAngle(getHeadingAngleFor(getPositionToGo()));
+
+            float x = getPositionAbsolute().getX();
+            float y = getPositionAbsolute().getY();
+            float z = getPositionAbsolute().getZ();
+
+            float step = 0.1f;
+
+            if (xDifferent) {
+                if (getPositionAbsolute().getX() > getPositionToGo().getX()) {
+                    if (getPositionAbsolute().getX() - getPositionToGo().getX() < step) {
+                        x = getPositionToGo().getX();
+                    } else {
+                        x = getPositionAbsolute().getX() - step;
+                    }
+                } else if (getPositionAbsolute().getX() < getPositionToGo().getX()) {
+                    if (getPositionToGo().getX() - getPositionAbsolute().getX() < step) {
+                        x = getPositionToGo().getX();
+                    } else {
+                        x = getPositionAbsolute().getX() + step;
+                    }
+                }
+            }
+
+            if (yDifferent) {
+                if (getPositionAbsolute().getY() > getPositionToGo().getY()) {
+                    if (getPositionAbsolute().getY() - getPositionToGo().getY() < step) {
+                        y = getPositionToGo().getY();
+                    } else {
+                        y = getPositionAbsolute().getY() - step;
+                    }
+                } else if (getPositionAbsolute().getY() < getPositionToGo().getY()) {
+                    if (getPositionToGo().getY() - getPositionAbsolute().getY() < step) {
+                        y = getPositionToGo().getY();
+                    } else {
+                        y = getPositionAbsolute().getY() + step;
+                    }
+                }
+            }
+
+            if (zDifferent) {
+                if (getPositionAbsolute().getZ() > getPositionToGo().getZ()) {
+                    if (getPositionAbsolute().getZ() - getPositionToGo().getZ() < step) {
+                        z = getPositionToGo().getZ();
+                    } else {
+                        z = getPositionAbsolute().getZ() - step;
+                    }
+                } else if (getPositionAbsolute().getZ() < getPositionToGo().getZ()) {
+                    if (getPositionToGo().getZ() - getPositionAbsolute().getZ() < step) {
+                        z = getPositionToGo().getZ();
+                    } else {
+                        z = getPositionAbsolute().getZ() + step;
+                    }
+                }
+            }
+
+            setPositionAbsolute(new PositionAbsolute(x, y, z));
+        }
+
+
     }
 
     public void draw() {
@@ -202,6 +273,10 @@ public class GameCharacterRepresentation extends DrawableObject {
         int yFromPositionAbsolute = (int) Math.floor(this.getPositionAbsolute().getY());
         int zFromPositionAbsolute = (int) Math.floor(this.getPositionAbsolute().getZ());
 
+        //log.debug("{}/{}/{} // {}/{}/{}",
+        //        xFromPositionAbsolute, yFromPositionAbsolute, zFromPositionAbsolute,
+        //        getPosition().getX(), getPosition().getY(), getPosition().getZ());
+
         if (xFromPositionAbsolute != this.getPosition().getX()) {
             this.getPosition().setX(xFromPositionAbsolute);
             this.setHasMoved(true);
@@ -297,5 +372,40 @@ public class GameCharacterRepresentation extends DrawableObject {
         return result;
     }
 
+    public PositionAbsolute getPositionToGo() {
+        return positionToGo;
+    }
 
+    public void setPositionToGo(PositionAbsolute positionToGo) {
+        this.positionToGo = positionToGo;
+    }
+
+    public PointOfView getHeadingAngle() {
+        return headingAngle;
+    }
+
+    public void setHeadingAngle(PointOfView headingAngle) {
+        this.headingAngle = headingAngle;
+    }
+
+    public PointOfView getHeadingAngleFor(PositionAbsolute positionToGo) {
+        boolean xBigger = positionToGo.getX() > getPositionAbsolute().getX();
+        boolean zBigger = positionToGo.getZ() > getPositionAbsolute().getZ();
+        PointOfView result;
+
+        if (xBigger) {
+            if (zBigger) {
+                result = PointOfView.SOUTH;
+            } else {
+                result = PointOfView.EAST;
+            }
+        } else {
+            if (zBigger) {
+                result = PointOfView.WEST;
+            } else {
+                result = PointOfView.NORTH;
+            }
+        }
+        return result;
+    }
 }

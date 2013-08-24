@@ -77,7 +77,6 @@ public class Game {
 
     public void run() {
         while (!requestClose) {
-            log.debug("delta: {}", deltaTimeInMillis());
             manageInput();
             update(deltaTimeInMillis());
             render();

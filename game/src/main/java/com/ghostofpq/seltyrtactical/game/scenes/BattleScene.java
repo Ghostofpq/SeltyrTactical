@@ -78,6 +78,7 @@ public class BattleScene implements Scene {
             Position position = new Position(cursor);
             position.plusY(1);
             GameCharacterRepresentation gameCharacterRepresentation = new GameCharacterRepresentation(currentGameCharacter, position);
+            gameCharacterRepresentation.setPositionToGo((new Position(5, 1, 5)).toAbsolute());
             toDrawList.add(gameCharacterRepresentation);
             sortToDrawList();
             //Collections.sort(toDrawList);
@@ -129,6 +130,16 @@ public class BattleScene implements Scene {
 
     @Override
     public void update(long deltaTime) {
+        for (DrawableObject drawableObject : toDrawList) {
+            if (drawableObject.hasMoved()) {
+                log.debug("Object has moved");
+                sortToDrawList();
+                break;
+            }
+        }
+        for (DrawableObject drawableObject : toDrawList) {
+            drawableObject.setHasMoved(false);
+        }
         if (pointOfViewHasChanged()) {
             log.debug("Point of view has changed");
             sortToDrawList();
