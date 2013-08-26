@@ -489,7 +489,7 @@ public class BattleScene implements Scene {
             } else if (thisPosition.getY() == otherPosition.getY()) {
                 if (thisPosition.getX() == otherPosition.getX()) {
                     res = 0;
-                } else if (thisPosition.getY() > otherPosition.getY()) {
+                } else if (thisPosition.getX() > otherPosition.getX()) {
                     res = -1;
                 } else {
                     res = 1;
