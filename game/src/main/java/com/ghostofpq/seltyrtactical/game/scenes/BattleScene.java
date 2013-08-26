@@ -78,7 +78,7 @@ public class BattleScene implements Scene {
             Position position = new Position(cursor);
             position.plusY(1);
             GameCharacterRepresentation gameCharacterRepresentation = new GameCharacterRepresentation(currentGameCharacter, position);
-            gameCharacterRepresentation.setPositionToGo((new Position(5, 1, 5)).toAbsolute());
+            //gameCharacterRepresentation.setPositionToGo((new Position(5, 1, 5)).toAbsolute());
             toDrawList.add(gameCharacterRepresentation);
             sortToDrawList();
             //Collections.sort(toDrawList);
@@ -481,15 +481,15 @@ public class BattleScene implements Scene {
 
     private int comparePositionForNorthPointOfView(Position thisPosition, Position otherPosition) {
         int res = 0;
-        if (thisPosition.getY() < otherPosition.getY()) {
+        if (thisPosition.getZ() > otherPosition.getZ()) {
             res = -1;
-        } else if (thisPosition.getY() == otherPosition.getY()) {
-            if (thisPosition.getZ() > otherPosition.getZ()) {
+        } else if (thisPosition.getZ() == otherPosition.getZ()) {
+            if (thisPosition.getY() < otherPosition.getY()) {
                 res = -1;
-            } else if (thisPosition.getZ() == otherPosition.getZ()) {
+            } else if (thisPosition.getY() == otherPosition.getY()) {
                 if (thisPosition.getX() == otherPosition.getX()) {
                     res = 0;
-                } else if (thisPosition.getX() > otherPosition.getX()) {
+                } else if (thisPosition.getY() > otherPosition.getY()) {
                     res = -1;
                 } else {
                     res = 1;
@@ -506,12 +506,12 @@ public class BattleScene implements Scene {
     private int comparePositionForSouthPointOfView(Position thisPosition, Position otherPosition) {
         int res = 0;
 
-        if (thisPosition.getY() < otherPosition.getY()) {
+        if (thisPosition.getZ() < otherPosition.getZ()) {
             res = -1;
-        } else if (thisPosition.getY() == otherPosition.getY()) {
-            if (thisPosition.getZ() < otherPosition.getZ()) {
+        } else if (thisPosition.getZ() == otherPosition.getZ()) {
+            if (thisPosition.getY() < otherPosition.getY()) {
                 res = -1;
-            } else if (thisPosition.getZ() == otherPosition.getZ()) {
+            } else if (thisPosition.getY() == otherPosition.getY()) {
                 if (thisPosition.getX() == otherPosition.getX()) {
                     res = 0;
                 } else if (thisPosition.getX() < otherPosition.getX()) {
@@ -530,12 +530,12 @@ public class BattleScene implements Scene {
 
     private int comparePositionForEastPointOfView(Position thisPosition, Position otherPosition) {
         int res = 0;
-        if (thisPosition.getY() < otherPosition.getY()) {
+        if (thisPosition.getX() < otherPosition.getX()) {
             res = -1;
-        } else if (thisPosition.getY() == otherPosition.getY()) {
-            if (thisPosition.getX() < otherPosition.getX()) {
+        } else if (thisPosition.getX() == otherPosition.getX()) {
+            if (thisPosition.getY() < otherPosition.getY()) {
                 res = -1;
-            } else if (thisPosition.getX() == otherPosition.getX()) {
+            } else if (thisPosition.getY() == otherPosition.getY()) {
                 if (thisPosition.getZ() == otherPosition.getZ()) {
                     res = 0;
                 } else if (thisPosition.getZ() > otherPosition.getZ()) {
@@ -554,12 +554,12 @@ public class BattleScene implements Scene {
 
     private int comparePositionForWestPointOfView(Position thisPosition, Position otherPosition) {
         int res = 0;
-        if (thisPosition.getY() < otherPosition.getY()) {
+        if (thisPosition.getX() > otherPosition.getX()) {
             res = -1;
-        } else if (thisPosition.getY() == otherPosition.getY()) {
-            if (thisPosition.getX() > otherPosition.getX()) {
+        } else if (thisPosition.getX() == otherPosition.getX()) {
+            if (thisPosition.getY() < otherPosition.getY()) {
                 res = -1;
-            } else if (thisPosition.getX() == otherPosition.getX()) {
+            } else if (thisPosition.getY() == otherPosition.getY()) {
                 if (thisPosition.getZ() < otherPosition.getZ()) {
                     res = -1;
                 } else {
