@@ -7,7 +7,7 @@
     <parent>
         <artifactId>seltyrtactical</artifactId>
         <groupId>com.ghostofpq.seltyrtactical</groupId>
-        <version>0.0.1</version>
+        <version>${project.version}</version>
     </parent>
 
     <artifactId>game</artifactId>
@@ -23,9 +23,10 @@
     <build>
         <directory>target</directory>
         <outputDirectory>target/classes</outputDirectory>
-        <finalName>${artifactId}-${version}</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <testOutputDirectory>target/test-classes</testOutputDirectory>
         <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
