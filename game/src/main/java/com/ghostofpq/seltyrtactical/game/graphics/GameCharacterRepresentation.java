@@ -13,7 +13,9 @@ import org.newdawn.slick.Animation;
 import org.newdawn.slick.SpriteSheet;
 import org.newdawn.slick.opengl.Texture;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -26,13 +28,15 @@ public class GameCharacterRepresentation extends DrawableObject {
     private boolean hasMoved;
     private PointOfView headingAngle;
     private PositionAbsolute positionToGo;
-
+    private List<PositionAbsolute> positionsToGo;
 
     public GameCharacterRepresentation(GameCharacter character, Position position) {
         this.setCharacter(character);
         this.setPosition(position);
         this.setPositionAbsolute(position.toAbsolute());
-        this.setPositionToGo(position.toAbsolute());
+        positionToGo = position.toAbsolute();
+        positionsToGo = new ArrayList<PositionAbsolute>();
+
         SpriteSheet spriteSheet = SpritesheetManager.getInstance().getSpriteSheet("Arthur");
         headingAngle = GraphicsManager.getInstance().getCurrentPointOfView();
 
@@ -152,10 +156,14 @@ public class GameCharacterRepresentation extends DrawableObject {
                 }
             }
 
+
             setPositionAbsolute(new PositionAbsolute(x, y, z));
+        } else if (!positionsToGo.isEmpty()) {
+            positionsToGo.remove(0);
+            if (!positionsToGo.isEmpty()) {
+                setPositionToGo(positionsToGo.get(0));
+            }
         }
-
-
     }
 
     public void draw() {
@@ -378,6 +386,56 @@ public class GameCharacterRepresentation extends DrawableObject {
 
     public void setPositionToGo(PositionAbsolute positionToGo) {
         this.positionToGo = positionToGo;
+    }
+
+    public void setPositionsToGo(List<Position> positions) {
+        positionsToGo.add(positions.get(0).toAbsolute());
+        if (positions.size() > 1) {
+            for (int i = 1; i < positions.size(); i++) {
+                if (positions.get(i).getY() == positions.get(i - 1).getY()) {
+                    positionsToGo.add(positions.get(i).toAbsolute());
+                } else {
+                    while (positions.get(i).getY() != positions.get(i - 1).getY()) {
+                        positionsToGo.add(positions.get(i).toAbsolute());
+                        i++;
+                    }
+                    positionsToGo.add(positions.get(i).toAbsolute());
+                    i++;
+
+                    PositionAbsolute step1 = positions.get(i).toAbsolute();
+                    PositionAbsolute step2 = positions.get(i).toAbsolute();
+                    PositionAbsolute step3 = positions.get(i).toAbsolute();
+
+                    step1.setY(step1.getY() + 0.5f);
+                    step2.setY(step1.getY() + 1f);
+                    step3.setY(step1.getY() + 0.5f);
+
+                    if (positions.get(i).getX() != positions.get(i - 1).getX()) {
+                        if (positions.get(i).getX() < positions.get(i - 1).getX()) {
+                            step1.setX(step1.getX() - 0.1f);
+                            step2.setX(step1.getX() - 0.5f);
+                            step3.setX(step1.getX() - 0.9f);
+                        } else if (positions.get(i).getX() > positions.get(i - 1).getX()) {
+                            step1.setX(step1.getX() + 0.1f);
+                            step2.setX(step1.getX() + 0.5f);
+                            step3.setX(step1.getX() + 0.9f);
+                        }
+                    }
+                    if (positions.get(i).getZ() != positions.get(i - 1).getZ()) {
+                        if (positions.get(i).getZ() < positions.get(i - 1).getZ()) {
+                            step1.setZ(step1.getZ() - 0.1f);
+                            step2.setZ(step1.getZ() - 0.5f);
+                            step3.setZ(step1.getZ() - 0.9f);
+                        } else if (positions.get(i).getZ() > positions.get(i - 1).getZ()) {
+                            step1.setZ(step1.getZ() + 0.1f);
+                            step2.setZ(step1.getZ() + 0.5f);
+                            step3.setZ(step1.getZ() + 0.9f);
+                        }
+                    }
+                    positionsToGo.add(positions.get(i).toAbsolute());
+                }
+            }
+        }
     }
 
     public PointOfView getHeadingAngle() {

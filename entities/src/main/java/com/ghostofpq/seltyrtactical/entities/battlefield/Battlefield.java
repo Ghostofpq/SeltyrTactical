@@ -1,6 +1,7 @@
 package com.ghostofpq.seltyrtactical.entities.battlefield;
 
 import com.ghostofpq.seltyrtactical.commons.Position;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
+@Slf4j
 public class Battlefield implements Serializable {
 
     private static final long serialVersionUID = -6878010880627782277L;
@@ -77,5 +80,95 @@ public class Battlefield implements Serializable {
 
     public Map<Integer, List<Position>> getDeploymentZones() {
         return deploymentZones;
+    }
+
+    public boolean canMoveTo(Position position, int height) {
+        if (height == 0) {
+            return true;
+        }
+
+        position.plusY(1);
+        if (getBattlefieldElementMap().containsKey(position)) {
+            return false;
+        } else {
+            return canMoveTo(position, height - 1);
+        }
+    }
+
+    public List<Position> getPath(Position position, Position positionToGo) {
+        List<Position> path = new ArrayList<Position>();
+        if (position.getX() != positionToGo.getX()) {
+            if (position.getX() < positionToGo.getX()) {
+                // We clone the position to test if we can move.
+                Position altPos = new Position(position);
+                altPos.plusX(1);
+
+                if (canMoveTo(altPos, 2)) {
+                    position.plusX(1);
+                    path.add(new Position(position));
+                    path.addAll(getPath(position, positionToGo));
+                }
+            } else {
+                // We clone the position to test if we can move.
+                Position altPos = new Position(position);
+                altPos.plusX(-1);
+
+                if (canMoveTo(altPos, 2)) {
+                    position.plusX(-1);
+                    path.add(new Position(position));
+                    path.addAll(getPath(position, positionToGo));
+                }
+            }
+        }
+
+        if (position.getZ() != positionToGo.getZ()) {
+            if (position.getZ() < positionToGo.getZ()) {
+                // We clone the position to test if we can move.
+                Position altPos = new Position(position);
+                altPos.plusZ(1);
+
+                if (canMoveTo(altPos, 2)) {
+                    position.plusZ(1);
+                    path.add(new Position(position));
+                    path.addAll(getPath(position, positionToGo));
+                }
+            } else {
+                // We clone the position to test if we can move.
+                Position altPos = new Position(position);
+                altPos.plusZ(-1);
+
+                if (canMoveTo(altPos, 2)) {
+                    position.plusZ(-1);
+                    path.add(new Position(position));
+                    path.addAll(getPath(position, positionToGo));
+                }
+            }
+        }
+
+        if (position.getY() != positionToGo.getY()) {
+            if (position.getY() < positionToGo.getY()) {
+                // We clone the position to test if we can move.
+                Position altPos = new Position(position);
+                altPos.plusY(1);
+
+                if (canMoveTo(altPos, 2)) {
+                    position.plusY(1);
+                    path.add(new Position(position));
+                    path.addAll(getPath(position, positionToGo));
+                }
+            } else {
+                // We clone the position to test if we can move.
+                Position altPos = new Position(position);
+                altPos.plusY(-1);
+
+                if (canMoveTo(altPos, 2)) {
+                    position.plusY(-1);
+                    path.add(new Position(position));
+                    path.addAll(getPath(position, positionToGo));
+                }
+            }
+        }
+
+        return path;
     }
 }
