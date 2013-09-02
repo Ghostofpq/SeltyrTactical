@@ -7,7 +7,7 @@
     <artifactId>seltyrtactical</artifactId>
     <groupId>com.ghostofpq.seltyrtactical</groupId>
     <packaging>pom</packaging>
-    <version>${project.version}</version>
+    <version>0.0.2</version>
 
     <modules>
         <module>entities</module>
@@ -21,7 +21,7 @@
         <project.version>0.0.2</project.version>
         <lombok.version>0.12.0</lombok.version>
         <slick.version>274</slick.version>
-        <junit.version>4.10</junit.version>
+        <junit.version>4.11</junit.version>
         <logback.version>1.0.13</logback.version>
         <slf4j.version>1.7.5</slf4j.version>
         <finalName>${project.artifactId}-${project.version}</finalName>

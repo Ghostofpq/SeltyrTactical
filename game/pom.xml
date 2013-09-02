@@ -7,7 +7,7 @@
     <parent>
         <artifactId>seltyrtactical</artifactId>
         <groupId>com.ghostofpq.seltyrtactical</groupId>
-        <version>${project.version}</version>
+        <version>0.0.2</version>
     </parent>
 
     <artifactId>game</artifactId>
@@ -110,6 +110,7 @@
             <groupId>com.ghostofpq.seltyrtactical</groupId>
             <scope>compile</scope>
         </dependency>
+
         <dependency>
             <groupId>org.lwjgl.lwjgl</groupId>
             <artifactId>lwjgl</artifactId>
@@ -122,11 +123,13 @@
             <groupId>java3d</groupId>
             <artifactId>vecmath</artifactId>
         </dependency>
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
