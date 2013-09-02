@@ -1,16 +1,12 @@
 package com.ghostofpq.seltyrtactical.entities.battlefield;
 
+import com.ghostofpq.seltyrtactical.commons.Node;
 import com.ghostofpq.seltyrtactical.commons.Position;
-import lombok.extern.slf4j.Slf4j;
+import com.ghostofpq.seltyrtactical.commons.Tree;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-
-@Slf4j
 public class Battlefield implements Serializable {
 
     private static final long serialVersionUID = -6878010880627782277L;
@@ -170,5 +166,57 @@ public class Battlefield implements Serializable {
         }
 
         return path;
+    }
+
+    public Tree<Position> getPossiblePosition(Position position, int dist, int heightLimit, int jumpLimit) {
+        Tree<Position> positionTree = new Tree<Position>(position);
+        getPossiblePositions(position, positionTree.getRoot(), dist, heightLimit, jumpLimit);
+        return positionTree;
+    }
+
+    public void getPossiblePositions(Position position, Node<Position> parent, int dist, int heightLimit, int jumpLimit) {
+        if (dist <= 0) {
+            return;
+        }
+
+        List<Position> possiblePositions = new ArrayList<Position>();
+
+        if (position.getX() > 0) {
+            possiblePositions.addAll(getPossiblePositionsAt(position.getX() - 1, position.getZ(), heightLimit));
+        }
+        if (position.getX() < getLength()) {
+            possiblePositions.addAll(getPossiblePositionsAt(position.getX() + 1, position.getZ(), heightLimit));
+        }
+        if (position.getZ() > 0) {
+            possiblePositions.addAll(getPossiblePositionsAt(position.getX(), position.getZ() - 1, heightLimit));
+        }
+        if (position.getZ() < getDepth()) {
+            possiblePositions.addAll(getPossiblePositionsAt(position.getX(), position.getZ() + 1, heightLimit));
+        }
+
+        for (Position possiblePosition : possiblePositions) {
+            if (position.getY() == possiblePosition.getY()) {
+                Node<Position> child = parent.addChild(possiblePosition, 1);
+                getPossiblePositions(possiblePosition, child, dist - 1, heightLimit, jumpLimit);
+            } else if (Math.abs(position.getY() - possiblePosition.getY()) <= jumpLimit) {
+                Node<Position> child = parent.addChild(possiblePosition, 1 + jumpLimit);
+                getPossiblePositions(possiblePosition, child, dist - (1 + jumpLimit), heightLimit, jumpLimit);
+            }
+        }
+    }
+
+    private List<Position> getPossiblePositionsAt(int x, int z, int height) {
+        List<Position> possiblePositions = new ArrayList<Position>();
+        for (Position position : battlefieldElementMap.keySet()) {
+            if ((position.getX() == x) && (position.getZ() == z)) {
+                if (canMoveTo(position, height)) {
+                    possiblePositions.add(position);
+                }
+            }
+        }
+        if (possiblePositions.size() != 1) {
+            Collections.sort(possiblePositions);
+        }
+        return possiblePositions;
     }
 }
