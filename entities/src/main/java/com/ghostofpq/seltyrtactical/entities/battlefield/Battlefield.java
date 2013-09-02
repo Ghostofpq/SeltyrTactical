@@ -3,6 +3,7 @@ package com.ghostofpq.seltyrtactical.entities.battlefield;
 import com.ghostofpq.seltyrtactical.commons.Node;
 import com.ghostofpq.seltyrtactical.commons.Position;
 import com.ghostofpq.seltyrtactical.commons.Tree;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 import java.util.*;
@@ -79,15 +80,15 @@ public class Battlefield implements Serializable {
     }
 
     public boolean canMoveTo(Position position, int height) {
+        Position testPos = new Position(position.getX(), position.getY() + 1, position.getZ());
+
         if (height == 0) {
             return true;
         }
-
-        position.plusY(1);
-        if (getBattlefieldElementMap().containsKey(position)) {
+        if (getBattlefieldElementMap().containsKey(testPos)) {
             return false;
         } else {
-            return canMoveTo(position, height - 1);
+            return canMoveTo(testPos, height - 1);
         }
     }
 
@@ -168,7 +169,7 @@ public class Battlefield implements Serializable {
         return path;
     }
 
-    public Tree<Position> getPossiblePosition(Position position, int dist, int heightLimit, int jumpLimit) {
+    public Tree<Position> getPositionTree(Position position, int dist, int heightLimit, int jumpLimit) {
         Tree<Position> positionTree = new Tree<Position>(position);
         getPossiblePositions(position, positionTree.getRoot(), dist, heightLimit, jumpLimit);
         return positionTree;
@@ -197,10 +198,16 @@ public class Battlefield implements Serializable {
         for (Position possiblePosition : possiblePositions) {
             if (position.getY() == possiblePosition.getY()) {
                 Node<Position> child = parent.addChild(possiblePosition, 1);
-                getPossiblePositions(possiblePosition, child, dist - 1, heightLimit, jumpLimit);
+
+                if (child != null) {
+                    System.out.println(child.getData().toString());
+                    getPossiblePositions(possiblePosition, child, dist - 1, heightLimit, jumpLimit);
+                }
             } else if (Math.abs(position.getY() - possiblePosition.getY()) <= jumpLimit) {
                 Node<Position> child = parent.addChild(possiblePosition, 1 + jumpLimit);
-                getPossiblePositions(possiblePosition, child, dist - (1 + jumpLimit), heightLimit, jumpLimit);
+                if (child != null) {
+                    getPossiblePositions(possiblePosition, child, dist - (1 + jumpLimit), heightLimit, jumpLimit);
+                }
             }
         }
     }
