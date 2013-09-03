@@ -26,16 +26,9 @@ public class battlefieldTest {
             }
         }
 
-        for (int i = 0; i < length; i++) {
-            Position position = new Position(i, 0, 0);
-            battlefield.addDeployementZone(0, position);
-            Position position2 = new Position(i, 0, depth - 1);
-            battlefield.addDeployementZone(1, position2);
-        }
-
         Position originPoint = new Position(1, 0, 1);
 
-        int dist = 3;
+        int dist = 2;
         int heightLimit = 2;
         int jumpLimit = 1;
 
@@ -44,33 +37,15 @@ public class battlefieldTest {
         log.debug("{}", result.getRoot().getData().toString());
         for (Node<Position> child : result.getRoot().getChildren()) {
             log.debug("->{}  : {}", child.getData().toString(), child.getDistanceFromTop());
-
-        }
-
-        for (Node<Position> child : result.getRoot().getChildren()) {
             for (Node<Position> child2 : child.getChildren()) {
                 log.debug("-->{}  : {}", child2.getData().toString(), child2.getDistanceFromTop());
-            }
-        }
-
-
-        for (Node<Position> child : result.getRoot().getChildren()) {
-            for (Node<Position> child2 : child.getChildren()) {
                 for (Node<Position> child3 : child2.getChildren()) {
                     log.debug("--->{}  : {}", child3.getData().toString(), child3.getDistanceFromTop());
-                }
-            }
-        }
-
-        for (Node<Position> child : result.getRoot().getChildren()) {
-            for (Node<Position> child2 : child.getChildren()) {
-                for (Node<Position> child3 : child2.getChildren()) {
                     for (Node<Position> child4 : child3.getChildren()) {
                         log.debug("---->{}  : {}", child4.getData().toString(), child4.getDistanceFromTop());
                     }
                 }
             }
         }
-
     }
 }
