@@ -3,7 +3,6 @@ package com.ghostofpq.seltyrtactical.entities.battlefield;
 import com.ghostofpq.seltyrtactical.commons.Node;
 import com.ghostofpq.seltyrtactical.commons.Position;
 import com.ghostofpq.seltyrtactical.commons.Tree;
-import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
 import java.util.*;
@@ -200,7 +199,6 @@ public class Battlefield implements Serializable {
                 Node<Position> child = parent.addChild(possiblePosition, 1);
 
                 if (child != null) {
-                    System.out.println(child.getData().toString());
                     getPossiblePositions(possiblePosition, child, dist - 1, heightLimit, jumpLimit);
                 }
             } else if (Math.abs(position.getY() - possiblePosition.getY()) <= jumpLimit) {
