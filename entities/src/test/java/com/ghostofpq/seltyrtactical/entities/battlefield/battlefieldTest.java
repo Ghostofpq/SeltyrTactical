@@ -38,7 +38,6 @@ public class battlefieldTest {
         log.debug("     {} : {}", result.getRoot().getData().toString(), result.getRoot().getDistanceFromTop());
         log.debug("{} children", result.getRoot().getChildren().size());
         for (Node<Position> child : result.getRoot().getChildren()) {
-
             log.debug("   ->{} : {}", child.getData().toString(), child.getDistanceFromTop());
             for (Node<Position> child2 : child.getChildren()) {
                 log.debug("  -->{} : {}", child2.getData().toString(), child2.getDistanceFromTop());
@@ -72,7 +71,7 @@ public class battlefieldTest {
 
         Position originPoint = new Position(1, 0, 1);
 
-        int dist = 2;
+        int dist = 3;
         int heightLimit = 2;
         int jumpLimit = 1;
 

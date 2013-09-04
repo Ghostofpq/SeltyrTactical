@@ -1,5 +1,7 @@
 package com.ghostofpq.seltyrtactical.commons;
 
+import java.util.List;
+
 public class Tree<T> {
     private Node<T> root;
 
@@ -16,8 +18,8 @@ public class Tree<T> {
         return result;
     }
 
-    public Node<T> find(T element) {
-        Node<T> result = root.find(element);
+    public List<Node<T>> find(T element) {
+        List<Node<T>> result = root.find(element);
         return result;
     }
 }

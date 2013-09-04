@@ -20,24 +20,28 @@ public class Node<T> {
     }
 
     public Node<T> addChild(T childData, int distance) {
+        int childDistanceFromTop = (getDistanceFromTop() + distance);
+        Node<T> result = null;
         if (!tree.contains(childData)) {
-            Node<T> child = new Node<T>(childData, getTree(), this, (getDistanceFromTop() + distance));
+            Node<T> child = new Node<T>(childData, getTree(), this, childDistanceFromTop);
             getChildren().add(child);
-            return child;
+            result = child;
         } else {
-            Node<T> concurrentChild = tree.find(childData);
-            if (null != concurrentChild) {
-                Node<T> concurrentParent = concurrentChild.getParent();
-                if (null != concurrentParent) {
-                    concurrentParent.getChildren().remove(concurrentChild);
+            List<Node<T>> concurrentChildren = tree.find(childData);
+            for (Node<T> concurrentChild : concurrentChildren) {
+                if (concurrentChild.getDistanceFromTop() > childDistanceFromTop) {
+                    Node<T> concurrentParent = concurrentChild.getParent();
+                    if (null != concurrentParent) {
+                        concurrentParent.getChildren().remove(concurrentChild);
 
-                    Node<T> child = new Node<T>(childData, getTree(), this, (getDistanceFromTop() + distance));
-                    getChildren().add(child);
-                    return child;
+                        Node<T> child = new Node<T>(childData, getTree(), this, childDistanceFromTop);
+                        getChildren().add(child);
+                        result = child;
+                    }
                 }
             }
         }
-        return null;
+        return result;
     }
 
     public boolean contains(T element) {
@@ -60,18 +64,14 @@ public class Node<T> {
         return result;
     }
 
-    public Node<T> find(T element) {
-        Node<T> result = null;
+    public List<Node<T>> find(T element) {
+        List<Node<T>> result = new ArrayList<Node<T>>();
         if (getData().equals(element)) {
-            result = this;
+            result.add(this);
         } else {
-            if (getChildren().isEmpty()) {
-                result = null;
-            } else {
-                int i = 0;
-                while (null == result && i < getChildren().size()) {
-                    result = getChildren().get(i).find(element);
-                    i++;
+            if (!getChildren().isEmpty()) {
+                for (Node<T> child : getChildren()) {
+                    result.addAll(child.find(element));
                 }
             }
         }

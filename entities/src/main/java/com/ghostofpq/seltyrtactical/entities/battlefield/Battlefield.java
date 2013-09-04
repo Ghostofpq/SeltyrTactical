@@ -5,7 +5,10 @@ import com.ghostofpq.seltyrtactical.commons.Position;
 import com.ghostofpq.seltyrtactical.commons.Tree;
 
 import java.io.Serializable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Battlefield implements Serializable {
 
@@ -218,9 +221,6 @@ public class Battlefield implements Serializable {
                     possiblePositions.add(position);
                 }
             }
-        }
-        if (possiblePositions.size() != 1) {
-            Collections.sort(possiblePositions);
         }
         return possiblePositions;
     }
