@@ -22,7 +22,6 @@ import java.util.Map;
 public class GameCharacterRepresentation extends DrawableObject {
 
     private GameCharacter character;
-    private PositionAbsolute positionAbsolute;
     private Map<PointOfView, Animation> animationWalk;
     private Texture chara;
     private boolean hasMoved;

@@ -21,6 +21,7 @@ public class Facet extends DrawableObject implements Serializable {
 
     public Facet(Position position, PositionAbsolute corner1, PositionAbsolute corner2, PositionAbsolute corner3, PositionAbsolute corner4, TextureKey texture) {
         this.setPosition(position);
+        this.setPositionAbsolute(position.toAbsolute());
         this.setCorner1(corner1);
         this.setCorner2(corner2);
         this.setCorner3(corner3);

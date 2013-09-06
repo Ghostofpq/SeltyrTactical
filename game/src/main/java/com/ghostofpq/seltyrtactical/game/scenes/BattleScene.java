@@ -1,6 +1,7 @@
 package com.ghostofpq.seltyrtactical.game.scenes;
 
 import com.ghostofpq.seltyrtactical.commons.Position;
+import com.ghostofpq.seltyrtactical.commons.PositionAbsolute;
 import com.ghostofpq.seltyrtactical.entities.battlefield.Battlefield;
 import com.ghostofpq.seltyrtactical.entities.battlefield.BattlefieldElement;
 import com.ghostofpq.seltyrtactical.entities.character.GameCharacter;
@@ -479,21 +480,15 @@ public class BattleScene implements Scene {
         return toDraw;
     }
 
-    private int comparePositionForNorthPointOfView(Position thisPosition, Position otherPosition) {
-        int res = 0;
+    private int comparePositionForNorthPointOfView(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
+        int res;
         if (thisPosition.getZ() > otherPosition.getZ()) {
             res = -1;
         } else if (thisPosition.getZ() == otherPosition.getZ()) {
-            if (thisPosition.getY() < otherPosition.getY()) {
+            if (thisPosition.getX() == otherPosition.getX()) {
+                res = 0;
+            } else if (thisPosition.getX() > otherPosition.getX()) {
                 res = -1;
-            } else if (thisPosition.getY() == otherPosition.getY()) {
-                if (thisPosition.getX() == otherPosition.getX()) {
-                    res = 0;
-                } else if (thisPosition.getX() > otherPosition.getX()) {
-                    res = -1;
-                } else {
-                    res = 1;
-                }
             } else {
                 res = 1;
             }
@@ -503,22 +498,15 @@ public class BattleScene implements Scene {
         return res;
     }
 
-    private int comparePositionForSouthPointOfView(Position thisPosition, Position otherPosition) {
-        int res = 0;
-
+    private int comparePositionForSouthPointOfView(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
+        int res;
         if (thisPosition.getZ() < otherPosition.getZ()) {
             res = -1;
         } else if (thisPosition.getZ() == otherPosition.getZ()) {
-            if (thisPosition.getY() < otherPosition.getY()) {
+            if (thisPosition.getX() == otherPosition.getX()) {
+                res = 0;
+            } else if (thisPosition.getX() < otherPosition.getX()) {
                 res = -1;
-            } else if (thisPosition.getY() == otherPosition.getY()) {
-                if (thisPosition.getX() == otherPosition.getX()) {
-                    res = 0;
-                } else if (thisPosition.getX() < otherPosition.getX()) {
-                    res = -1;
-                } else {
-                    res = 1;
-                }
             } else {
                 res = 1;
             }
@@ -528,21 +516,15 @@ public class BattleScene implements Scene {
         return res;
     }
 
-    private int comparePositionForEastPointOfView(Position thisPosition, Position otherPosition) {
-        int res = 0;
+    private int comparePositionForEastPointOfView(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
+        int res;
         if (thisPosition.getX() < otherPosition.getX()) {
             res = -1;
         } else if (thisPosition.getX() == otherPosition.getX()) {
-            if (thisPosition.getY() < otherPosition.getY()) {
+            if (thisPosition.getZ() == otherPosition.getZ()) {
+                res = 0;
+            } else if (thisPosition.getZ() > otherPosition.getZ()) {
                 res = -1;
-            } else if (thisPosition.getY() == otherPosition.getY()) {
-                if (thisPosition.getZ() == otherPosition.getZ()) {
-                    res = 0;
-                } else if (thisPosition.getZ() > otherPosition.getZ()) {
-                    res = -1;
-                } else {
-                    res = 1;
-                }
             } else {
                 res = 1;
             }
@@ -552,19 +534,13 @@ public class BattleScene implements Scene {
         return res;
     }
 
-    private int comparePositionForWestPointOfView(Position thisPosition, Position otherPosition) {
-        int res = 0;
+    private int comparePositionForWestPointOfView(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
+        int res;
         if (thisPosition.getX() > otherPosition.getX()) {
             res = -1;
         } else if (thisPosition.getX() == otherPosition.getX()) {
-            if (thisPosition.getY() < otherPosition.getY()) {
+            if (thisPosition.getZ() < otherPosition.getZ()) {
                 res = -1;
-            } else if (thisPosition.getY() == otherPosition.getY()) {
-                if (thisPosition.getZ() < otherPosition.getZ()) {
-                    res = -1;
-                } else {
-                    res = 1;
-                }
             } else {
                 res = 1;
             }
@@ -574,21 +550,27 @@ public class BattleScene implements Scene {
         return res;
     }
 
-    private int comparePosition(Position thisPosition, Position otherPosition) {
+    private int comparePosition(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
         int res = 0;
-        switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
-            case EAST:
-                res = comparePositionForEastPointOfView(thisPosition, otherPosition);
-                break;
-            case NORTH:
-                res = comparePositionForNorthPointOfView(thisPosition, otherPosition);
-                break;
-            case SOUTH:
-                res = comparePositionForSouthPointOfView(thisPosition, otherPosition);
-                break;
-            case WEST:
-                res = comparePositionForWestPointOfView(thisPosition, otherPosition);
-                break;
+        if (thisPosition.getY() < otherPosition.getY()) {
+            res = -1;
+        } else if (thisPosition.getY() < otherPosition.getY()) {
+            res = 1;
+        } else {
+            switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                case EAST:
+                    res = comparePositionForEastPointOfView(thisPosition, otherPosition);
+                    break;
+                case NORTH:
+                    res = comparePositionForNorthPointOfView(thisPosition, otherPosition);
+                    break;
+                case SOUTH:
+                    res = comparePositionForSouthPointOfView(thisPosition, otherPosition);
+                    break;
+                case WEST:
+                    res = comparePositionForWestPointOfView(thisPosition, otherPosition);
+                    break;
+            }
         }
         return res;
     }
@@ -598,7 +580,7 @@ public class BattleScene implements Scene {
         if (toDrawList.size() > 1) {
             for (int x = 0; x < toDrawList.size(); x++) {
                 for (int i = 0; i < toDrawList.size() - x - 1; i++) {
-                    if (comparePosition(toDrawList.get(i).getPosition(), toDrawList.get(i + 1).getPosition()) > 0) {
+                    if (comparePosition(toDrawList.get(i).getPositionAbsolute(), toDrawList.get(i + 1).getPositionAbsolute()) > 0) {
                         temp = toDrawList.get(i);
                         toDrawList.set(i, toDrawList.get(i + 1));
                         toDrawList.set(i + 1, temp);

@@ -10,7 +10,6 @@ import java.io.Serializable;
 
 public class Cube extends DrawableObject implements Serializable {
     private static final long serialVersionUID = 4804104249115278769L;
-    private Position position;
     private Facet facetZenith;
     private Facet facetNorth;
     private Facet facetEast;
@@ -24,6 +23,7 @@ public class Cube extends DrawableObject implements Serializable {
 
     public Cube(Position position) {
         this.setPosition(position);
+        this.setPositionAbsolute(position.toAbsolute());
         this.setVisible(true);
         this.setSelectable(true);
         textureTop = TextureKey.GRASS;

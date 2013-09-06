@@ -1,10 +1,12 @@
 package com.ghostofpq.seltyrtactical.game.graphics;
 
 import com.ghostofpq.seltyrtactical.commons.Position;
+import com.ghostofpq.seltyrtactical.commons.PositionAbsolute;
 
 public abstract class DrawableObject implements Comparable<DrawableObject> {
 
     protected Position position;
+    protected PositionAbsolute positionAbsolute;
 
     public abstract void draw();
 
@@ -31,5 +33,13 @@ public abstract class DrawableObject implements Comparable<DrawableObject> {
 
     public void setPosition(Position position) {
         this.position = position;
+    }
+
+    public PositionAbsolute getPositionAbsolute() {
+        return positionAbsolute;
+    }
+
+    public void setPositionAbsolute(PositionAbsolute positionAbsolute) {
+        this.positionAbsolute = positionAbsolute;
     }
 }

@@ -3,12 +3,13 @@ package com.ghostofpq.seltyrtactical.entities.battlefield;
 import com.ghostofpq.seltyrtactical.commons.Node;
 import com.ghostofpq.seltyrtactical.commons.Position;
 import com.ghostofpq.seltyrtactical.commons.Tree;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-@Slf4j
+//import lombok.extern.slf4j.Slf4j;
+
+//@Slf4j
 @RunWith(JUnit4.class)
 public class battlefieldTest {
 
@@ -34,17 +35,17 @@ public class battlefieldTest {
         int jumpLimit = 1;
 
         Tree<Position> result = battlefield.getPositionTree(originPoint, dist, heightLimit, jumpLimit);
-        log.debug(" TEST 1 ");
-        log.debug("     {} : {}", result.getRoot().getData().toString(), result.getRoot().getDistanceFromTop());
-        log.debug("{} children", result.getRoot().getChildren().size());
+        //log.debug(" TEST 1 ");
+        //log.debug("     {} : {}", result.getRoot().getData().toString(), result.getRoot().getDistanceFromTop());
+        // log.debug("{} children", result.getRoot().getChildren().size());
         for (Node<Position> child : result.getRoot().getChildren()) {
-            log.debug("   ->{} : {}", child.getData().toString(), child.getDistanceFromTop());
+            // log.debug("   ->{} : {}", child.getData().toString(), child.getDistanceFromTop());
             for (Node<Position> child2 : child.getChildren()) {
-                log.debug("  -->{} : {}", child2.getData().toString(), child2.getDistanceFromTop());
+                //log.debug("  -->{} : {}", child2.getData().toString(), child2.getDistanceFromTop());
                 for (Node<Position> child3 : child2.getChildren()) {
-                    log.debug(" --->{} : {}", child3.getData().toString(), child3.getDistanceFromTop());
+                    // log.debug(" --->{} : {}", child3.getData().toString(), child3.getDistanceFromTop());
                     for (Node<Position> child4 : child3.getChildren()) {
-                        log.debug("---->{} : {}", child4.getData().toString(), child4.getDistanceFromTop());
+                        // log.debug("---->{} : {}", child4.getData().toString(), child4.getDistanceFromTop());
                     }
                 }
             }
@@ -76,16 +77,16 @@ public class battlefieldTest {
         int jumpLimit = 1;
 
         Tree<Position> result = battlefield.getPositionTree(originPoint, dist, heightLimit, jumpLimit);
-        log.debug(" TEST 2");
-        log.debug("     {} : {}", result.getRoot().getData().toString(), result.getRoot().getDistanceFromTop());
+        //log.debug(" TEST 2");
+        // log.debug("     {} : {}", result.getRoot().getData().toString(), result.getRoot().getDistanceFromTop());
         for (Node<Position> child : result.getRoot().getChildren()) {
-            log.debug("   ->{} : {}", child.getData().toString(), child.getDistanceFromTop());
+            // log.debug("   ->{} : {}", child.getData().toString(), child.getDistanceFromTop());
             for (Node<Position> child2 : child.getChildren()) {
-                log.debug("  -->{} : {}", child2.getData().toString(), child2.getDistanceFromTop());
+                // log.debug("  -->{} : {}", child2.getData().toString(), child2.getDistanceFromTop());
                 for (Node<Position> child3 : child2.getChildren()) {
-                    log.debug(" --->{} : {}", child3.getData().toString(), child3.getDistanceFromTop());
+                    //log.debug(" --->{} : {}", child3.getData().toString(), child3.getDistanceFromTop());
                     for (Node<Position> child4 : child3.getChildren()) {
-                        log.debug("---->{} : {}", child4.getData().toString(), child4.getDistanceFromTop());
+                        // log.debug("---->{} : {}", child4.getData().toString(), child4.getDistanceFromTop());
                     }
                 }
             }
