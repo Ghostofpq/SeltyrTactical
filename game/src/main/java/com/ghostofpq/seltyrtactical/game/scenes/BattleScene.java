@@ -79,7 +79,7 @@ public class BattleScene implements Scene {
             Position position = new Position(cursor);
             position.plusY(1);
             GameCharacterRepresentation gameCharacterRepresentation = new GameCharacterRepresentation(currentGameCharacter, position);
-            //gameCharacterRepresentation.setPositionsToGo(battlefield.getPath(position, new Position(4, 1, 4)));
+            gameCharacterRepresentation.setPositionsToGo(battlefield.getPath(position, new Position(4, 1, 4)));
             toDrawList.add(gameCharacterRepresentation);
             sortToDrawList();
             //Collections.sort(toDrawList);
