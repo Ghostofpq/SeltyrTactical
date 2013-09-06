@@ -22,6 +22,7 @@ public class Cube extends DrawableObject implements Serializable {
     private HighlightColor highlight;
 
     public Cube(Position position) {
+        this.setHeight(1.0f);
         this.setPosition(position);
         this.setPositionAbsolute(position.toAbsolute());
         this.setVisible(true);

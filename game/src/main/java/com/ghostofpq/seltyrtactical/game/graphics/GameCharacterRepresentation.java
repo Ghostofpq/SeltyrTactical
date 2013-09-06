@@ -30,6 +30,7 @@ public class GameCharacterRepresentation extends DrawableObject {
     private List<PositionAbsolute> positionsToGo;
 
     public GameCharacterRepresentation(GameCharacter character, Position position) {
+        this.setHeight(1.5f);
         this.setCharacter(character);
         this.setPosition(position);
         this.setPositionAbsolute(position.toAbsolute());

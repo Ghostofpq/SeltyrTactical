@@ -79,7 +79,7 @@ public class BattleScene implements Scene {
             Position position = new Position(cursor);
             position.plusY(1);
             GameCharacterRepresentation gameCharacterRepresentation = new GameCharacterRepresentation(currentGameCharacter, position);
-            gameCharacterRepresentation.setPositionsToGo(battlefield.getPath(position, new Position(4, 1, 4)));
+            //gameCharacterRepresentation.setPositionsToGo(battlefield.getPath(position, new Position(4, 1, 4)));
             toDrawList.add(gameCharacterRepresentation);
             sortToDrawList();
             //Collections.sort(toDrawList);
@@ -550,7 +550,7 @@ public class BattleScene implements Scene {
         return res;
     }
 
-    private int comparePosition(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
+    private int comparePosition(PositionAbsolute thisPosition, PositionAbsolute otherPosition, float thisHeight, float otherHeight) {
         int res = 0;
         if (thisPosition.getY() < otherPosition.getY()) {
             res = -1;
@@ -580,7 +580,7 @@ public class BattleScene implements Scene {
         if (toDrawList.size() > 1) {
             for (int x = 0; x < toDrawList.size(); x++) {
                 for (int i = 0; i < toDrawList.size() - x - 1; i++) {
-                    if (comparePosition(toDrawList.get(i).getPositionAbsolute(), toDrawList.get(i + 1).getPositionAbsolute()) > 0) {
+                    if (comparePosition(toDrawList.get(i).getPositionAbsolute(), toDrawList.get(i + 1).getPositionAbsolute(), toDrawList.get(i).getHeight(), toDrawList.get(i + 1).getHeight()) > 0) {
                         temp = toDrawList.get(i);
                         toDrawList.set(i, toDrawList.get(i + 1));
                         toDrawList.set(i + 1, temp);

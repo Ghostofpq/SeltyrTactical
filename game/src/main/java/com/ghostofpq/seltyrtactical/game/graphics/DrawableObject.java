@@ -7,6 +7,7 @@ public abstract class DrawableObject implements Comparable<DrawableObject> {
 
     protected Position position;
     protected PositionAbsolute positionAbsolute;
+    protected float height;
 
     public abstract void draw();
 
@@ -41,5 +42,13 @@ public abstract class DrawableObject implements Comparable<DrawableObject> {
 
     public void setPositionAbsolute(PositionAbsolute positionAbsolute) {
         this.positionAbsolute = positionAbsolute;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
     }
 }
