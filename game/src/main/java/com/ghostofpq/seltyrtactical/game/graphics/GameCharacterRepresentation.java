@@ -93,7 +93,7 @@ public class GameCharacterRepresentation extends DrawableObject {
     public boolean tickHourglass() {
         boolean result = false;
         hourglass -= getCharacter().getCharacteristics().getAgility();
-        log.debug("{} : {}", getCharacter().getName(), hourglass);
+        // log.debug("{} : {}", getCharacter().getName(), hourglass);
         if (hourglass <= 0) {
             int delta = Math.abs(hourglass);
             hourglass = 100 - delta;
@@ -178,6 +178,8 @@ public class GameCharacterRepresentation extends DrawableObject {
             positionsToGo.remove(0);
             if (!positionsToGo.isEmpty()) {
                 setPositionToGo(positionsToGo.get(0));
+            } else {
+                setPositionToGo(null);
             }
         }
     }
@@ -326,7 +328,6 @@ public class GameCharacterRepresentation extends DrawableObject {
     private PointOfView getEquivalentPointOfView(PointOfView boardPointOfView, PointOfView charPointOfView) {
         PointOfView result = PointOfView.SOUTH;
 
-
         switch (boardPointOfView) {
             case NORTH:
                 switch (charPointOfView) {
@@ -397,16 +398,26 @@ public class GameCharacterRepresentation extends DrawableObject {
     }
 
     public PositionAbsolute getPositionToGo() {
-        return positionToGo;
+        PositionAbsolute result;
+        if (!positionsToGo.isEmpty()) {
+            positionToGo = positionsToGo.get(0);
+            result = positionToGo;
+        } else {
+            result = getPositionAbsolute();
+        }
+        return result;
     }
 
     public void setPositionToGo(PositionAbsolute positionToGo) {
         this.positionToGo = positionToGo;
     }
 
-    public void setPositionsToGo(List<Position> positions) {
-        for (Position posRaw : positions) {
-            posRaw.plusY(1);
+    public void setPositionsToGo(List<Position> positionsRaw) {
+        // We add 1 in Y because we are computing ground positions.
+        List<Position> positions = new ArrayList<Position>();
+        for (int i = 0; i < positionsRaw.size(); i++) {
+            log.debug("adding pos {} to path", positionsRaw.get(i).toString());
+            positions.add(positionsRaw.get(i).plusYNew(1));
         }
 
         positionsToGo.add(positions.get(0).toAbsolute());
@@ -415,12 +426,10 @@ public class GameCharacterRepresentation extends DrawableObject {
                 if (positions.get(i).getY() == positions.get(i - 1).getY()) {
                     positionsToGo.add(positions.get(i).toAbsolute());
                 } else {
-                    while (positions.get(i).getY() != positions.get(i - 1).getY()) {
+                    while (i < (positions.size() - 2) && positions.get(i).getY() != positions.get(i - 1).getY()) {
                         positionsToGo.add(positions.get(i).toAbsolute());
                         i++;
                     }
-                    positionsToGo.add(positions.get(i).toAbsolute());
-                    i++;
 
                     PositionAbsolute step1 = positions.get(i).toAbsolute();
                     PositionAbsolute step2 = positions.get(i).toAbsolute();
@@ -466,23 +475,25 @@ public class GameCharacterRepresentation extends DrawableObject {
         this.headingAngle = headingAngle;
     }
 
+    public Position getFootPosition() {
+        Position result = new Position(getPosition());
+        result.plusY(-1);
+        return result;
+    }
+
     public PointOfView getHeadingAngleFor(PositionAbsolute positionToGo) {
-        boolean xBigger = positionToGo.getX() > getPositionAbsolute().getX();
-        boolean zBigger = positionToGo.getZ() > getPositionAbsolute().getZ();
         PointOfView result;
 
-        if (xBigger) {
-            if (zBigger) {
+        if (positionToGo.getX() > getPositionAbsolute().getX()) {
+            result = PointOfView.EAST;
+        } else if (positionToGo.getX() == getPositionAbsolute().getX()) {
+            if (positionToGo.getZ() > getPositionAbsolute().getZ()) {
                 result = PointOfView.SOUTH;
-            } else {
-                result = PointOfView.EAST;
-            }
-        } else {
-            if (zBigger) {
-                result = PointOfView.WEST;
             } else {
                 result = PointOfView.NORTH;
             }
+        } else {
+            result = PointOfView.WEST;
         }
         return result;
     }

@@ -121,10 +121,13 @@ public class BattleScene implements Scene {
     }
 
     public void moveCharacter() {
-        List<Node<Position>> nodeList = possiblePositionsToMoveTree.find(cursor);
-        if (!nodeList.isEmpty()) {
-            List<Position> path = nodeList.get(0).getPathFromTop();
-            currentGameCharacterRepresentation.setPositionsToGo(path);
+        if (possiblePositionsToMoveTree.contains(cursor)) {
+            List<Node<Position>> nodeList = possiblePositionsToMoveTree.find(cursor);
+            if (!nodeList.isEmpty()) {
+                List<Position> path = nodeList.get(0).getPathFromTop();
+                currentGameCharacterRepresentation.setPositionsToGo(path);
+            }
+            clearHighlightPossibleMovement();
         }
     }
 
@@ -138,8 +141,8 @@ public class BattleScene implements Scene {
                 characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacterRepresentation.getCharacter());
 
                 todraw.get(cursor).setHighlight(HighlightColor.NONE);
-                cursor = currentGameCharacterRepresentation.getPosition();
-                cursor.plusY(-1);
+
+                cursor = currentGameCharacterRepresentation.getPosition().plusYNew(-1);
                 todraw.get(cursor).setHighlight(HighlightColor.BLUE);
 
                 GraphicsManager.getInstance().requestCenterPosition(cursor);
@@ -154,10 +157,8 @@ public class BattleScene implements Scene {
     }
 
     public void highlightPossibleMovement() {
-        Position characterPosition = new Position(currentGameCharacterRepresentation.getPosition().getX(),
-                currentGameCharacterRepresentation.getPosition().getY(),
-                currentGameCharacterRepresentation.getPosition().getZ());
-
+        Position characterPosition = currentGameCharacterRepresentation.getFootPosition();
+        log.debug("FootPosition : {}", characterPosition.toString());
 
         possiblePositionsToMoveTree = battlefield.getPositionTree(characterPosition,
                 3,
@@ -168,13 +169,22 @@ public class BattleScene implements Scene {
 
 
         for (GameCharacterRepresentation gameCharacterRepresentation : gameCharacterRepresentations) {
-            possiblePositionsToMove.remove(gameCharacterRepresentation.getPosition());
+            possiblePositionsToMove.remove(gameCharacterRepresentation.getFootPosition());
         }
 
         for (Position position : possiblePositionsToMove) {
-            log.debug("highlight green : {}", position.toString());
+            //log.debug("highlight green : {}", position.toString());
             todraw.get(position).setHighlight(HighlightColor.GREEN);
         }
+        todraw.get(cursor).setHighlight(HighlightColor.BLUE);
+    }
+
+    public void clearHighlightPossibleMovement() {
+        for (Position position : possiblePositionsToMove) {
+            //log.debug("clear highlight green : {}", position.toString());
+            todraw.get(position).setHighlight(HighlightColor.NONE);
+        }
+        todraw.get(cursor).setHighlight(HighlightColor.BLUE);
     }
 
     private void incrementGameCharacterRepresentationsIndex() {
@@ -635,9 +645,11 @@ public class BattleScene implements Scene {
 
     private int comparePositionForNorthPointOfView(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
         int res;
-        if (thisPosition.getZ() > otherPosition.getZ()) {
+        if (thisPosition.getZ() < otherPosition.getZ() - 1.0f) {
+            res = 1;
+        } else if (thisPosition.getZ() > otherPosition.getZ() + 1.0f) {
             res = -1;
-        } else if (thisPosition.getZ() == otherPosition.getZ()) {
+        } else {
             if (thisPosition.getX() == otherPosition.getX()) {
                 res = 0;
             } else if (thisPosition.getX() > otherPosition.getX()) {
@@ -645,26 +657,24 @@ public class BattleScene implements Scene {
             } else {
                 res = 1;
             }
-        } else {
-            res = 1;
         }
         return res;
     }
 
     private int comparePositionForSouthPointOfView(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
         int res;
-        if (thisPosition.getZ() < otherPosition.getZ()) {
+        if (thisPosition.getZ() < otherPosition.getZ() - 1.0f) {
             res = -1;
-        } else if (thisPosition.getZ() == otherPosition.getZ()) {
-            if (thisPosition.getX() == otherPosition.getX()) {
-                res = 0;
-            } else if (thisPosition.getX() < otherPosition.getX()) {
-                res = -1;
-            } else {
-                res = 1;
-            }
-        } else {
+        } else if (thisPosition.getZ() > otherPosition.getZ() + 1.0f) {
             res = 1;
+        } else {
+            if (thisPosition.getX() <= otherPosition.getX()) {
+                res = -1;
+            } else if (thisPosition.getX() > otherPosition.getX()) {
+                res = 1;
+            } else {
+                res = 0;
+            }
         }
         return res;
     }
@@ -673,7 +683,9 @@ public class BattleScene implements Scene {
         int res;
         if (thisPosition.getX() < otherPosition.getX()) {
             res = -1;
-        } else if (thisPosition.getX() == otherPosition.getX()) {
+        } else if (thisPosition.getX() > otherPosition.getX()) {
+            res = 1;
+        } else {
             if (thisPosition.getZ() == otherPosition.getZ()) {
                 res = 0;
             } else if (thisPosition.getZ() > otherPosition.getZ()) {
@@ -681,33 +693,33 @@ public class BattleScene implements Scene {
             } else {
                 res = 1;
             }
-        } else {
-            res = 1;
         }
         return res;
     }
 
     private int comparePositionForWestPointOfView(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
         int res;
-        if (thisPosition.getX() > otherPosition.getX()) {
-            res = -1;
-        } else if (thisPosition.getX() == otherPosition.getX()) {
-            if (thisPosition.getZ() < otherPosition.getZ()) {
-                res = -1;
-            } else {
-                res = 1;
-            }
-        } else {
+        if (thisPosition.getX() < otherPosition.getX()) {
             res = 1;
+        } else if (thisPosition.getX() > otherPosition.getX()) {
+            res = -1;
+        } else {
+            if (thisPosition.getZ() <= otherPosition.getZ()) {
+                res = -1;
+            } else if (thisPosition.getZ() > otherPosition.getZ()) {
+                res = 1;
+            } else {
+                res = 0;
+            }
         }
         return res;
     }
 
     private int comparePosition(PositionAbsolute thisPosition, PositionAbsolute otherPosition, float thisHeight, float otherHeight) {
         int res = 0;
-        if (thisPosition.getY() < otherPosition.getY()) {
+        if (thisPosition.getY() + thisHeight < otherPosition.getY() + otherHeight) {
             res = -1;
-        } else if (thisPosition.getY() < otherPosition.getY()) {
+        } else if (thisPosition.getY() + thisHeight < otherPosition.getY() + otherHeight) {
             res = 1;
         } else {
             switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
