@@ -114,4 +114,8 @@ public class Facet extends DrawableObject implements Serializable {
     public void setTexture(TextureKey texture) {
         this.texture = texture;
     }
+
+    public PositionAbsolute getPositionToCompare(){
+        return getPositionAbsolute();
+    }
 }

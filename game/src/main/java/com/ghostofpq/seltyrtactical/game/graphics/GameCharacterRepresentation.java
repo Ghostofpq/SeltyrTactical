@@ -497,4 +497,8 @@ public class GameCharacterRepresentation extends DrawableObject {
         }
         return result;
     }
+
+    public PositionAbsolute getPositionToCompare() {
+        return getPositionAbsolute().plusNew(0.5f, height, 0.5f);
+    }
 }

@@ -188,4 +188,8 @@ public class Cube extends DrawableObject implements Serializable {
     public void setHighlight(HighlightColor highlight) {
         this.highlight = highlight;
     }
+
+    public PositionAbsolute getPositionToCompare(){
+        return getPositionAbsolute().plusNew(0.5f,0.5f,0.5f);
+    }
 }

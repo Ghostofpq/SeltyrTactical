@@ -113,6 +113,12 @@ public class Position implements Serializable, Comparable<Position> {
         return sb.toString();
     }
 
+    public double distanceWith(Position position) {
+        return Math.sqrt((this.getX() - position.getX()) * (this.getX() - position.getX()) +
+                (this.getY() - position.getY()) * (this.getY() - position.getY()) +
+                (this.getZ() - position.getZ()) * (this.getZ() - position.getZ()));
+    }
+
     /**
      * Getters and Setters
      */

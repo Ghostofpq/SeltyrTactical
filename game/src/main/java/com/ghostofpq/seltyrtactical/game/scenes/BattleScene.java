@@ -42,6 +42,10 @@ public class BattleScene implements Scene {
     private PointOfView currentPointOfView;
     private List<Position> possiblePositionsToMove;
     private Tree<Position> possiblePositionsToMoveTree;
+    private PositionAbsolute southPointOfView;
+    private PositionAbsolute northPointOfView;
+    private PositionAbsolute eastPointOfView;
+    private PositionAbsolute westPointOfView;
 
     private BattleScene() {
     }
@@ -65,6 +69,11 @@ public class BattleScene implements Scene {
         todraw = toDrawableList(battlefield);
         toDrawList = new ArrayList<DrawableObject>();
         toDrawList.addAll(todraw.values());
+
+        southPointOfView = new PositionAbsolute(battlefield.getLength(), battlefield.getHeight(), battlefield.getDepth());
+        northPointOfView = new PositionAbsolute(battlefield.getLength() * -1, battlefield.getHeight(), battlefield.getDepth() * -1);
+        eastPointOfView = new PositionAbsolute(battlefield.getLength(), battlefield.getHeight(), battlefield.getDepth() * -1);
+        westPointOfView = new PositionAbsolute(battlefield.getLength() * -1, battlefield.getHeight(), battlefield.getDepth());
 
         possiblePositionsToMove = new ArrayList<Position>();
 
@@ -223,6 +232,7 @@ public class BattleScene implements Scene {
 
     @Override
     public void update(long deltaTime) {
+        sortToDrawList();
         for (DrawableObject drawableObject : toDrawList) {
             if (drawableObject.hasMoved()) {
                 log.debug("Object has moved");
@@ -645,97 +655,67 @@ public class BattleScene implements Scene {
 
     private int comparePositionForNorthPointOfView(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
         int res;
-        if (thisPosition.getZ() < otherPosition.getZ() - 1.0f) {
-            res = 1;
-        } else if (thisPosition.getZ() > otherPosition.getZ() + 1.0f) {
+        if (thisPosition.distanceWith(northPointOfView) > otherPosition.distanceWith(northPointOfView)) {
             res = -1;
+        } else if (thisPosition.distanceWith(northPointOfView) < otherPosition.distanceWith(northPointOfView)) {
+            res = 1;
         } else {
-            if (thisPosition.getX() == otherPosition.getX()) {
-                res = 0;
-            } else if (thisPosition.getX() > otherPosition.getX()) {
-                res = -1;
-            } else {
-                res = 1;
-            }
+            res = 0;
         }
         return res;
     }
 
     private int comparePositionForSouthPointOfView(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
         int res;
-        if (thisPosition.getZ() < otherPosition.getZ() - 1.0f) {
+        if (thisPosition.distanceWith(southPointOfView) > otherPosition.distanceWith(southPointOfView)) {
             res = -1;
-        } else if (thisPosition.getZ() > otherPosition.getZ() + 1.0f) {
+        } else if (thisPosition.distanceWith(southPointOfView) < otherPosition.distanceWith(southPointOfView)) {
             res = 1;
         } else {
-            if (thisPosition.getX() <= otherPosition.getX()) {
-                res = -1;
-            } else if (thisPosition.getX() > otherPosition.getX()) {
-                res = 1;
-            } else {
-                res = 0;
-            }
+            res = 0;
         }
         return res;
     }
 
     private int comparePositionForEastPointOfView(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
         int res;
-        if (thisPosition.getX() < otherPosition.getX()) {
+        if (thisPosition.distanceWith(eastPointOfView) > otherPosition.distanceWith(eastPointOfView)) {
             res = -1;
-        } else if (thisPosition.getX() > otherPosition.getX()) {
+        } else if (thisPosition.distanceWith(eastPointOfView) < otherPosition.distanceWith(eastPointOfView)) {
             res = 1;
         } else {
-            if (thisPosition.getZ() == otherPosition.getZ()) {
-                res = 0;
-            } else if (thisPosition.getZ() > otherPosition.getZ()) {
-                res = -1;
-            } else {
-                res = 1;
-            }
+            res = 0;
         }
         return res;
     }
 
     private int comparePositionForWestPointOfView(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
         int res;
-        if (thisPosition.getX() < otherPosition.getX()) {
-            res = 1;
-        } else if (thisPosition.getX() > otherPosition.getX()) {
+        if (thisPosition.distanceWith(westPointOfView) > otherPosition.distanceWith(westPointOfView)) {
             res = -1;
+        } else if (thisPosition.distanceWith(westPointOfView) < otherPosition.distanceWith(westPointOfView)) {
+            res = 1;
         } else {
-            if (thisPosition.getZ() <= otherPosition.getZ()) {
-                res = -1;
-            } else if (thisPosition.getZ() > otherPosition.getZ()) {
-                res = 1;
-            } else {
-                res = 0;
-            }
+            res = 0;
         }
         return res;
     }
 
-    private int comparePosition(PositionAbsolute thisPosition, PositionAbsolute otherPosition, float thisHeight, float otherHeight) {
+    private int comparePosition(PositionAbsolute thisPosition, PositionAbsolute otherPosition) {
         int res = 0;
-        if (thisPosition.getY() + thisHeight < otherPosition.getY() + otherHeight) {
-            res = -1;
-        } else if (thisPosition.getY() + thisHeight < otherPosition.getY() + otherHeight) {
-            res = 1;
-        } else {
-            switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
-                case EAST:
-                    res = comparePositionForEastPointOfView(thisPosition, otherPosition);
-                    break;
-                case NORTH:
-                    res = comparePositionForNorthPointOfView(thisPosition, otherPosition);
-                    break;
-                case SOUTH:
-                    res = comparePositionForSouthPointOfView(thisPosition, otherPosition);
-                    break;
-                case WEST:
-                    res = comparePositionForWestPointOfView(thisPosition, otherPosition);
-                    break;
-            }
+        switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+            case EAST:
+                res = comparePositionForEastPointOfView(thisPosition, otherPosition);
+                break;
+            case NORTH:
+                res = comparePositionForNorthPointOfView(thisPosition, otherPosition);
+                break;
+            case SOUTH:
+                res = comparePositionForSouthPointOfView(thisPosition, otherPosition);
+                break;
+            case WEST:
+                res = comparePositionForWestPointOfView(thisPosition, otherPosition);
+                break;
         }
         return res;
     }
@@ -745,7 +725,7 @@ public class BattleScene implements Scene {
         if (toDrawList.size() > 1) {
             for (int x = 0; x < toDrawList.size(); x++) {
                 for (int i = 0; i < toDrawList.size() - x - 1; i++) {
-                    if (comparePosition(toDrawList.get(i).getPositionAbsolute(), toDrawList.get(i + 1).getPositionAbsolute(), toDrawList.get(i).getHeight(), toDrawList.get(i + 1).getHeight()) > 0) {
+                    if (comparePosition(toDrawList.get(i).getPositionToCompare(), toDrawList.get(i + 1).getPositionToCompare()) > 0) {
                         temp = toDrawList.get(i);
                         toDrawList.set(i, toDrawList.get(i + 1));
                         toDrawList.set(i + 1, temp);
