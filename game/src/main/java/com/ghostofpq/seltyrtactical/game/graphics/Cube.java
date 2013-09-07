@@ -189,7 +189,23 @@ public class Cube extends DrawableObject implements Serializable {
         this.highlight = highlight;
     }
 
-    public PositionAbsolute getPositionToCompare(){
-        return getPositionAbsolute().plusNew(0.5f,0.5f,0.5f);
+    public PositionAbsolute getPositionToCompare(PointOfView pointOfView) {
+        PositionAbsolute result = null;
+
+        switch (pointOfView) {
+            case NORTH:
+                result = getPositionAbsolute().plusNew(0.5f, 0, 0.5f);
+                break;
+            case SOUTH:
+                result = getPositionAbsolute().plusNew(0, 0, 0);
+                break;
+            case EAST:
+                result = getPositionAbsolute().plusNew(0, 0, 0.5f);
+                break;
+            case WEST:
+                result = getPositionAbsolute().plusNew(0.5f, 0, 0);
+                break;
+        }
+        return result;
     }
 }

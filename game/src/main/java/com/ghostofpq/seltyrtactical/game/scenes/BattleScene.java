@@ -71,9 +71,9 @@ public class BattleScene implements Scene {
         toDrawList.addAll(todraw.values());
 
         southPointOfView = new PositionAbsolute(battlefield.getLength(), battlefield.getHeight(), battlefield.getDepth());
-        northPointOfView = new PositionAbsolute(battlefield.getLength() * -1, battlefield.getHeight(), battlefield.getDepth() * -1);
-        eastPointOfView = new PositionAbsolute(battlefield.getLength(), battlefield.getHeight(), battlefield.getDepth() * -1);
-        westPointOfView = new PositionAbsolute(battlefield.getLength() * -1, battlefield.getHeight(), battlefield.getDepth());
+        northPointOfView = new PositionAbsolute(0, battlefield.getHeight(), 0);
+        eastPointOfView = new PositionAbsolute(battlefield.getLength(), battlefield.getHeight(), 0);
+        westPointOfView = new PositionAbsolute(0, battlefield.getHeight(), battlefield.getDepth());
 
         possiblePositionsToMove = new ArrayList<Position>();
 
@@ -233,20 +233,20 @@ public class BattleScene implements Scene {
     @Override
     public void update(long deltaTime) {
         sortToDrawList();
-        for (DrawableObject drawableObject : toDrawList) {
-            if (drawableObject.hasMoved()) {
-                log.debug("Object has moved");
-                sortToDrawList();
-                break;
-            }
-        }
-        for (DrawableObject drawableObject : toDrawList) {
-            drawableObject.setHasMoved(false);
-        }
-        if (pointOfViewHasChanged()) {
-            log.debug("Point of view has changed");
-            sortToDrawList();
-        }
+        //for (DrawableObject drawableObject : toDrawList) {
+        //    if (drawableObject.hasMoved()) {
+        //       log.debug("Object has moved");
+        //        sortToDrawList();
+        //        break;
+        //    }
+        //}
+        // for (DrawableObject drawableObject : toDrawList) {
+        //    drawableObject.setHasMoved(false);
+        //}
+        //if (pointOfViewHasChanged()) {
+        //    log.debug("Point of view has changed");
+        //    sortToDrawList();
+        //}
         if (graphicManagerIsWorking) {
             graphicManagerIsWorking = GraphicsManager.getInstance().update3DMovement();
         }
@@ -725,7 +725,7 @@ public class BattleScene implements Scene {
         if (toDrawList.size() > 1) {
             for (int x = 0; x < toDrawList.size(); x++) {
                 for (int i = 0; i < toDrawList.size() - x - 1; i++) {
-                    if (comparePosition(toDrawList.get(i).getPositionToCompare(), toDrawList.get(i + 1).getPositionToCompare()) > 0) {
+                    if (comparePosition(toDrawList.get(i).getPositionToCompare(currentPointOfView), toDrawList.get(i + 1).getPositionToCompare(currentPointOfView)) > 0) {
                         temp = toDrawList.get(i);
                         toDrawList.set(i, toDrawList.get(i + 1));
                         toDrawList.set(i + 1, temp);

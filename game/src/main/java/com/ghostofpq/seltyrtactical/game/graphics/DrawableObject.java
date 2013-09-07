@@ -45,7 +45,7 @@ public abstract class DrawableObject implements Comparable<DrawableObject> {
         this.positionAbsolute = positionAbsolute;
     }
 
-    public abstract PositionAbsolute getPositionToCompare();
+    public abstract PositionAbsolute getPositionToCompare(PointOfView pointOfView);
 
     public float getHeight() {
         return height;
