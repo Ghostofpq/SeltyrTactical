@@ -2,6 +2,7 @@ package com.ghostofpq.seltyrtactical.commons;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Node<T> {
@@ -75,6 +76,22 @@ public class Node<T> {
                 }
             }
         }
+        return result;
+    }
+
+    public List<T> getPathToTop() {
+        List<T> result = new ArrayList<T>();
+        Node<T> node = this;
+        while (null != node.getParent()) {
+            result.add(node.getData());
+            node = node.getParent();
+        }
+        return result;
+    }
+
+    public List<T> getPathFromTop() {
+        List<T> result = getPathToTop();
+        Collections.reverse(result);
         return result;
     }
 
