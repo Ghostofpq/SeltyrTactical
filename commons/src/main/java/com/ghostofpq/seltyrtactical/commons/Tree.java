@@ -1,5 +1,6 @@
 package com.ghostofpq.seltyrtactical.commons;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Tree<T> {
@@ -21,5 +22,9 @@ public class Tree<T> {
     public List<Node<T>> find(T element) {
         List<Node<T>> result = root.find(element);
         return result;
+    }
+
+    public List<T> getAllElements() {
+       return root.getAllElements();
     }
 }

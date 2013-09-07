@@ -2,6 +2,8 @@ package com.ghostofpq.seltyrtactical.game.scenes;
 
 import com.ghostofpq.seltyrtactical.commons.Position;
 import com.ghostofpq.seltyrtactical.commons.PositionAbsolute;
+import com.ghostofpq.seltyrtactical.commons.Tree;
+import com.ghostofpq.seltyrtactical.commons.Node;
 import com.ghostofpq.seltyrtactical.entities.battlefield.Battlefield;
 import com.ghostofpq.seltyrtactical.entities.battlefield.BattlefieldElement;
 import com.ghostofpq.seltyrtactical.entities.character.GameCharacter;
@@ -28,13 +30,18 @@ public class BattleScene implements Scene {
     private Battlefield battlefield;
     private BattleSceneState currentState;
     private List<Player> players;
+    private List<GameCharacterRepresentation> gameCharacterRepresentations;
+    private int gameCharacterRepresentationsIndex;
     private Player currentPlayer;
     private GameCharacter currentGameCharacter;
-    private GameCharacter targetGameCharacter;
+    private GameCharacterRepresentation currentGameCharacterRepresentation;
+    private GameCharacterRepresentation targetGameCharacterRepresentation;
     private CharacterRender characterRenderLeft;
     private CharacterRender characterRenderRight;
+    private MenuSelectAction menuSelectAction;
     private PointOfView currentPointOfView;
-
+    private List<Position> possiblePositionsToMove;
+    private Tree<Position> possiblePositionsToMoveTree;
 
     private BattleScene() {
     }
@@ -58,6 +65,17 @@ public class BattleScene implements Scene {
         todraw = toDrawableList(battlefield);
         toDrawList = new ArrayList<DrawableObject>();
         toDrawList.addAll(todraw.values());
+
+        possiblePositionsToMove = new ArrayList<Position>();
+
+        gameCharacterRepresentations = new ArrayList<GameCharacterRepresentation>();
+
+        List<String> options = new ArrayList<String>();
+        options.add("Move");
+        options.add("Attack");
+        options.add("End Turn");
+        menuSelectAction = new MenuSelectAction(300, 0, 100, 100, 2, options);
+
         sortToDrawList();
 
         updatePositionLists();
@@ -71,7 +89,6 @@ public class BattleScene implements Scene {
     }
 
     public void placeCharacter() {
-
         int indexOfPlayer = players.indexOf(currentPlayer);
         int indexOfChar = currentPlayer.getTeam().getTeam().indexOf(currentGameCharacter);
 
@@ -79,14 +96,14 @@ public class BattleScene implements Scene {
             Position position = new Position(cursor);
             position.plusY(1);
             GameCharacterRepresentation gameCharacterRepresentation = new GameCharacterRepresentation(currentGameCharacter, position);
-            gameCharacterRepresentation.setPositionsToGo(battlefield.getPath(position, new Position(4, 1, 4)));
+            //gameCharacterRepresentation.setPositionsToGo(battlefield.getPath(position, new Position(4, 1, 4)));
+            gameCharacterRepresentations.add(gameCharacterRepresentation);
             toDrawList.add(gameCharacterRepresentation);
             sortToDrawList();
-            //Collections.sort(toDrawList);
 
             if (indexOfChar == currentPlayer.getTeam().getTeam().size() - 1) {
                 if (indexOfPlayer == players.size() - 1) {
-                    currentState = BattleSceneState.FIGHT;
+                    currentState = BattleSceneState.PENDING;
                     cleanHighlightDeploymentZone();
                 } else {
                     cleanHighlightDeploymentZone();
@@ -100,6 +117,71 @@ public class BattleScene implements Scene {
                 characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
             }
             battlefield.getDeploymentZones().get(indexOfPlayer).remove(cursor);
+        }
+    }
+
+    public void moveCharacter() {
+        List<Node<Position>> nodeList = possiblePositionsToMoveTree.find(cursor);
+        if (!nodeList.isEmpty()) {
+            List<Position> path = nodeList.get(0).getPathFromTop();
+            currentGameCharacterRepresentation.setPositionsToGo(path);
+        }
+    }
+
+    public void getCurrentCharacter() {
+        currentGameCharacterRepresentation = null;
+        while (null == currentGameCharacterRepresentation) {
+            log.debug("{}", gameCharacterRepresentationsIndex);
+            GameCharacterRepresentation gameCharacterRepresentation = gameCharacterRepresentations.get(gameCharacterRepresentationsIndex);
+            if (gameCharacterRepresentation.tickHourglass()) {
+                currentGameCharacterRepresentation = gameCharacterRepresentation;
+                characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacterRepresentation.getCharacter());
+
+                todraw.get(cursor).setHighlight(HighlightColor.NONE);
+                cursor = currentGameCharacterRepresentation.getPosition();
+                cursor.plusY(-1);
+                todraw.get(cursor).setHighlight(HighlightColor.BLUE);
+
+                GraphicsManager.getInstance().requestCenterPosition(cursor);
+                graphicManagerIsWorking = true;
+
+                currentState = BattleSceneState.ACTION;
+                incrementGameCharacterRepresentationsIndex();
+            } else {
+                incrementGameCharacterRepresentationsIndex();
+            }
+        }
+    }
+
+    public void highlightPossibleMovement() {
+        Position characterPosition = new Position(currentGameCharacterRepresentation.getPosition().getX(),
+                currentGameCharacterRepresentation.getPosition().getY(),
+                currentGameCharacterRepresentation.getPosition().getZ());
+
+
+        possiblePositionsToMoveTree = battlefield.getPositionTree(characterPosition,
+                3,
+                2,
+                1);
+
+        possiblePositionsToMove = possiblePositionsToMoveTree.getAllElements();
+
+
+        for (GameCharacterRepresentation gameCharacterRepresentation : gameCharacterRepresentations) {
+            possiblePositionsToMove.remove(gameCharacterRepresentation.getPosition());
+        }
+
+        for (Position position : possiblePositionsToMove) {
+            log.debug("highlight green : {}", position.toString());
+            todraw.get(position).setHighlight(HighlightColor.GREEN);
+        }
+    }
+
+    private void incrementGameCharacterRepresentationsIndex() {
+        if (gameCharacterRepresentationsIndex >= gameCharacterRepresentations.size() - 1) {
+            gameCharacterRepresentationsIndex = 0;
+        } else {
+            gameCharacterRepresentationsIndex++;
         }
     }
 
@@ -149,6 +231,10 @@ public class BattleScene implements Scene {
             graphicManagerIsWorking = GraphicsManager.getInstance().update3DMovement();
         }
 
+        if (currentState.equals(BattleSceneState.PENDING)) {
+            getCurrentCharacter();
+        }
+
         for (DrawableObject drawableObject : toDrawList) {
             drawableObject.update(deltaTime);
         }
@@ -189,79 +275,106 @@ public class BattleScene implements Scene {
                     }
 
                     if (Keyboard.getEventKey() == Keyboard.KEY_UP) {
-                        switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
-                            case EAST:
-                                cursorLeft();
-                                break;
-                            case NORTH:
-                                cursorDown();
-                                break;
-                            case SOUTH:
-                                cursorUp();
-                                break;
-                            case WEST:
-                                cursorRight();
-                                break;
+                        if (currentState.equals(BattleSceneState.ATTACK)
+                                || currentState.equals(BattleSceneState.DEPLOY)
+                                || currentState.equals(BattleSceneState.MOVE)) {
+
+                            switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                                case EAST:
+                                    cursorLeft();
+                                    break;
+                                case NORTH:
+                                    cursorDown();
+                                    break;
+                                case SOUTH:
+                                    cursorUp();
+                                    break;
+                                case WEST:
+                                    cursorRight();
+                                    break;
+                            }
+                            GraphicsManager.getInstance().requestCenterPosition(cursor);
+                            graphicManagerIsWorking = true;
+                        } else if (currentState.equals(BattleSceneState.ACTION)) {
+                            menuSelectAction.decrementOptionsIndex();
                         }
-                        GraphicsManager.getInstance().requestCenterPosition(cursor);
-                        graphicManagerIsWorking = true;
                     }
 
                     if (Keyboard.getEventKey() == Keyboard.KEY_DOWN) {
-                        switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
-                            case EAST:
-                                cursorRight();
-                                break;
-                            case NORTH:
-                                cursorUp();
-                                break;
-                            case SOUTH:
-                                cursorDown();
-                                break;
-                            case WEST:
-                                cursorLeft();
-                                break;
+                        if (currentState.equals(BattleSceneState.ATTACK)
+                                || currentState.equals(BattleSceneState.DEPLOY)
+                                || currentState.equals(BattleSceneState.MOVE)) {
+                            switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                                case EAST:
+                                    cursorRight();
+                                    break;
+                                case NORTH:
+                                    cursorUp();
+                                    break;
+                                case SOUTH:
+                                    cursorDown();
+                                    break;
+                                case WEST:
+                                    cursorLeft();
+                                    break;
+                            }
+                            GraphicsManager.getInstance().requestCenterPosition(cursor);
+                            graphicManagerIsWorking = true;
+                        } else if (currentState.equals(BattleSceneState.ACTION)) {
+                            menuSelectAction.incrementOptionsIndex();
                         }
-                        GraphicsManager.getInstance().requestCenterPosition(cursor);
-                        graphicManagerIsWorking = true;
                     }
 
                     if (Keyboard.getEventKey() == Keyboard.KEY_LEFT) {
-                        switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
-                            case EAST:
-                                cursorDown();
-                                break;
-                            case NORTH:
-                                cursorRight();
-                                break;
-                            case SOUTH:
-                                cursorLeft();
-                                break;
-                            case WEST:
-                                cursorUp();
-                                break;
+                        if (currentState.equals(BattleSceneState.ATTACK)
+                                || currentState.equals(BattleSceneState.DEPLOY)
+                                || currentState.equals(BattleSceneState.MOVE)) {
+
+                            switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                                case EAST:
+                                    cursorDown();
+                                    break;
+                                case NORTH:
+                                    cursorRight();
+                                    break;
+                                case SOUTH:
+                                    cursorLeft();
+                                    break;
+                                case WEST:
+                                    cursorUp();
+                                    break;
+                            }
+                            GraphicsManager.getInstance().requestCenterPosition(cursor);
+                            graphicManagerIsWorking = true;
+                        } else if (currentState.equals(BattleSceneState.ACTION)) {
+                            menuSelectAction.decrementOptionsIndex();
                         }
-                        GraphicsManager.getInstance().requestCenterPosition(cursor);
-                        graphicManagerIsWorking = true;
                     }
 
                     if (Keyboard.getEventKey() == Keyboard.KEY_RIGHT) {
-                        switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
-                            case EAST:
-                                cursorUp();
-                                break;
-                            case NORTH:
-                                cursorLeft();
-                                break;
-                            case SOUTH:
-                                cursorRight();
-                                break;
-                            case WEST:
-                                cursorDown();
-                                break;
+                        if (currentState.equals(BattleSceneState.ATTACK)
+                                || currentState.equals(BattleSceneState.DEPLOY)
+                                || currentState.equals(BattleSceneState.MOVE)) {
+
+                            switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                                case EAST:
+                                    cursorUp();
+                                    break;
+                                case NORTH:
+                                    cursorLeft();
+                                    break;
+                                case SOUTH:
+                                    cursorRight();
+                                    break;
+                                case WEST:
+                                    cursorDown();
+                                    break;
+                            }
+                            GraphicsManager.getInstance().requestCenterPosition(cursor);
+                            graphicManagerIsWorking = true;
+                        } else if (currentState.equals(BattleSceneState.ACTION)) {
+                            menuSelectAction.incrementOptionsIndex();
                         }
-                        GraphicsManager.getInstance().requestCenterPosition(cursor);
-                        graphicManagerIsWorking = true;
                     }
 
                     if (Keyboard.getEventKey() == Keyboard.KEY_TAB) {
@@ -272,8 +385,27 @@ public class BattleScene implements Scene {
 
 
                     if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
-                        log.debug("pos: {}/{}/{}", cursor.getX(), cursor.getY(), cursor.getZ());
-                        placeCharacter();
+                        switch (currentState) {
+                            case DEPLOY:
+                                log.debug("pos: {}/{}/{}", cursor.getX(), cursor.getY(), cursor.getZ());
+                                placeCharacter();
+                                break;
+                            case ACTION:
+                                if (menuSelectAction.getSelectedOption().equals("Move")) {
+                                    currentState = BattleSceneState.MOVE;
+                                    highlightPossibleMovement();
+                                } else if (menuSelectAction.getSelectedOption().equals("Attack")) {
+                                    currentState = BattleSceneState.ATTACK;
+                                } else if (menuSelectAction.getSelectedOption().equals("End Turn")) {
+                                    currentState = BattleSceneState.PENDING;
+                                }
+                                break;
+
+                            case MOVE:
+                                moveCharacter();
+                                currentState = BattleSceneState.ACTION;
+                                break;
+                        }
                     }
                 }
             }
@@ -299,6 +431,9 @@ public class BattleScene implements Scene {
     private void render2D() {
         GraphicsManager.getInstance().make2D();
         characterRenderLeft.render(Color.white);
+        if (currentState.equals(BattleSceneState.ACTION)) {
+            menuSelectAction.render(Color.white);
+        }
         // hud.render();
     }
 
@@ -335,7 +470,11 @@ public class BattleScene implements Scene {
                     todraw.get(cursor).setHighlight(HighlightColor.GREEN);
                 }
             }
-
+            if (currentState.equals(BattleSceneState.MOVE)) {
+                if (possiblePositionsToMove.contains(cursor)) {
+                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
+                }
+            }
             cursor.setZ(cursor.getZ() - 1);
             if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
@@ -352,6 +491,12 @@ public class BattleScene implements Scene {
             if (currentState.equals(BattleSceneState.DEPLOY)) {
                 int indexOfPlayer = players.indexOf(currentPlayer);
                 if (battlefield.getDeploymentZones().get(indexOfPlayer).contains(cursor)) {
+                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
+                }
+            }
+
+            if (currentState.equals(BattleSceneState.MOVE)) {
+                if (possiblePositionsToMove.contains(cursor)) {
                     todraw.get(cursor).setHighlight(HighlightColor.GREEN);
                 }
             }
@@ -375,7 +520,11 @@ public class BattleScene implements Scene {
                     todraw.get(cursor).setHighlight(HighlightColor.GREEN);
                 }
             }
-
+            if (currentState.equals(BattleSceneState.MOVE)) {
+                if (possiblePositionsToMove.contains(cursor)) {
+                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
+                }
+            }
             cursor.setX(cursor.getX() - 1);
             if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
@@ -395,7 +544,11 @@ public class BattleScene implements Scene {
                     todraw.get(cursor).setHighlight(HighlightColor.GREEN);
                 }
             }
-
+            if (currentState.equals(BattleSceneState.MOVE)) {
+                if (possiblePositionsToMove.contains(cursor)) {
+                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
+                }
+            }
             cursor.setX(cursor.getX() + 1);
             if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
@@ -600,8 +753,9 @@ public class BattleScene implements Scene {
         return result;
     }
 
+
     private enum BattleSceneState {
-        DEPLOY, FIGHT
+        DEPLOY, PENDING, ACTION, MOVE, ATTACK
     }
 
 

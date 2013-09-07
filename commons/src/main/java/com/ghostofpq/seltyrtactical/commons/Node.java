@@ -134,6 +134,15 @@ public class Node<T> {
     public void setDistanceFromTop(int distanceFromTop) {
         this.distanceFromTop = distanceFromTop;
     }
+
+    public List<T> getAllElements() {
+        List<T> result = new ArrayList<T>();
+        result.add(getData());
+        for (Node<T> child : getChildren()) {
+            result.addAll(child.getAllElements());
+        }
+        return result;
+    }
 }
 
 

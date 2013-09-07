@@ -28,8 +28,12 @@ public class GameCharacterRepresentation extends DrawableObject {
     private PointOfView headingAngle;
     private PositionAbsolute positionToGo;
     private List<PositionAbsolute> positionsToGo;
+    private int hourglass;
+
 
     public GameCharacterRepresentation(GameCharacter character, Position position) {
+        hourglass = 100;
+
         this.setHeight(1.5f);
         this.setCharacter(character);
         this.setPosition(position);
@@ -86,6 +90,18 @@ public class GameCharacterRepresentation extends DrawableObject {
         chara = TextureManager.getInstance().getTexture(TextureKey.CHAR);
     }
 
+    public boolean tickHourglass() {
+        boolean result = false;
+        hourglass -= getCharacter().getCharacteristics().getAgility();
+        log.debug("{} : {}", getCharacter().getName(), hourglass);
+        if (hourglass <= 0) {
+            int delta = Math.abs(hourglass);
+            hourglass = 100 - delta;
+            result = true;
+        }
+        return result;
+    }
+
     public void update(long deltaTime) {
         for (Animation animation : animationWalk.values()) {
             animation.update(deltaTime);
@@ -96,10 +112,10 @@ public class GameCharacterRepresentation extends DrawableObject {
         boolean zDifferent = getPositionAbsolute().getZ() != getPositionToGo().getZ();
 
         if (xDifferent || yDifferent || zDifferent) {
-            log.debug("to go : {}/{}/{} ({}/{}/{}) => {}/{}/{} ",
-                    getPositionAbsolute().getX(), getPositionAbsolute().getY(), getPositionAbsolute().getZ(),
-                    getPosition().getX(), getPosition().getY(), getPosition().getZ(),
-                    getPositionToGo().getX(), getPositionToGo().getY(), getPositionToGo().getZ());
+            //log.debug("to go : {}/{}/{} ({}/{}/{}) => {}/{}/{} ",
+            //        getPositionAbsolute().getX(), getPositionAbsolute().getY(), getPositionAbsolute().getZ(),
+            //        getPosition().getX(), getPosition().getY(), getPosition().getZ(),
+            //        getPositionToGo().getX(), getPositionToGo().getY(), getPositionToGo().getZ());
             setHeadingAngle(getHeadingAngleFor(getPositionToGo()));
 
             float x = getPositionAbsolute().getX();
@@ -389,6 +405,10 @@ public class GameCharacterRepresentation extends DrawableObject {
     }
 
     public void setPositionsToGo(List<Position> positions) {
+        for (Position posRaw : positions) {
+            posRaw.plusY(1);
+        }
+
         positionsToGo.add(positions.get(0).toAbsolute());
         if (positions.size() > 1) {
             for (int i = 1; i < positions.size(); i++) {
