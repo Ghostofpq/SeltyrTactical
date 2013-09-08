@@ -168,7 +168,7 @@ public class BattleScene implements Scene {
 
     public void highlightPossibleMovement() {
         Position characterPosition = currentGameCharacterRepresentation.getFootPosition();
-        log.debug("FootPosition : {}", characterPosition.toString());
+        //log.debug("FootPosition : {}", characterPosition.toString());
 
         possiblePositionsToMoveTree = battlefield.getPositionTree(characterPosition,
                 3,
@@ -238,13 +238,13 @@ public class BattleScene implements Scene {
         for (DrawableObject drawableObject : toDrawList) {
             if (drawableObject.isMoving()) {
                 busy=true;
-                log.debug("Object has moved");
+                //log.debug("Object has moved");
                 sortToDrawList();
                 break;
             }
         }
         if (pointOfViewHasChanged()) {
-            log.debug("Point of view has changed");
+            //log.debug("Point of view has changed");
             sortToDrawList();
         }
         if(GraphicsManager.getInstance().update3DMovement()){

@@ -406,55 +406,112 @@ public class GameCharacterRepresentation extends DrawableObject {
     public void setPositionsToGo(List<Position> positionsRaw) {
         // We add 1 in Y because we are computing ground positions.
         List<Position> positions = new ArrayList<Position>();
+        positions.add(getPosition());
         for (int i = 0; i < positionsRaw.size(); i++) {
             log.debug("adding pos {} to path", positionsRaw.get(i).toString());
             positions.add(positionsRaw.get(i).plusYNew(1));
         }
-
         positionsToGo.add(positions.get(0).toAbsolute());
-        if (positions.size() > 1) {
-            for (int i = 1; i < positions.size(); i++) {
-                if (positions.get(i).getY() == positions.get(i - 1).getY()) {
-                    positionsToGo.add(positions.get(i).toAbsolute());
-                } else {
-                    while (i < (positions.size() - 2) && positions.get(i).getY() != positions.get(i - 1).getY()) {
-                        positionsToGo.add(positions.get(i).toAbsolute());
-                        i++;
-                    }
+        for (int i = 1; i < positions.size(); i++) {
+            if (positions.get(i).getY() == positions.get(i - 1).getY()) {
+                positionsToGo.add(positions.get(i).toAbsolute());
+            } else {
+                int delta = positions.get(i).getY() - positions.get(i - 1).getY();
 
-                    PositionAbsolute step1 = positions.get(i).toAbsolute();
-                    PositionAbsolute step2 = positions.get(i).toAbsolute();
-                    PositionAbsolute step3 = positions.get(i).toAbsolute();
+                PositionAbsolute step1 = positions.get(i - 1).toAbsolute();
+                PositionAbsolute step2 = positions.get(i - 1).toAbsolute();
+                PositionAbsolute step3 = positions.get(i - 1).toAbsolute();
+                PositionAbsolute step4 = positions.get(i - 1).toAbsolute();
+                PositionAbsolute step5 = positions.get(i - 1).toAbsolute();
+                PositionAbsolute step6 = positions.get(i - 1).toAbsolute();
+                PositionAbsolute step7 = positions.get(i - 1).toAbsolute();
+                PositionAbsolute step8 = positions.get(i - 1).toAbsolute();
+                PositionAbsolute step9 = positions.get(i - 1).toAbsolute();
 
-                    step1.setY(step1.getY() + 0.5f);
-                    step2.setY(step1.getY() + 1f);
-                    step3.setY(step1.getY() + 0.5f);
-
-                    if (positions.get(i).getX() != positions.get(i - 1).getX()) {
-                        if (positions.get(i).getX() < positions.get(i - 1).getX()) {
-                            step1.setX(step1.getX() - 0.1f);
-                            step2.setX(step1.getX() - 0.5f);
-                            step3.setX(step1.getX() - 0.9f);
-                        } else if (positions.get(i).getX() > positions.get(i - 1).getX()) {
-                            step1.setX(step1.getX() + 0.1f);
-                            step2.setX(step1.getX() + 0.5f);
-                            step3.setX(step1.getX() + 0.9f);
-                        }
-                    }
-                    if (positions.get(i).getZ() != positions.get(i - 1).getZ()) {
-                        if (positions.get(i).getZ() < positions.get(i - 1).getZ()) {
-                            step1.setZ(step1.getZ() - 0.1f);
-                            step2.setZ(step1.getZ() - 0.5f);
-                            step3.setZ(step1.getZ() - 0.9f);
-                        } else if (positions.get(i).getZ() > positions.get(i - 1).getZ()) {
-                            step1.setZ(step1.getZ() + 0.1f);
-                            step2.setZ(step1.getZ() + 0.5f);
-                            step3.setZ(step1.getZ() + 0.9f);
-                        }
-                    }
-                    positionsToGo.add(positions.get(i).toAbsolute());
+                if (delta > 0) {
+                    positionsToGo.add(positions.get(i - 1).toAbsolute().plusYNew(delta));
+                    step1.plusY(delta);
+                    step2.plusY(delta);
+                    step3.plusY(delta);
+                    step4.plusY(delta);
+                    step5.plusY(delta);
+                    step6.plusY(delta);
+                    step7.plusY(delta);
+                    step8.plusY(delta);
+                    step9.plusY(delta);
                 }
+
+                step1.plusY(0.13f);
+                step2.plusY(0.25f);
+                step3.plusY(0.35f);
+                step4.plusY(0.44f);
+                step5.plusY(0.48f);
+                step6.plusY(0.44f);
+                step7.plusY(0.35f);
+                step8.plusY(0.25f);
+                step9.plusY(0.13f);
+
+                if (positions.get(i).getX() != positions.get(i - 1).getX()) {
+                    if (positions.get(i).getX() < positions.get(i - 1).getX()) {
+                        step1.plusX(-0.1f);
+                        step2.plusX(-0.2f);
+                        step3.plusX(-0.3f);
+                        step4.plusX(-0.4f);
+                        step5.plusX(-0.5f);
+                        step6.plusX(-0.6f);
+                        step7.plusX(-0.7f);
+                        step8.plusX(-0.8f);
+                        step9.plusX(-0.9f);
+                    } else if (positions.get(i).getX() > positions.get(i - 1).getX()) {
+                        step1.plusX(0.1f);
+                        step2.plusX(0.2f);
+                        step3.plusX(0.3f);
+                        step4.plusX(0.4f);
+                        step5.plusX(0.5f);
+                        step6.plusX(0.6f);
+                        step7.plusX(0.7f);
+                        step8.plusX(0.8f);
+                        step9.plusX(0.9f);
+                    }
+                }
+
+                if (positions.get(i).getZ() != positions.get(i - 1).getZ()) {
+                    if (positions.get(i).getZ() < positions.get(i - 1).getZ()) {
+                        step1.plusZ(-0.1f);
+                        step2.plusZ(-0.2f);
+                        step3.plusZ(-0.3f);
+                        step4.plusZ(-0.4f);
+                        step5.plusZ(-0.5f);
+                        step6.plusZ(-0.6f);
+                        step7.plusZ(-0.7f);
+                        step8.plusZ(-0.8f);
+                        step9.plusZ(-0.9f);
+                    } else if (positions.get(i).getZ() > positions.get(i - 1).getZ()) {
+                        step1.plusZ(0.1f);
+                        step2.plusZ(0.2f);
+                        step3.plusZ(0.3f);
+                        step4.plusZ(0.4f);
+                        step5.plusZ(0.5f);
+                        step6.plusZ(0.6f);
+                        step7.plusZ(0.7f);
+                        step8.plusZ(0.8f);
+                        step9.plusZ(0.9f);
+                    }
+                }
+
+                positionsToGo.add(step1);
+                positionsToGo.add(step2);
+                positionsToGo.add(step3);
+
+                if (delta < 0) {
+                    positionsToGo.add(positions.get(i).toAbsolute().plusYNew(Math.abs(delta)));
+                }
+
+                positionsToGo.add(positions.get(i).toAbsolute());
             }
+        }
+        for (PositionAbsolute positionAbs : positionsToGo) {
+            log.debug("{}", positionAbs.toString());
         }
     }
 
@@ -473,14 +530,14 @@ public class GameCharacterRepresentation extends DrawableObject {
     }
 
     public PointOfView getHeadingAngleFor(PositionAbsolute positionToGo) {
-        PointOfView result;
+        PointOfView result = getHeadingAngle();
 
         if (positionToGo.getX() > getPositionAbsolute().getX()) {
             result = PointOfView.EAST;
         } else if (positionToGo.getX() == getPositionAbsolute().getX()) {
             if (positionToGo.getZ() > getPositionAbsolute().getZ()) {
                 result = PointOfView.SOUTH;
-            } else {
+            } else if (positionToGo.getZ() < getPositionAbsolute().getZ()) {
                 result = PointOfView.NORTH;
             }
         } else {
