@@ -9,17 +9,18 @@ public abstract class DrawableObject implements Comparable<DrawableObject> {
     protected PositionAbsolute positionAbsolute;
     protected PositionAbsolute positionToCompare;
     protected float height;
+    protected boolean isMoving;
 
     public abstract void draw();
 
     public abstract void update(long deltaTime);
 
-    public boolean hasMoved() {
-        return false;
+    public boolean isMoving() {
+        return isMoving;
     }
 
-    public void setHasMoved(boolean hasMoved) {
-
+    public void setMoving(boolean moving) {
+        isMoving = moving;
     }
 
     @Override

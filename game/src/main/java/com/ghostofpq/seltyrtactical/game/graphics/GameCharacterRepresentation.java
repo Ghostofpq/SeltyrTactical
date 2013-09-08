@@ -24,7 +24,6 @@ public class GameCharacterRepresentation extends DrawableObject {
     private GameCharacter character;
     private Map<PointOfView, Animation> animationWalk;
     private Texture chara;
-    private boolean hasMoved;
     private PointOfView headingAngle;
     private PositionAbsolute positionToGo;
     private List<PositionAbsolute> positionsToGo;
@@ -34,6 +33,7 @@ public class GameCharacterRepresentation extends DrawableObject {
     public GameCharacterRepresentation(GameCharacter character, Position position) {
         hourglass = 100;
 
+        this.setMoving(false);
         this.setHeight(1.5f);
         this.setCharacter(character);
         this.setPosition(position);
@@ -112,6 +112,7 @@ public class GameCharacterRepresentation extends DrawableObject {
         boolean zDifferent = getPositionAbsolute().getZ() != getPositionToGo().getZ();
 
         if (xDifferent || yDifferent || zDifferent) {
+            this.setMoving(true);
             //log.debug("to go : {}/{}/{} ({}/{}/{}) => {}/{}/{} ",
             //        getPositionAbsolute().getX(), getPositionAbsolute().getY(), getPositionAbsolute().getZ(),
             //        getPosition().getX(), getPosition().getY(), getPosition().getZ(),
@@ -179,6 +180,7 @@ public class GameCharacterRepresentation extends DrawableObject {
             if (!positionsToGo.isEmpty()) {
                 setPositionToGo(positionsToGo.get(0));
             } else {
+                this.setMoving(false);
                 setPositionToGo(null);
             }
         }
@@ -305,24 +307,13 @@ public class GameCharacterRepresentation extends DrawableObject {
 
         if (xFromPositionAbsolute != this.getPosition().getX()) {
             this.getPosition().setX(xFromPositionAbsolute);
-            this.setHasMoved(true);
         }
         if (yFromPositionAbsolute != this.getPosition().getY()) {
             this.getPosition().setY(yFromPositionAbsolute);
-            this.setHasMoved(true);
         }
         if (zFromPositionAbsolute != this.getPosition().getZ()) {
             this.getPosition().setZ(zFromPositionAbsolute);
-            this.setHasMoved(true);
         }
-    }
-
-    public boolean hasMoved() {
-        return hasMoved;
-    }
-
-    public void setHasMoved(boolean hasMoved) {
-        this.hasMoved = hasMoved;
     }
 
     private PointOfView getEquivalentPointOfView(PointOfView boardPointOfView, PointOfView charPointOfView) {

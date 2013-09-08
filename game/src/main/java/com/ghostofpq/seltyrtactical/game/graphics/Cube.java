@@ -27,6 +27,7 @@ public class Cube extends DrawableObject implements Serializable {
         this.setPositionAbsolute(position.toAbsolute());
         this.setVisible(true);
         this.setSelectable(true);
+        this.setMoving(false);
         textureTop = TextureKey.GRASS;
         side = TextureKey.EARTH;
         highlight = HighlightColor.NONE;

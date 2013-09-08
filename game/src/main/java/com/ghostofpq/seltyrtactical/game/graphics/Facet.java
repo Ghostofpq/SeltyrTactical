@@ -28,6 +28,7 @@ public class Facet extends DrawableObject implements Serializable {
         this.setCorner4(corner4);
         this.setTexture(texture);
         this.setVisible(true);
+        this.setMoving(false);
     }
 
     public void update(long deltaTime) {

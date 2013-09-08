@@ -25,7 +25,7 @@ public class BattleScene implements Scene {
     private List<DrawableObject> toDrawList;
     private List<Position> positionsToDraw;
     private List<Position> positionsToSelect;
-    private boolean graphicManagerIsWorking;
+    private boolean engineIsBusy;
     private Position cursor;
     private Battlefield battlefield;
     private BattleSceneState currentState;
@@ -63,6 +63,7 @@ public class BattleScene implements Scene {
 
     @Override
     public void init() {
+        setEngineIsBusy(true);
         currentState = BattleSceneState.DEPLOY;
         battlefield = SaveManager.getInstance().loadMap("mapTest1");
         currentPointOfView = GraphicsManager.getInstance().getCurrentPointOfView();
@@ -93,7 +94,6 @@ public class BattleScene implements Scene {
         GraphicsManager.getInstance().setupLights();
         GraphicsManager.getInstance().ready3D();
         GraphicsManager.getInstance().requestCenterPosition(cursor);
-        graphicManagerIsWorking = true;
 
     }
 
@@ -155,8 +155,9 @@ public class BattleScene implements Scene {
                 todraw.get(cursor).setHighlight(HighlightColor.BLUE);
 
                 GraphicsManager.getInstance().requestCenterPosition(cursor);
-                graphicManagerIsWorking = true;
 
+
+                setEngineIsBusy(true);
                 currentState = BattleSceneState.ACTION;
                 incrementGameCharacterRepresentationsIndex();
             } else {
@@ -232,24 +233,25 @@ public class BattleScene implements Scene {
 
     @Override
     public void update(long deltaTime) {
-        sortToDrawList();
-        //for (DrawableObject drawableObject : toDrawList) {
-        //    if (drawableObject.hasMoved()) {
-        //       log.debug("Object has moved");
-        //        sortToDrawList();
-        //        break;
-        //    }
-        //}
-        // for (DrawableObject drawableObject : toDrawList) {
-        //    drawableObject.setHasMoved(false);
-        //}
-        //if (pointOfViewHasChanged()) {
-        //    log.debug("Point of view has changed");
-        //    sortToDrawList();
-        //}
-        if (graphicManagerIsWorking) {
-            graphicManagerIsWorking = GraphicsManager.getInstance().update3DMovement();
+        boolean busy=false;
+
+        for (DrawableObject drawableObject : toDrawList) {
+            if (drawableObject.isMoving()) {
+                busy=true;
+                log.debug("Object has moved");
+                sortToDrawList();
+                break;
+            }
         }
+        if (pointOfViewHasChanged()) {
+            log.debug("Point of view has changed");
+            sortToDrawList();
+        }
+        if(GraphicsManager.getInstance().update3DMovement()){
+            busy=true;
+        }
+
+        setEngineIsBusy(busy);
 
         if (currentState.equals(BattleSceneState.PENDING)) {
             getCurrentCharacter();
@@ -268,24 +270,24 @@ public class BattleScene implements Scene {
 
     @Override
     public void manageInput() {
-        if (!graphicManagerIsWorking) {
+        if (!engineIsBusy()) {
             while (Keyboard.next()) {
                 if (Keyboard.getEventKeyState()) {
                     if (Keyboard.getEventKey() == Keyboard.KEY_O) {
                         GraphicsManager.getInstance().requestPointOfView(PointOfView.NORTH);
-                        graphicManagerIsWorking = true;
+                        setEngineIsBusy(true);
                     }
                     if (Keyboard.getEventKey() == Keyboard.KEY_I) {
                         GraphicsManager.getInstance().requestPointOfView(PointOfView.WEST);
-                        graphicManagerIsWorking = true;
+                        setEngineIsBusy(true);
                     }
                     if (Keyboard.getEventKey() == Keyboard.KEY_L) {
                         GraphicsManager.getInstance().requestPointOfView(PointOfView.EAST);
-                        graphicManagerIsWorking = true;
+                        setEngineIsBusy(true);
                     }
                     if (Keyboard.getEventKey() == Keyboard.KEY_K) {
                         GraphicsManager.getInstance().requestPointOfView(PointOfView.SOUTH);
-                        graphicManagerIsWorking = true;
+                        setEngineIsBusy(true);
                     }
                     if (Keyboard.getEventKey() == Keyboard.KEY_P) {
                         GraphicsManager.getInstance().zoomIn();
@@ -314,7 +316,7 @@ public class BattleScene implements Scene {
                                     break;
                             }
                             GraphicsManager.getInstance().requestCenterPosition(cursor);
-                            graphicManagerIsWorking = true;
+                            setEngineIsBusy(true);
                         } else if (currentState.equals(BattleSceneState.ACTION)) {
                             menuSelectAction.decrementOptionsIndex();
                         }
@@ -339,7 +341,7 @@ public class BattleScene implements Scene {
                                     break;
                             }
                             GraphicsManager.getInstance().requestCenterPosition(cursor);
-                            graphicManagerIsWorking = true;
+                            setEngineIsBusy(true);
                         } else if (currentState.equals(BattleSceneState.ACTION)) {
                             menuSelectAction.incrementOptionsIndex();
                         }
@@ -365,7 +367,7 @@ public class BattleScene implements Scene {
                                     break;
                             }
                             GraphicsManager.getInstance().requestCenterPosition(cursor);
-                            graphicManagerIsWorking = true;
+                            setEngineIsBusy(true);
                         } else if (currentState.equals(BattleSceneState.ACTION)) {
                             menuSelectAction.decrementOptionsIndex();
                         }
@@ -391,7 +393,7 @@ public class BattleScene implements Scene {
                                     break;
                             }
                             GraphicsManager.getInstance().requestCenterPosition(cursor);
-                            graphicManagerIsWorking = true;
+                            setEngineIsBusy(true);
                         } else if (currentState.equals(BattleSceneState.ACTION)) {
                             menuSelectAction.incrementOptionsIndex();
                         }
@@ -400,7 +402,7 @@ public class BattleScene implements Scene {
                     if (Keyboard.getEventKey() == Keyboard.KEY_TAB) {
                         cursorTab();
                         GraphicsManager.getInstance().requestCenterPosition(cursor);
-                        graphicManagerIsWorking = true;
+                        setEngineIsBusy(true);
                     }
 
 
@@ -750,5 +752,11 @@ public class BattleScene implements Scene {
         DEPLOY, PENDING, ACTION, MOVE, ATTACK
     }
 
+    public boolean engineIsBusy() {
+        return engineIsBusy;
+    }
 
+    public void setEngineIsBusy(boolean engineIsBusy) {
+        this.engineIsBusy = engineIsBusy;
+    }
 }
