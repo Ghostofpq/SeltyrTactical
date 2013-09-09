@@ -84,7 +84,7 @@ public class BattleScene implements Scene {
         options.add("Move");
         options.add("Attack");
         options.add("End Turn");
-        menuSelectAction = new MenuSelectAction(300, 0, 100, 100, 2, options);
+        menuSelectAction = new MenuSelectAction(300, 0, 100, 100, 2);
 
         sortToDrawList();
 
@@ -138,6 +138,7 @@ public class BattleScene implements Scene {
             }
             clearHighlightPossibleMovement();
             currentGameCharacterRepresentation.setHasMoved(true);
+            menuSelectAction.setHasMoved();
         }
     }
 
@@ -414,13 +415,14 @@ public class BattleScene implements Scene {
                                 placeCharacter();
                                 break;
                             case ACTION:
-                                if (menuSelectAction.getSelectedOption().equals("Move")) {
+                                if (menuSelectAction.getSelectedOption().equals(MenuSelectAction.MenuSelectActions.MOVE)) {
                                     currentState = BattleSceneState.MOVE;
                                     highlightPossibleMovement();
-                                } else if (menuSelectAction.getSelectedOption().equals("Attack")) {
+                                } else if (menuSelectAction.getSelectedOption().equals(MenuSelectAction.MenuSelectActions.ATTACK)) {
                                     currentState = BattleSceneState.ATTACK;
-                                } else if (menuSelectAction.getSelectedOption().equals("End Turn")) {
+                                } else if (menuSelectAction.getSelectedOption().equals(MenuSelectAction.MenuSelectActions.END_TURN)) {
                                     currentState = BattleSceneState.PENDING;
+                                    menuSelectAction.reinitMenu();
                                 }
                                 break;
 
@@ -748,16 +750,15 @@ public class BattleScene implements Scene {
         return result;
     }
 
-
-    private enum BattleSceneState {
-        DEPLOY, PENDING, ACTION, MOVE, ATTACK
-    }
-
     public boolean engineIsBusy() {
         return engineIsBusy;
     }
 
     public void setEngineIsBusy(boolean engineIsBusy) {
         this.engineIsBusy = engineIsBusy;
+    }
+
+    private enum BattleSceneState {
+        DEPLOY, PENDING, ACTION, MOVE, ATTACK
     }
 }
