@@ -722,6 +722,7 @@ public class BattleScene implements Scene {
                 res = comparePositionForWestPointOfView(thisPosition, otherPosition);
                 break;
         }
+
         return res;
     }
 
@@ -730,7 +731,8 @@ public class BattleScene implements Scene {
         if (toDrawList.size() > 1) {
             for (int x = 0; x < toDrawList.size(); x++) {
                 for (int i = 0; i < toDrawList.size() - x - 1; i++) {
-                    if (comparePosition(toDrawList.get(i).getPositionToCompare(currentPointOfView), toDrawList.get(i + 1).getPositionToCompare(currentPointOfView)) > 0) {
+                    int compare = comparePosition(toDrawList.get(i).getPositionToCompare(currentPointOfView), toDrawList.get(i + 1).getPositionToCompare(currentPointOfView));
+                    if (compare > 0) {
                         temp = toDrawList.get(i);
                         toDrawList.set(i, toDrawList.get(i + 1));
                         toDrawList.set(i + 1, temp);
