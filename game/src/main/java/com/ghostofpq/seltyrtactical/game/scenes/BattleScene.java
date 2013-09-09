@@ -177,15 +177,17 @@ public class BattleScene implements Scene {
                 2,
                 1);
 
+        for (GameCharacterRepresentation gameCharacterRepresentation : gameCharacterRepresentations) {
+            log.debug("remove : {}", gameCharacterRepresentation.getFootPosition().toString());
+            possiblePositionsToMoveTree.remove(gameCharacterRepresentation.getFootPosition());
+        }
+
+
         possiblePositionsToMove = possiblePositionsToMoveTree.getAllElements();
 
 
-        for (GameCharacterRepresentation gameCharacterRepresentation : gameCharacterRepresentations) {
-            possiblePositionsToMove.remove(gameCharacterRepresentation.getFootPosition());
-        }
-
         for (Position position : possiblePositionsToMove) {
-            //log.debug("highlight green : {}", position.toString());
+            log.debug("highlight green : {}", position.toString());
             todraw.get(position).setHighlight(HighlightColor.GREEN);
         }
         todraw.get(cursor).setHighlight(HighlightColor.BLUE);
