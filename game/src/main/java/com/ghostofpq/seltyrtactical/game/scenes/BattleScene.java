@@ -1,9 +1,9 @@
 package com.ghostofpq.seltyrtactical.game.scenes;
 
+import com.ghostofpq.seltyrtactical.commons.Node;
 import com.ghostofpq.seltyrtactical.commons.Position;
 import com.ghostofpq.seltyrtactical.commons.PositionAbsolute;
 import com.ghostofpq.seltyrtactical.commons.Tree;
-import com.ghostofpq.seltyrtactical.commons.Node;
 import com.ghostofpq.seltyrtactical.entities.battlefield.Battlefield;
 import com.ghostofpq.seltyrtactical.entities.battlefield.BattlefieldElement;
 import com.ghostofpq.seltyrtactical.entities.character.GameCharacter;
@@ -137,6 +137,7 @@ public class BattleScene implements Scene {
                 currentGameCharacterRepresentation.setPositionsToGo(path);
             }
             clearHighlightPossibleMovement();
+            currentGameCharacterRepresentation.setHasMoved(true);
         }
     }
 
@@ -233,11 +234,11 @@ public class BattleScene implements Scene {
 
     @Override
     public void update(long deltaTime) {
-        boolean busy=false;
+        boolean busy = false;
 
         for (DrawableObject drawableObject : toDrawList) {
             if (drawableObject.isMoving()) {
-                busy=true;
+                busy = true;
                 //log.debug("Object has moved");
                 sortToDrawList();
                 break;
@@ -247,8 +248,8 @@ public class BattleScene implements Scene {
             //log.debug("Point of view has changed");
             sortToDrawList();
         }
-        if(GraphicsManager.getInstance().update3DMovement()){
-            busy=true;
+        if (GraphicsManager.getInstance().update3DMovement()) {
+            busy = true;
         }
 
         setEngineIsBusy(busy);

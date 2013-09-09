@@ -29,15 +29,23 @@ public class GameCharacterRepresentation extends DrawableObject {
     private List<PositionAbsolute> positionsToGo;
     private int hourglass;
     private boolean isJumping;
+    private boolean hasMoved;
+    private boolean hasActed;
+
 
     public GameCharacterRepresentation(GameCharacter character, Position position) {
-        hourglass = 100;
-        isJumping = false;
-        this.setMoving(false);
-        this.setHeight(1.5f);
-        this.setCharacter(character);
-        this.setPosition(position);
-        this.setPositionAbsolute(position.toAbsolute());
+        setCharacter(character);
+        setMoving(false);
+
+        setHourglass(100);
+        setJumping(false);
+        setHasActed(false);
+        setHasMoved(false);
+
+        setHeight(1.5f);
+
+        setPosition(position);
+        setPositionAbsolute(position.toAbsolute());
         positionToGo = position.toAbsolute();
         positionsToGo = new ArrayList<PositionAbsolute>();
 
@@ -98,6 +106,8 @@ public class GameCharacterRepresentation extends DrawableObject {
             int delta = Math.abs(hourglass);
             hourglass = 100 - delta;
             result = true;
+            setHasMoved(false);
+            setHasActed(false);
         }
         return result;
     }
@@ -300,13 +310,6 @@ public class GameCharacterRepresentation extends DrawableObject {
         return character.getName();
     }
 
-    public GameCharacter getCharacter() {
-        return character;
-    }
-
-    public void setCharacter(GameCharacter character) {
-        this.character = character;
-    }
 
     public PositionAbsolute getPositionAbsolute() {
         return positionAbsolute;
@@ -568,11 +571,44 @@ public class GameCharacterRepresentation extends DrawableObject {
         return getPositionAbsolute().plusNew(0.5f, height / 2, 0.5f);
     }
 
+
+    public GameCharacter getCharacter() {
+        return character;
+    }
+
+    public void setCharacter(GameCharacter character) {
+        this.character = character;
+    }
+
     public boolean isJumping() {
         return isJumping;
     }
 
     public void setJumping(boolean jumping) {
         isJumping = jumping;
+    }
+
+    public int getHourglass() {
+        return hourglass;
+    }
+
+    public void setHourglass(int hourglass) {
+        this.hourglass = hourglass;
+    }
+
+    public boolean hasMoved() {
+        return hasMoved;
+    }
+
+    public void setHasMoved(boolean hadMoved) {
+        this.hasMoved = hadMoved;
+    }
+
+    public boolean hasActed() {
+        return hasActed;
+    }
+
+    public void setHasActed(boolean hasActed) {
+        this.hasActed = hasActed;
     }
 }
