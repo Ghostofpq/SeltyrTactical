@@ -119,118 +119,22 @@ public class GameCharacterRepresentation extends DrawableObject {
             //        getPositionToGo().getX(), getPositionToGo().getY(), getPositionToGo().getZ());
             setHeadingAngle(getHeadingAngleFor(getPositionToGo()));
 
-            float x = getPositionAbsolute().getX();
-            float y = getPositionAbsolute().getY();
-            float z = getPositionAbsolute().getZ();
-
-            float step = 0.1f;
-
             if (!isJumping()) {
-                if (xDifferent) {
-                    if (getPositionAbsolute().getX() > getPositionToGo().getX()) {
-                        if (getPositionAbsolute().getX() - getPositionToGo().getX() < step) {
-                            x = getPositionToGo().getX();
-                        } else {
-                            x = getPositionAbsolute().getX() - step;
-                        }
-                    } else if (getPositionAbsolute().getX() < getPositionToGo().getX()) {
-                        if (getPositionToGo().getX() - getPositionAbsolute().getX() < step) {
-                            x = getPositionToGo().getX();
-                        } else {
-                            x = getPositionAbsolute().getX() + step;
-                        }
-                    }
-                }
-
                 if (yDifferent) {
-                    setJumping(true);
                     if (positionsToGo.size() > 1) {
                         setHeadingAngle(getHeadingAngleFor(positionsToGo.get(1)));
                     }
-                    if (getPositionAbsolute().getY() > getPositionToGo().getY()) {
-                        if (getPositionAbsolute().getY() - getPositionToGo().getY() < step) {
-                            y = getPositionToGo().getY();
-                        } else {
-                            y = getPositionAbsolute().getY() - step;
-                        }
-                    } else if (getPositionAbsolute().getY() < getPositionToGo().getY()) {
-                        if (getPositionToGo().getY() - getPositionAbsolute().getY() < step) {
-                            y = getPositionToGo().getY();
-                        } else {
-                            y = getPositionAbsolute().getY() + step;
-                        }
-                    }
+                    setJumping(true);
                 }
-
-                if (zDifferent) {
-                    if (getPositionAbsolute().getZ() > getPositionToGo().getZ()) {
-                        if (getPositionAbsolute().getZ() - getPositionToGo().getZ() < step) {
-                            z = getPositionToGo().getZ();
-                        } else {
-                            z = getPositionAbsolute().getZ() - step;
-                        }
-                    } else if (getPositionAbsolute().getZ() < getPositionToGo().getZ()) {
-                        if (getPositionToGo().getZ() - getPositionAbsolute().getZ() < step) {
-                            z = getPositionToGo().getZ();
-                        } else {
-                            z = getPositionAbsolute().getZ() + step;
-                        }
-                    }
-                }
+                updatePosition(xDifferent, yDifferent, zDifferent);
             } else {
                 if (yDifferent) {
-                    if (getPositionAbsolute().getY() > getPositionToGo().getY()) {
-                        if (getPositionAbsolute().getY() - getPositionToGo().getY() < step) {
-                            y = getPositionToGo().getY();
-                        } else {
-                            y = getPositionAbsolute().getY() - step;
-                        }
-                    } else if (getPositionAbsolute().getY() < getPositionToGo().getY()) {
-                        if (getPositionToGo().getY() - getPositionAbsolute().getY() < step) {
-                            y = getPositionToGo().getY();
-                        } else {
-                            y = getPositionAbsolute().getY() + step;
-                        }
-                    }
-
-                    if (xDifferent) {
-                        if (getPositionAbsolute().getX() > getPositionToGo().getX()) {
-                            if (getPositionAbsolute().getX() - getPositionToGo().getX() < step) {
-                                x = getPositionToGo().getX();
-                            } else {
-                                x = getPositionAbsolute().getX() - step;
-                            }
-                        } else if (getPositionAbsolute().getX() < getPositionToGo().getX()) {
-                            if (getPositionToGo().getX() - getPositionAbsolute().getX() < step) {
-                                x = getPositionToGo().getX();
-                            } else {
-                                x = getPositionAbsolute().getX() + step;
-                            }
-                        }
-                    }
-
-                    if (zDifferent) {
-                        if (getPositionAbsolute().getZ() > getPositionToGo().getZ()) {
-                            if (getPositionAbsolute().getZ() - getPositionToGo().getZ() < step) {
-                                z = getPositionToGo().getZ();
-                            } else {
-                                z = getPositionAbsolute().getZ() - step;
-                            }
-                        } else if (getPositionAbsolute().getZ() < getPositionToGo().getZ()) {
-                            if (getPositionToGo().getZ() - getPositionAbsolute().getZ() < step) {
-                                z = getPositionToGo().getZ();
-                            } else {
-                                z = getPositionAbsolute().getZ() + step;
-                            }
-                        }
-                    }
+                    updatePosition(xDifferent, yDifferent, zDifferent);
                 } else {
+                    // check if landing animation is over
                     setJumping(false);
                 }
             }
-
-
-            setPositionAbsolute(new PositionAbsolute(x, y, z));
         } else if (!positionsToGo.isEmpty()) {
             positionsToGo.remove(0);
             if (!positionsToGo.isEmpty()) {
@@ -240,6 +144,64 @@ public class GameCharacterRepresentation extends DrawableObject {
                 setPositionToGo(null);
             }
         }
+    }
+
+    private void updatePosition(boolean xDifferent, boolean yDifferent, boolean zDifferent) {
+        float x = getPositionAbsolute().getX();
+        float y = getPositionAbsolute().getY();
+        float z = getPositionAbsolute().getZ();
+
+        float step = 0.1f;
+
+        if (xDifferent) {
+            if (getPositionAbsolute().getX() > getPositionToGo().getX()) {
+                if (getPositionAbsolute().getX() - getPositionToGo().getX() < step) {
+                    x = getPositionToGo().getX();
+                } else {
+                    x = getPositionAbsolute().getX() - step;
+                }
+            } else if (getPositionAbsolute().getX() < getPositionToGo().getX()) {
+                if (getPositionToGo().getX() - getPositionAbsolute().getX() < step) {
+                    x = getPositionToGo().getX();
+                } else {
+                    x = getPositionAbsolute().getX() + step;
+                }
+            }
+        }
+
+        if (yDifferent) {
+            if (getPositionAbsolute().getY() > getPositionToGo().getY()) {
+                if (getPositionAbsolute().getY() - getPositionToGo().getY() < step) {
+                    y = getPositionToGo().getY();
+                } else {
+                    y = getPositionAbsolute().getY() - step;
+                }
+            } else if (getPositionAbsolute().getY() < getPositionToGo().getY()) {
+                if (getPositionToGo().getY() - getPositionAbsolute().getY() < step) {
+                    y = getPositionToGo().getY();
+                } else {
+                    y = getPositionAbsolute().getY() + step;
+                }
+            }
+        }
+
+        if (zDifferent) {
+            if (getPositionAbsolute().getZ() > getPositionToGo().getZ()) {
+                if (getPositionAbsolute().getZ() - getPositionToGo().getZ() < step) {
+                    z = getPositionToGo().getZ();
+                } else {
+                    z = getPositionAbsolute().getZ() - step;
+                }
+            } else if (getPositionAbsolute().getZ() < getPositionToGo().getZ()) {
+                if (getPositionToGo().getZ() - getPositionAbsolute().getZ() < step) {
+                    z = getPositionToGo().getZ();
+                } else {
+                    z = getPositionAbsolute().getZ() + step;
+                }
+            }
+        }
+
+        setPositionAbsolute(new PositionAbsolute(x, y, z));
     }
 
     public void draw() {
