@@ -28,11 +28,11 @@ public class GameCharacterRepresentation extends DrawableObject {
     private PositionAbsolute positionToGo;
     private List<PositionAbsolute> positionsToGo;
     private int hourglass;
-
+    private boolean isJumping;
 
     public GameCharacterRepresentation(GameCharacter character, Position position) {
         hourglass = 100;
-
+        isJumping = false;
         this.setMoving(false);
         this.setHeight(1.5f);
         this.setCharacter(character);
@@ -125,51 +125,107 @@ public class GameCharacterRepresentation extends DrawableObject {
 
             float step = 0.1f;
 
-            if (xDifferent) {
-                if (getPositionAbsolute().getX() > getPositionToGo().getX()) {
-                    if (getPositionAbsolute().getX() - getPositionToGo().getX() < step) {
-                        x = getPositionToGo().getX();
-                    } else {
-                        x = getPositionAbsolute().getX() - step;
-                    }
-                } else if (getPositionAbsolute().getX() < getPositionToGo().getX()) {
-                    if (getPositionToGo().getX() - getPositionAbsolute().getX() < step) {
-                        x = getPositionToGo().getX();
-                    } else {
-                        x = getPositionAbsolute().getX() + step;
-                    }
-                }
-            }
-
-            if (yDifferent) {
-                if (getPositionAbsolute().getY() > getPositionToGo().getY()) {
-                    if (getPositionAbsolute().getY() - getPositionToGo().getY() < step) {
-                        y = getPositionToGo().getY();
-                    } else {
-                        y = getPositionAbsolute().getY() - step;
-                    }
-                } else if (getPositionAbsolute().getY() < getPositionToGo().getY()) {
-                    if (getPositionToGo().getY() - getPositionAbsolute().getY() < step) {
-                        y = getPositionToGo().getY();
-                    } else {
-                        y = getPositionAbsolute().getY() + step;
+            if (!isJumping()) {
+                if (xDifferent) {
+                    if (getPositionAbsolute().getX() > getPositionToGo().getX()) {
+                        if (getPositionAbsolute().getX() - getPositionToGo().getX() < step) {
+                            x = getPositionToGo().getX();
+                        } else {
+                            x = getPositionAbsolute().getX() - step;
+                        }
+                    } else if (getPositionAbsolute().getX() < getPositionToGo().getX()) {
+                        if (getPositionToGo().getX() - getPositionAbsolute().getX() < step) {
+                            x = getPositionToGo().getX();
+                        } else {
+                            x = getPositionAbsolute().getX() + step;
+                        }
                     }
                 }
-            }
 
-            if (zDifferent) {
-                if (getPositionAbsolute().getZ() > getPositionToGo().getZ()) {
-                    if (getPositionAbsolute().getZ() - getPositionToGo().getZ() < step) {
-                        z = getPositionToGo().getZ();
-                    } else {
-                        z = getPositionAbsolute().getZ() - step;
+                if (yDifferent) {
+                    setJumping(true);
+                    if (positionsToGo.size() > 1) {
+                        setHeadingAngle(getHeadingAngleFor(positionsToGo.get(1)));
                     }
-                } else if (getPositionAbsolute().getZ() < getPositionToGo().getZ()) {
-                    if (getPositionToGo().getZ() - getPositionAbsolute().getZ() < step) {
-                        z = getPositionToGo().getZ();
-                    } else {
-                        z = getPositionAbsolute().getZ() + step;
+                    if (getPositionAbsolute().getY() > getPositionToGo().getY()) {
+                        if (getPositionAbsolute().getY() - getPositionToGo().getY() < step) {
+                            y = getPositionToGo().getY();
+                        } else {
+                            y = getPositionAbsolute().getY() - step;
+                        }
+                    } else if (getPositionAbsolute().getY() < getPositionToGo().getY()) {
+                        if (getPositionToGo().getY() - getPositionAbsolute().getY() < step) {
+                            y = getPositionToGo().getY();
+                        } else {
+                            y = getPositionAbsolute().getY() + step;
+                        }
                     }
+                }
+
+                if (zDifferent) {
+                    if (getPositionAbsolute().getZ() > getPositionToGo().getZ()) {
+                        if (getPositionAbsolute().getZ() - getPositionToGo().getZ() < step) {
+                            z = getPositionToGo().getZ();
+                        } else {
+                            z = getPositionAbsolute().getZ() - step;
+                        }
+                    } else if (getPositionAbsolute().getZ() < getPositionToGo().getZ()) {
+                        if (getPositionToGo().getZ() - getPositionAbsolute().getZ() < step) {
+                            z = getPositionToGo().getZ();
+                        } else {
+                            z = getPositionAbsolute().getZ() + step;
+                        }
+                    }
+                }
+            } else {
+                if (yDifferent) {
+                    if (getPositionAbsolute().getY() > getPositionToGo().getY()) {
+                        if (getPositionAbsolute().getY() - getPositionToGo().getY() < step) {
+                            y = getPositionToGo().getY();
+                        } else {
+                            y = getPositionAbsolute().getY() - step;
+                        }
+                    } else if (getPositionAbsolute().getY() < getPositionToGo().getY()) {
+                        if (getPositionToGo().getY() - getPositionAbsolute().getY() < step) {
+                            y = getPositionToGo().getY();
+                        } else {
+                            y = getPositionAbsolute().getY() + step;
+                        }
+                    }
+
+                    if (xDifferent) {
+                        if (getPositionAbsolute().getX() > getPositionToGo().getX()) {
+                            if (getPositionAbsolute().getX() - getPositionToGo().getX() < step) {
+                                x = getPositionToGo().getX();
+                            } else {
+                                x = getPositionAbsolute().getX() - step;
+                            }
+                        } else if (getPositionAbsolute().getX() < getPositionToGo().getX()) {
+                            if (getPositionToGo().getX() - getPositionAbsolute().getX() < step) {
+                                x = getPositionToGo().getX();
+                            } else {
+                                x = getPositionAbsolute().getX() + step;
+                            }
+                        }
+                    }
+
+                    if (zDifferent) {
+                        if (getPositionAbsolute().getZ() > getPositionToGo().getZ()) {
+                            if (getPositionAbsolute().getZ() - getPositionToGo().getZ() < step) {
+                                z = getPositionToGo().getZ();
+                            } else {
+                                z = getPositionAbsolute().getZ() - step;
+                            }
+                        } else if (getPositionAbsolute().getZ() < getPositionToGo().getZ()) {
+                            if (getPositionToGo().getZ() - getPositionAbsolute().getZ() < step) {
+                                z = getPositionToGo().getZ();
+                            } else {
+                                z = getPositionAbsolute().getZ() + step;
+                            }
+                        }
+                    }
+                } else {
+                    setJumping(false);
                 }
             }
 
@@ -548,5 +604,13 @@ public class GameCharacterRepresentation extends DrawableObject {
 
     public PositionAbsolute getPositionToCompare(PointOfView pointOfView) {
         return getPositionAbsolute().plusNew(0.5f, height / 2, 0.5f);
+    }
+
+    public boolean isJumping() {
+        return isJumping;
+    }
+
+    public void setJumping(boolean jumping) {
+        isJumping = jumping;
     }
 }
