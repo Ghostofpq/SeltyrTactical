@@ -84,7 +84,7 @@ public class BattleScene implements Scene {
         options.add("Move");
         options.add("Attack");
         options.add("End Turn");
-        menuSelectAction = new MenuSelectAction(300, 0, 100, 100, 2);
+        menuSelectAction = new MenuSelectAction(300, 0, 200, 100, 2);
 
         sortToDrawList();
 
@@ -458,6 +458,9 @@ public class BattleScene implements Scene {
     private void render2D() {
         GraphicsManager.getInstance().make2D();
         characterRenderLeft.render(Color.white);
+        if (null != targetGameCharacterRepresentation) {
+            characterRenderRight.render(Color.white);
+        }
         if (currentState.equals(BattleSceneState.ACTION)) {
             menuSelectAction.render(Color.white);
         }
@@ -486,6 +489,17 @@ public class BattleScene implements Scene {
      * CURSOR
      */
 
+    private void updateCursorTarget() {
+        targetGameCharacterRepresentation = null;
+        characterRenderRight = null;
+        for (GameCharacterRepresentation gameCharacterRepresentation : gameCharacterRepresentations) {
+            if (cursor.equals(gameCharacterRepresentation.getFootPosition())) {
+                targetGameCharacterRepresentation = gameCharacterRepresentation;
+                characterRenderRight = new CharacterRender(500, 0, 300, 100, 2, targetGameCharacterRepresentation.getCharacter());
+            }
+        }
+    }
+
     private void cursorUp() {
 
         if (cursor.getZ() != 0) {
@@ -509,6 +523,7 @@ public class BattleScene implements Scene {
             }
             todraw.get(cursor).setHighlight(HighlightColor.BLUE);
         }
+        updateCursorTarget();
     }
 
     private void cursorDown() {
@@ -535,6 +550,7 @@ public class BattleScene implements Scene {
             }
             todraw.get(cursor).setHighlight(HighlightColor.BLUE);
         }
+        updateCursorTarget();
     }
 
     private void cursorLeft() {
@@ -559,6 +575,7 @@ public class BattleScene implements Scene {
             }
             todraw.get(cursor).setHighlight(HighlightColor.BLUE);
         }
+        updateCursorTarget();
     }
 
     private void cursorRight() {
@@ -583,6 +600,7 @@ public class BattleScene implements Scene {
             }
             todraw.get(cursor).setHighlight(HighlightColor.BLUE);
         }
+        updateCursorTarget();
     }
 
     private void cursorTab() {
