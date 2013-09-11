@@ -130,7 +130,10 @@ public class BattleScene implements Scene {
     }
 
     public void moveCharacter() {
-        if (possiblePositionsToMoveTree.contains(cursor)) {
+        if (cursor.equals(currentGameCharacterRepresentation.getFootPosition())) {
+            currentState = BattleSceneState.ACTION;
+            clearHighlightPossibleMovement();
+        } else if (possiblePositionsToMoveTree.contains(cursor)) {
             List<Node<Position>> nodeList = possiblePositionsToMoveTree.find(cursor);
             if (!nodeList.isEmpty()) {
                 List<Position> path = nodeList.get(0).getPathFromTop();
@@ -139,6 +142,13 @@ public class BattleScene implements Scene {
             clearHighlightPossibleMovement();
             currentGameCharacterRepresentation.setHasMoved(true);
             menuSelectAction.setHasMoved();
+        } else {
+            todraw.get(cursor).setHighlight(HighlightColor.NONE);
+            cursor = new Position(currentGameCharacterRepresentation.getFootPosition());
+            todraw.get(cursor).setHighlight(HighlightColor.BLUE);
+            GraphicsManager.getInstance().requestCenterPosition(cursor);
+            currentState = BattleSceneState.ACTION;
+            clearHighlightPossibleMovement();
         }
     }
 
@@ -184,7 +194,7 @@ public class BattleScene implements Scene {
 
 
         possiblePositionsToMove = possiblePositionsToMoveTree.getAllElements();
-
+        possiblePositionsToMove.remove(currentGameCharacterRepresentation.getFootPosition());
 
         for (Position position : possiblePositionsToMove) {
             log.debug("highlight green : {}", position.toString());
