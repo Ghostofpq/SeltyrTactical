@@ -110,8 +110,8 @@ public class GameCharacter implements Serializable {
 
         // Caracteristics
         this.characteristics = this.getRace().getBaseCaracteristics();
-        this.aggregatedCharacteristics = new PrimaryCharacteristics(0, 0, 0, 0,
-                0, 0);
+        this.secondaryCharacteristics = new SecondaryCharacteristics(this.characteristics);
+
 
         updateLifeAndManaPoint();
         currentHealthPoint = maxHealthPoint;
@@ -167,6 +167,7 @@ public class GameCharacter implements Serializable {
         this.aggregatedCharacteristics = this.characteristics;
         this.aggregatedCharacteristics.plus(getBonusFromJobs());
         this.aggregatedCharacteristics.plus(getBonusFromEquipement());
+        this.aggregatedSecondaryCharacteristics=new SecondaryCharacteristics(this.aggregatedCharacteristics);
     }
 
     /**

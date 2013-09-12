@@ -2,6 +2,7 @@ package com.ghostofpq.seltyrtactical.game.graphics;
 
 
 import com.ghostofpq.seltyrtactical.entities.character.GameCharacter;
+import com.ghostofpq.seltyrtactical.game.utils.FontManager;
 import org.newdawn.slick.Color;
 
 public class AttackPreview {
@@ -39,7 +40,12 @@ public class AttackPreview {
 
     public void render(Color color) {
         Toolbox.drawFrame(posX, posY, frameLength, frameHeight, frameWidth, color);
+        StringBuilder damage = new StringBuilder();
+        damage.append(estimatedDamage);
+        damage.append("Dmg");
+        int posXDamage = posX+(frameLength - FontManager.getInstance().getFontMap().get(FONT).getWidth(damage.toString())) / 2;
+        int posYDamage = posY+(frameHeight - FontManager.getInstance().getFontMap().get(FONT).getHeight(damage.toString())) / 2;
 
-
+        FontManager.getInstance().drawString(FONT, posXDamage, posYDamage, damage.toString(), Color.white);
     }
 }

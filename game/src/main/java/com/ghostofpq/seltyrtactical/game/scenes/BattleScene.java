@@ -46,6 +46,8 @@ public class BattleScene implements Scene {
     private PositionAbsolute northPointOfView;
     private PositionAbsolute eastPointOfView;
     private PositionAbsolute westPointOfView;
+    private AttackPreview attackPreview;
+
 
     private BattleScene() {
     }
@@ -470,6 +472,10 @@ public class BattleScene implements Scene {
         characterRenderLeft.render(Color.white);
         if (null != targetGameCharacterRepresentation) {
             characterRenderRight.render(Color.white);
+            if (currentState.equals(BattleSceneState.ATTACK)) {
+                attackPreview=new AttackPreview(300, 0, 200, 100, 2,currentGameCharacter,targetGameCharacterRepresentation.getCharacter());
+                attackPreview.render(Color.white);
+            }
         }
         if (currentState.equals(BattleSceneState.ACTION)) {
             menuSelectAction.render(Color.white);
