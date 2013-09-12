@@ -1,6 +1,5 @@
 package com.ghostofpq.seltyrtactical.commons;
 
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -84,14 +83,12 @@ public class Node<T> implements Comparable<Node<T>> {
     }
 
     public void remove(T element) {
-
         for (int i = 0; i < getChildren().size(); i++) {
             if (getChildren().get(i).getData().equals(element)) {
                 getChildren().remove(i);
                 i--;
             }
         }
-
         for (Node<T> child : getChildren()) {
             child.remove(element);
         }
