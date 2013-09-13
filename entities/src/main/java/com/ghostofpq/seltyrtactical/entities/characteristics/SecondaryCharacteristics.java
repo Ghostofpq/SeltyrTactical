@@ -1,6 +1,8 @@
 package com.ghostofpq.seltyrtactical.entities.characteristics;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class SecondaryCharacteristics implements Serializable {
 
@@ -14,207 +16,170 @@ public class SecondaryCharacteristics implements Serializable {
     private int speed;
     private int lifeRegeneration;
     private int manaRegeneration;
-    private float escape;
-    private float criticalStrike;
-    private float precision;
-    private float resilience;
+    private BigDecimal escape;
+    private BigDecimal criticalStrike;
+    private BigDecimal precision;
+    private BigDecimal resilience;
 
     public SecondaryCharacteristics() {
-        this.setAttackDamage(0);
-        this.setMagicalDamage(0);
-        this.setArmor(0);
-        this.setMagicResist(0);
+        attackDamage = 0;
+        magicalDamage = 0;
 
-        this.setEscape(0);
-        this.setCriticalStrike(0);
-        this.setPrecision(0);
-        this.setResilience(0);
+        armor = 0;
+        magicResist = 0;
 
-        this.setArmorPenetration(0);
-        this.setMagicPenetration(0);
-        this.setSpeed(0);
-        this.setLifeRegeneration(0);
-        this.setManaRegeneration(0);
+        armorPenetration = 0;
+        magicPenetration = 0;
+
+        speed = 0;
+
+        lifeRegeneration = 0;
+        manaRegeneration = 0;
+
+        escape = new BigDecimal("0.00");
+        escape.setScale(2, RoundingMode.DOWN);
+        criticalStrike = new BigDecimal("0.00");
+        criticalStrike.setScale(2, RoundingMode.DOWN);
+        precision = new BigDecimal("0.00");
+        precision.setScale(2, RoundingMode.DOWN);
+        resilience = new BigDecimal("0.00");
+        resilience.setScale(2, RoundingMode.DOWN);
     }
 
     public SecondaryCharacteristics(int attackDamage, int magicalDamage,
                                     int armor, int magicResist, int armorPenetration,
                                     int magicPenetration, int speed, int lifeRegeneration,
-                                    int manaRegeneration, float escape, float criticalStrike,
-                                    float precision, float resilience) {
-        super();
+                                    int manaRegeneration, BigDecimal escape, BigDecimal criticalStrike,
+                                    BigDecimal precision, BigDecimal resilience) {
+        this.attackDamage = attackDamage;
+        this.magicalDamage = magicalDamage;
 
-        this.setAttackDamage(attackDamage);
-        this.setMagicalDamage(magicalDamage);
-        this.setArmor(armor);
-        this.setMagicResist(magicResist);
+        this.armor = armor;
+        this.magicResist = magicResist;
 
-        this.setEscape(escape);
-        this.setCriticalStrike(criticalStrike);
-        this.setPrecision(precision);
-        this.setResilience(resilience);
+        this.armorPenetration = armorPenetration;
+        this.magicPenetration = magicPenetration;
 
-        this.setArmorPenetration(armorPenetration);
-        this.setMagicPenetration(magicPenetration);
-        this.setSpeed(speed);
-        this.setLifeRegeneration(lifeRegeneration);
-        this.setManaRegeneration(manaRegeneration);
+        this.speed = speed;
+
+        this.lifeRegeneration = lifeRegeneration;
+        this.manaRegeneration = manaRegeneration;
+
+        this.escape = escape;
+        this.escape.setScale(2, RoundingMode.DOWN);
+        this.criticalStrike = criticalStrike;
+        this.criticalStrike.setScale(2, RoundingMode.DOWN);
+        this.precision = precision;
+        this.precision.setScale(2, RoundingMode.DOWN);
+        this.resilience = resilience;
+        this.resilience.setScale(2, RoundingMode.DOWN);
     }
 
-    public SecondaryCharacteristics(PrimaryCharacteristics caracteristics) {
+    public SecondaryCharacteristics(PrimaryCharacteristics characteristics) {
+        attackDamage = characteristics.getStrength();
+        magicalDamage = characteristics.getIntelligence();
 
-        this.setAttackDamage(caracteristics.getStrength());
-        this.setMagicalDamage(caracteristics.getIntelligence());
-        this.setArmor(caracteristics.getEndurance());
-        this.setMagicResist(caracteristics.getWill());
+        armor = characteristics.getEndurance();
+        magicResist = characteristics.getWill();
 
-        this.setEscape(caracteristics.getAgility() / 1000);
-        this.setCriticalStrike(caracteristics.getAgility() / 1000);
-        this.setPrecision(Math.max(caracteristics.getEndurance(),
-                caracteristics.getWill()) / 1000);
-        this.setResilience(Math.max(caracteristics.getStrength(),
-                caracteristics.getIntelligence()) / 1000);
+        armorPenetration = 0;
+        magicPenetration = 0;
 
-        this.setArmorPenetration(0);
-        this.setMagicPenetration(0);
-        this.setSpeed(0);
-        this.setLifeRegeneration(0);
-        this.setManaRegeneration(0);
+        speed = 0;
+
+        lifeRegeneration = 0;
+        manaRegeneration = 0;
+
+        double escapeD = characteristics.getAgility() / 1000;
+        escape = new BigDecimal(escapeD);
+        escape.setScale(2, RoundingMode.DOWN);
+        double criticalStrikeD = characteristics.getAgility() / 1000;
+        criticalStrike = new BigDecimal(criticalStrikeD);
+        criticalStrike.setScale(2, RoundingMode.DOWN);
+        double precisionD = Math.max(characteristics.getStrength(),
+                characteristics.getIntelligence()) / 1000;
+        precision = new BigDecimal(precisionD);
+        precision.setScale(2, RoundingMode.DOWN);
+        double resilienceD = Math.max(characteristics.getEndurance(),
+                characteristics.getWill()) / 1000;
+        resilience = new BigDecimal(resilienceD);
+        resilience.setScale(2, RoundingMode.DOWN);
     }
 
     public void plus(SecondaryCharacteristics secondaryCharacteristics) {
-        this.setAttackDamage(this.getAttackDamage()
-                + secondaryCharacteristics.getAttackDamage());
-        this.setMagicalDamage(this.getMagicalDamage()
-                + secondaryCharacteristics.getMagicalDamage());
-        this.setArmor(this.getArmor() + secondaryCharacteristics.getArmor());
-        this.setMagicResist(this.getMagicResist()
-                + secondaryCharacteristics.getMagicResist());
+        attackDamage += secondaryCharacteristics.getAttackDamage();
+        magicalDamage += secondaryCharacteristics.getMagicalDamage();
 
-        this.setEscape(this.getEscape() + secondaryCharacteristics.getEscape());
-        this.setCriticalStrike(this.getCriticalStrike()
-                + secondaryCharacteristics.getCriticalStrike());
-        this.setPrecision(this.getPrecision()
-                + secondaryCharacteristics.getPrecision());
-        this.setResilience(this.getResilience()
-                + secondaryCharacteristics.getResilience());
+        armor += secondaryCharacteristics.getArmor();
+        magicResist += secondaryCharacteristics.getMagicResist();
 
-        this.setArmorPenetration(this.getArmorPenetration()
-                + secondaryCharacteristics.getArmorPenetration());
-        this.setMagicPenetration(this.getMagicPenetration()
-                + secondaryCharacteristics.getMagicPenetration());
-        this.setSpeed(this.getSpeed() + secondaryCharacteristics.getSpeed());
-        this.setLifeRegeneration(this.getLifeRegeneration()
-                + secondaryCharacteristics.getLifeRegeneration());
-        this.setManaRegeneration(this.getManaRegeneration()
-                + secondaryCharacteristics.getManaRegeneration());
+        armorPenetration += secondaryCharacteristics.getArmorPenetration();
+        magicPenetration += secondaryCharacteristics.getMagicPenetration();
+
+        speed += secondaryCharacteristics.getSpeed();
+
+        lifeRegeneration += secondaryCharacteristics.getLifeRegeneration();
+        manaRegeneration += secondaryCharacteristics.getManaRegeneration();
+
+        escape = escape.add(secondaryCharacteristics.getEscape());
+        criticalStrike = criticalStrike.add(secondaryCharacteristics.getCriticalStrike());
+        precision = precision.add(secondaryCharacteristics.getPrecision());
+        resilience = resilience.add(secondaryCharacteristics.getResilience());
     }
 
-    /**
-     * Getters and Setters
+    /*
+     * GETTERS
      */
 
     public int getAttackDamage() {
         return attackDamage;
     }
 
-    public void setAttackDamage(int attackDamage) {
-        this.attackDamage = attackDamage;
-    }
-
     public int getMagicalDamage() {
         return magicalDamage;
-    }
-
-    public void setMagicalDamage(int magicalDamage) {
-        this.magicalDamage = magicalDamage;
     }
 
     public int getArmor() {
         return armor;
     }
 
-    public void setArmor(int armor) {
-        this.armor = armor;
-    }
-
     public int getMagicResist() {
         return magicResist;
-    }
-
-    public void setMagicResist(int magicResist) {
-        this.magicResist = magicResist;
     }
 
     public int getArmorPenetration() {
         return armorPenetration;
     }
 
-    public void setArmorPenetration(int armorPenetration) {
-        this.armorPenetration = armorPenetration;
-    }
-
     public int getMagicPenetration() {
         return magicPenetration;
-    }
-
-    public void setMagicPenetration(int magicPenetration) {
-        this.magicPenetration = magicPenetration;
     }
 
     public int getSpeed() {
         return speed;
     }
 
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
     public int getLifeRegeneration() {
         return lifeRegeneration;
-    }
-
-    public void setLifeRegeneration(int lifeRegeneration) {
-        this.lifeRegeneration = lifeRegeneration;
     }
 
     public int getManaRegeneration() {
         return manaRegeneration;
     }
 
-    public void setManaRegeneration(int manaRegeneration) {
-        this.manaRegeneration = manaRegeneration;
-    }
-
-    public float getEscape() {
+    public BigDecimal getEscape() {
         return escape;
     }
 
-    public void setEscape(float escape) {
-        this.escape = escape;
-    }
-
-    public float getCriticalStrike() {
+    public BigDecimal getCriticalStrike() {
         return criticalStrike;
     }
 
-    public void setCriticalStrike(float criticalStrike) {
-        this.criticalStrike = criticalStrike;
-    }
-
-    public float getPrecision() {
+    public BigDecimal getPrecision() {
         return precision;
     }
 
-    public void setPrecision(float precision) {
-        this.precision = precision;
-    }
-
-    public float getResilience() {
+    public BigDecimal getResilience() {
         return resilience;
-    }
-
-    public void setResilience(float resilience) {
-        this.resilience = resilience;
     }
 }

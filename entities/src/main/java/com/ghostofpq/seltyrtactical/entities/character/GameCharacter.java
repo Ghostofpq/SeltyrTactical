@@ -9,6 +9,7 @@ import com.ghostofpq.seltyrtactical.entities.race.Race;
 import com.ghostofpq.seltyrtactical.entities.race.RaceType;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 public class GameCharacter implements Serializable {
     private static final long serialVersionUID = 1519266158170332774L;
@@ -85,6 +86,7 @@ public class GameCharacter implements Serializable {
      */
     private int currentManaPoint;
     private int maxManaPoint;
+    private boolean isAlive;
 
     /**
      * Creates a new Character level 1 Warrior.
@@ -100,20 +102,20 @@ public class GameCharacter implements Serializable {
         this.gender = gender;
 
         // XP
-        this.level = DEFAULT_START_LEVEL;
-        this.experience = DEFAULT_START_XP;
-        this.nextLevel = DEFAULT_START_NEXT_LEVEL;
+        level = DEFAULT_START_LEVEL;
+        experience = DEFAULT_START_XP;
+        nextLevel = DEFAULT_START_NEXT_LEVEL;
 
         // Jobs
-        this.jobWarrior = new Warrior();
-        this.currentJob = this.jobWarrior;
+        jobWarrior = new Warrior();
+        currentJob = jobWarrior;
 
         // Caracteristics
-        this.characteristics = this.getRace().getBaseCaracteristics();
-        this.secondaryCharacteristics = new SecondaryCharacteristics(this.characteristics);
-
+        characteristics = getRace().getBaseCaracteristics();
+        secondaryCharacteristics = new SecondaryCharacteristics(characteristics);
 
         updateLifeAndManaPoint();
+
         currentHealthPoint = maxHealthPoint;
         currentManaPoint = maxManaPoint;
     }
@@ -131,28 +133,28 @@ public class GameCharacter implements Serializable {
     }
 
     public void levelUp() {
-        this.level++;
-        this.calculateNextLevel();
-        this.characteristics.plus(this.getRace().getLevelUpCaracteristics());
+        level++;
+        calculateNextLevel();
+        characteristics.plus(getRace().getLevelUpCaracteristics());
 
         updateLifeAndManaPoint();
     }
 
     private void calculateNextLevel() {
-        double coef = (1 / (Math.sqrt(this.level)));
-        this.nextLevel = (int) Math.floor(coef * this.nextLevel);
+        double coef = (1 / (Math.sqrt(level)));
+        this.nextLevel = (int) Math.floor(coef * nextLevel);
     }
 
     private void updateLifeAndManaPoint() {
         calculateAggregatedCaracteristics();
-        this.maxHealthPoint = this.aggregatedCharacteristics.getEndurance() * 10;
-        this.maxManaPoint = this.aggregatedCharacteristics.getIntelligence() * 10;
+        maxHealthPoint = aggregatedCharacteristics.getEndurance() * 10;
+        maxManaPoint = aggregatedCharacteristics.getIntelligence() * 10;
     }
 
     private PrimaryCharacteristics getBonusFromJobs() {
         PrimaryCharacteristics result = new PrimaryCharacteristics(0, 0, 0, 0,
                 0, 0);
-        result.plus(this.jobWarrior.getAggregatedCaracteristics());
+        result.plus(jobWarrior.getAggregatedCaracteristics());
         return result;
     }
 
@@ -164,10 +166,10 @@ public class GameCharacter implements Serializable {
     }
 
     private void calculateAggregatedCaracteristics() {
-        this.aggregatedCharacteristics = this.characteristics;
+        this.aggregatedCharacteristics = characteristics;
         this.aggregatedCharacteristics.plus(getBonusFromJobs());
         this.aggregatedCharacteristics.plus(getBonusFromEquipement());
-        this.aggregatedSecondaryCharacteristics = new SecondaryCharacteristics(this.aggregatedCharacteristics);
+        this.aggregatedSecondaryCharacteristics = new SecondaryCharacteristics(aggregatedCharacteristics);
     }
 
     /*
@@ -178,24 +180,12 @@ public class GameCharacter implements Serializable {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Race getRace() {
         return race;
     }
 
-    public void setRace(Race race) {
-        this.race = race;
-    }
-
     public Gender getGender() {
         return gender;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
     }
 
     public String getStory() {
@@ -210,109 +200,60 @@ public class GameCharacter implements Serializable {
         return level;
     }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
     public int getExperience() {
         return experience;
-    }
-
-    public void setExperience(int experience) {
-        this.experience = experience;
     }
 
     public int getNextLevel() {
         return nextLevel;
     }
 
-    public void setNextLevel(int nextLevel) {
-        this.nextLevel = nextLevel;
-    }
-
     public Job getCurrentJob() {
         return currentJob;
-    }
-
-    public void setCurrentJob(Job currentJob) {
-        this.currentJob = currentJob;
     }
 
     public Warrior getJobWarrior() {
         return jobWarrior;
     }
 
-    public void setJobWarrior(Warrior jobWarrior) {
-        this.jobWarrior = jobWarrior;
-    }
-
     public PrimaryCharacteristics getCharacteristics() {
         return characteristics;
-    }
-
-    public void setCharacteristics(PrimaryCharacteristics characteristics) {
-        this.characteristics = characteristics;
     }
 
     public SecondaryCharacteristics getSecondaryCharacteristics() {
         return secondaryCharacteristics;
     }
 
-    public void setSecondaryCharacteristics(SecondaryCharacteristics secondaryCharacteristics) {
-        this.secondaryCharacteristics = secondaryCharacteristics;
-    }
-
     public PrimaryCharacteristics getAggregatedCharacteristics() {
         return aggregatedCharacteristics;
-    }
-
-    public void setAggregatedCharacteristics(PrimaryCharacteristics aggregatedCharacteristics) {
-        this.aggregatedCharacteristics = aggregatedCharacteristics;
     }
 
     public SecondaryCharacteristics getAggregatedSecondaryCharacteristics() {
         return aggregatedSecondaryCharacteristics;
     }
 
-    public void setAggregatedSecondaryCharacteristics(SecondaryCharacteristics aggregatedSecondaryCharacteristics) {
-        this.aggregatedSecondaryCharacteristics = aggregatedSecondaryCharacteristics;
-    }
-
     public int getCurrentHealthPoint() {
         return currentHealthPoint;
-    }
-
-    public void setCurrentHealthPoint(int currentHealthPoint) {
-        this.currentHealthPoint = currentHealthPoint;
     }
 
     public int getMaxHealthPoint() {
         return maxHealthPoint;
     }
 
-    public void setMaxHealthPoint(int maxHealthPoint) {
-        this.maxHealthPoint = maxHealthPoint;
-    }
-
     public int getCurrentManaPoint() {
         return currentManaPoint;
-    }
-
-    public void setCurrentManaPoint(int currentManaPoint) {
-        this.currentManaPoint = currentManaPoint;
     }
 
     public int getMaxManaPoint() {
         return maxManaPoint;
     }
 
-    public void setMaxManaPoint(int maxManaPoint) {
-        this.maxManaPoint = maxManaPoint;
+    public boolean isAlive() {
+        return isAlive;
     }
-
     /*
     * CHARACTERISTICS GETTERS
-     */
+    */
 
     public int getStrength() {
         return getAggregatedCharacteristics().getStrength();
@@ -374,19 +315,19 @@ public class GameCharacter implements Serializable {
         return getAggregatedSecondaryCharacteristics().getManaRegeneration();
     }
 
-    public float getEscape() {
+    public BigDecimal getEscape() {
         return getAggregatedSecondaryCharacteristics().getEscape();
     }
 
-    public float getCriticalStrike() {
+    public BigDecimal getCriticalStrike() {
         return getAggregatedSecondaryCharacteristics().getCriticalStrike();
     }
 
-    public float getPrecision() {
+    public BigDecimal getPrecision() {
         return getAggregatedSecondaryCharacteristics().getPrecision();
     }
 
-    public float getResilience() {
+    public BigDecimal getResilience() {
         return getAggregatedSecondaryCharacteristics().getResilience();
     }
 }
