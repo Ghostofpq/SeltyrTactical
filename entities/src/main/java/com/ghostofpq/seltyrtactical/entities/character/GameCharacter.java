@@ -67,12 +67,12 @@ public class GameCharacter implements Serializable {
     private SecondaryCharacteristics secondaryCharacteristics;
     /**
      * Aggregated {@link PrimaryCharacteristics} of the character (with job and
-     * equipement)
+     * equipment)
      */
     private PrimaryCharacteristics aggregatedCharacteristics;
     /**
      * Aggregated {@link SecondaryCharacteristics} of the character (with job
-     * and equipement)
+     * and equipment)
      */
     private SecondaryCharacteristics aggregatedSecondaryCharacteristics;
     /**
@@ -167,11 +167,11 @@ public class GameCharacter implements Serializable {
         this.aggregatedCharacteristics = this.characteristics;
         this.aggregatedCharacteristics.plus(getBonusFromJobs());
         this.aggregatedCharacteristics.plus(getBonusFromEquipement());
-        this.aggregatedSecondaryCharacteristics=new SecondaryCharacteristics(this.aggregatedCharacteristics);
+        this.aggregatedSecondaryCharacteristics = new SecondaryCharacteristics(this.aggregatedCharacteristics);
     }
 
-    /**
-     * Getters and Setters
+    /*
+     * GETTERS & SETTERS
      */
 
     public String getName() {
@@ -308,5 +308,85 @@ public class GameCharacter implements Serializable {
 
     public void setMaxManaPoint(int maxManaPoint) {
         this.maxManaPoint = maxManaPoint;
+    }
+
+    /*
+    * CHARACTERISTICS GETTERS
+     */
+
+    public int getStrength() {
+        return getAggregatedCharacteristics().getStrength();
+    }
+
+    public int getEndurance() {
+        return getAggregatedCharacteristics().getEndurance();
+    }
+
+    public int getIntelligence() {
+        return getAggregatedCharacteristics().getIntelligence();
+    }
+
+    public int getWill() {
+        return getAggregatedCharacteristics().getWill();
+    }
+
+    public int getAgility() {
+        return getAggregatedCharacteristics().getAgility();
+    }
+
+    public int getMovement() {
+        return getAggregatedCharacteristics().getMovement();
+    }
+
+    public int getAttackDamage() {
+        return getAggregatedSecondaryCharacteristics().getAttackDamage();
+    }
+
+    public int getMagicalDamage() {
+        return getAggregatedSecondaryCharacteristics().getMagicalDamage();
+    }
+
+    public int getArmor() {
+        return getAggregatedSecondaryCharacteristics().getArmor();
+    }
+
+    public int getMagicResist() {
+        return getAggregatedSecondaryCharacteristics().getMagicResist();
+    }
+
+    public int getArmorPenetration() {
+        return getAggregatedSecondaryCharacteristics().getArmorPenetration();
+    }
+
+    public int getMagicPenetration() {
+        return getAggregatedSecondaryCharacteristics().getMagicPenetration();
+    }
+
+    public int getSpeed() {
+        return getAggregatedSecondaryCharacteristics().getSpeed();
+    }
+
+    public int getLifeRegeneration() {
+        return getAggregatedSecondaryCharacteristics().getLifeRegeneration();
+    }
+
+    public int getManaRegeneration() {
+        return getAggregatedSecondaryCharacteristics().getManaRegeneration();
+    }
+
+    public float getEscape() {
+        return getAggregatedSecondaryCharacteristics().getEscape();
+    }
+
+    public float getCriticalStrike() {
+        return getAggregatedSecondaryCharacteristics().getCriticalStrike();
+    }
+
+    public float getPrecision() {
+        return getAggregatedSecondaryCharacteristics().getPrecision();
+    }
+
+    public float getResilience() {
+        return getAggregatedSecondaryCharacteristics().getResilience();
     }
 }
