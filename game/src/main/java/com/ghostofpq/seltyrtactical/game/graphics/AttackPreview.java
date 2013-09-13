@@ -17,8 +17,14 @@ public class AttackPreview {
     private int frameLength;
     private int frameHeight;
     private int estimatedDamage;
-    private int applicableEscapeRate;
-    private int applicableCriticalChance;
+    private int chanceToHit;
+    private int chanceToCriticalHit;
+    private int posXDamage;
+    private int posYDamage;
+    private int posXChanceToHit;
+    private int posYChanceToHit;
+    private int posXChanceToCriticalHit;
+    private int posYChanceToCriticalHit;
 
 
     public AttackPreview(int posX, int posY, int frameLength, int frameHeight, int frameWidth, GameCharacter attackingChar, GameCharacter targetedChar) {
@@ -44,8 +50,8 @@ public class AttackPreview {
         if (applicableCriticalChance.intValue() <= 0) {
             applicableCriticalChance = new BigDecimal("0");
         }
-        this.applicableEscapeRate = applicableEscapeRate.intValue();
-        this.applicableCriticalChance = applicableCriticalChance.intValue();
+        chanceToHit = 100 - applicableEscapeRate.intValue();
+        chanceToCriticalHit = applicableCriticalChance.intValue();
 
     }
 
@@ -54,9 +60,24 @@ public class AttackPreview {
         StringBuilder damage = new StringBuilder();
         damage.append(estimatedDamage);
         damage.append("Dmg");
-        int posXDamage = posX + (frameLength - FontManager.getInstance().getFontMap().get(FONT).getWidth(damage.toString())) / 2;
-        int posYDamage = posY + (frameHeight - FontManager.getInstance().getFontMap().get(FONT).getHeight(damage.toString())) / 2;
+        posXDamage = posX + (frameLength - FontManager.getInstance().getFontMap().get(FONT).getWidth(damage.toString())) / 2;
+        posYDamage = posY + ((frameHeight / 2) - FontManager.getInstance().getFontMap().get(FONT).getHeight(damage.toString())) / 2;
+
+        StringBuilder hitChance = new StringBuilder();
+        hitChance.append(chanceToHit);
+        hitChance.append("%");
+        posXChanceToHit = posX + ((frameLength / 2) - FontManager.getInstance().getFontMap().get(FONT).getWidth(hitChance.toString())) / 2;
+        posYChanceToHit = posY + (frameHeight / 2) + ((frameHeight / 2) - FontManager.getInstance().getFontMap().get(FONT).getHeight(hitChance.toString())) / 2;
+
+        StringBuilder critChance = new StringBuilder();
+        critChance.append(chanceToCriticalHit);
+        critChance.append("%");
+        posXChanceToCriticalHit = posX + (frameLength/2) + ((frameLength / 2) - FontManager.getInstance().getFontMap().get(FONT).getWidth(critChance.toString())) / 2;
+        posYChanceToCriticalHit = posY + (frameHeight / 2) + ((frameHeight / 2) - FontManager.getInstance().getFontMap().get(FONT).getHeight(critChance.toString())) / 2;
+
 
         FontManager.getInstance().drawString(FONT, posXDamage, posYDamage, damage.toString(), Color.white);
+        FontManager.getInstance().drawString(FONT, posXChanceToHit, posYChanceToHit, hitChance.toString(), Color.white);
+        FontManager.getInstance().drawString(FONT, posXChanceToCriticalHit, posYChanceToCriticalHit, critChance.toString(), Color.white);
     }
 }
