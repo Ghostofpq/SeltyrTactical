@@ -30,16 +30,23 @@ public class AttackPreview {
         this.frameWidth = frameWidth;
 
         int armor = (targetedChar.getAggregatedSecondaryCharacteristics().getArmor() - attackingChar.getAggregatedSecondaryCharacteristics().getArmorPenetration());
-        double ratio = (100 / (100 - armor));
+        double ratio = 100 / (100 - armor);
+        double estimatedDamageD = ratio * attackingChar.getAttackDamage();
+        estimatedDamage = (int) Math.floor(estimatedDamageD);
 
+        BigDecimal applicableEscapeRate = targetedChar.getEscape().min(attackingChar.getPrecision());
+        applicableEscapeRate.setScale(0, RoundingMode.DOWN);
+        BigDecimal applicableCriticalChance = attackingChar.getCriticalStrike().min(targetedChar.getResilience());
+        applicableCriticalChance.setScale(0, RoundingMode.DOWN);
+        if (applicableEscapeRate.intValue() <= 0) {
+            applicableEscapeRate = new BigDecimal("0");
+        }
+        if (applicableCriticalChance.intValue() <= 0) {
+            applicableCriticalChance = new BigDecimal("0");
+        }
+        this.applicableEscapeRate = applicableEscapeRate.intValue();
+        this.applicableCriticalChance = applicableCriticalChance.intValue();
 
-        double estimatedDamageF = attackingChar.getAggregatedSecondaryCharacteristics().getAttackDamage() * ratio;
-        BigDecimal applicableEscapeRateF = targetedChar.getEscape().min(attackingChar.getPrecision());
-        applicableEscapeRateF.setScale(2, RoundingMode.DOWN);
-        BigDecimal applicableCriticalChanceF = attackingChar.getCriticalStrike().min(targetedChar.getResilience());
-        applicableCriticalChanceF.setScale(2, RoundingMode.DOWN);
-
-        estimatedDamage = (int) Math.floor(estimatedDamageF);
     }
 
     public void render(Color color) {
