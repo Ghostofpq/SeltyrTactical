@@ -14,6 +14,16 @@ public class Team implements Serializable {
         team = new ArrayList<GameCharacter>();
     }
 
+    public boolean isAlive() {
+        boolean result = false;
+        for (GameCharacter gameCharacter : team) {
+            if (gameCharacter.isAlive()) {
+                result = true;
+            }
+        }
+        return result;
+    }
+
     /**
      * Getters and Setters
      */
