@@ -147,8 +147,8 @@ public class GameCharacter implements Serializable {
 
     private void updateLifeAndManaPoint() {
         calculateAggregatedCaracteristics();
-        maxHealthPoint = aggregatedCharacteristics.getEndurance() * 10;
-        maxManaPoint = aggregatedCharacteristics.getIntelligence() * 10;
+        maxHealthPoint = getEndurance() * 10;
+        maxManaPoint = getIntelligence() * 10;
     }
 
     private PrimaryCharacteristics getBonusFromJobs() {
@@ -170,6 +170,24 @@ public class GameCharacter implements Serializable {
         this.aggregatedCharacteristics.plus(getBonusFromJobs());
         this.aggregatedCharacteristics.plus(getBonusFromEquipement());
         this.aggregatedSecondaryCharacteristics = new SecondaryCharacteristics(aggregatedCharacteristics);
+    }
+
+    public void addHealthPoint(int healthPoint) {
+        currentHealthPoint += healthPoint;
+        if (currentHealthPoint < 0) {
+            currentHealthPoint = 0;
+        }
+
+        if (currentHealthPoint == 0) {
+            isAlive = false;
+        }
+    }
+
+    public void addManaPoint(int manaPoint) {
+        currentManaPoint += manaPoint;
+        if (currentManaPoint < 0) {
+            currentManaPoint = 0;
+        }
     }
 
     /*

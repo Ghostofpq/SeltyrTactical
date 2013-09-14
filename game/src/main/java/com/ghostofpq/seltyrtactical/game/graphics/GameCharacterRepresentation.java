@@ -100,7 +100,7 @@ public class GameCharacterRepresentation extends DrawableObject {
 
     public boolean tickHourglass() {
         boolean result = false;
-        hourglass -= getCharacter().getCharacteristics().getAgility();
+        hourglass -= getCharacter().getAgility();
         // log.debug("{} : {}", getCharacter().getName(), hourglass);
         if (hourglass <= 0) {
             int delta = Math.abs(hourglass);
