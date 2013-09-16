@@ -146,12 +146,41 @@ public class BattleScene implements Scene {
             currentGameCharacterRepresentation.setHasMoved(true);
             menuSelectAction.setHasMoved();
         } else {
-            todraw.get(cursor).setHighlight(HighlightColor.NONE);
+            resetOldHighlight();
             cursor = new Position(currentGameCharacterRepresentation.getFootPosition());
-            todraw.get(cursor).setHighlight(HighlightColor.BLUE);
             GraphicsManager.getInstance().requestCenterPosition(cursor);
             currentState = BattleSceneState.ACTION;
             clearHighlightPossibleMovement();
+        }
+    }
+
+    public void attackTarget() {
+        currentState = BattleSceneState.ACTION;
+        clearHighlightPossiblePositionsToExecuteAction();
+        resetOldHighlight();
+        cursor = new Position(currentGameCharacterRepresentation.getFootPosition());
+        GraphicsManager.getInstance().requestCenterPosition(cursor);
+        if (null != targetGameCharacterRepresentation) {
+            double hitRoll = Math.random();
+            log.debug("hit roll : {}", Math.floor(hitRoll * 100));
+            if (Math.floor(hitRoll * 100) <= attackPreview.getChanceToHit()) {
+                double critRoll = Math.random();
+                log.debug("crit roll : {}", Math.floor(critRoll * 100));
+                int damages;
+                if (Math.floor(critRoll * 100) <= attackPreview.getChanceToCriticalHit()) {
+                    damages = attackPreview.getEstimatedDamage() * 2;
+                } else {
+                    damages = attackPreview.getEstimatedDamage();
+                }
+                log.debug("damages : {}", damages);
+                targetGameCharacterRepresentation.getCharacter().addHealthPoint(-damages);
+                currentGameCharacterRepresentation.getCharacter().gainXp(damages);
+            } else {
+                log.debug("Missed");
+            }
+            characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
+            currentGameCharacterRepresentation.setHasActed(true);
+            menuSelectAction.setHasActed();
         }
     }
 
@@ -465,6 +494,10 @@ public class BattleScene implements Scene {
                                 moveCharacter();
                                 currentState = BattleSceneState.ACTION;
                                 break;
+                            case ATTACK:
+                                attackTarget();
+                                currentState = BattleSceneState.ACTION;
+                                break;
                         }
                     }
                 }
@@ -535,8 +568,6 @@ public class BattleScene implements Scene {
                 characterRenderRight = new CharacterRender(500, 0, 300, 100, 2, targetGameCharacterRepresentation.getCharacter());
             }
         }
-
-
     }
 
     private void resetOldHighlight() {
@@ -560,11 +591,8 @@ public class BattleScene implements Scene {
     }
 
     private void cursorUp() {
-
         if (cursor.getZ() != 0) {
-
             resetOldHighlight();
-
             cursor.setZ(cursor.getZ() - 1);
             if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
@@ -583,7 +611,6 @@ public class BattleScene implements Scene {
                 Position closestPosition = getClosestPosition(cursor);
                 cursor = new Position(closestPosition);
             }
-            todraw.get(cursor).setHighlight(HighlightColor.BLUE);
         }
         updateCursorTarget();
     }
@@ -596,7 +623,6 @@ public class BattleScene implements Scene {
                 Position closestPosition = getClosestPosition(cursor);
                 cursor = new Position(closestPosition);
             }
-            todraw.get(cursor).setHighlight(HighlightColor.BLUE);
         }
         updateCursorTarget();
     }
@@ -609,7 +635,6 @@ public class BattleScene implements Scene {
                 Position closestPosition = getClosestPosition(cursor);
                 cursor = new Position(closestPosition);
             }
-            todraw.get(cursor).setHighlight(HighlightColor.BLUE);
         }
         updateCursorTarget();
     }
@@ -618,15 +643,14 @@ public class BattleScene implements Scene {
         List<Position> possiblePositions = getPossiblePositions(cursor.getX(), cursor.getZ());
 
         if (possiblePositions.size() != 1) {
+            resetOldHighlight();
             int i = possiblePositions.indexOf(cursor);
             if (i == possiblePositions.size() - 1) {
                 i = 0;
             } else {
                 i++;
             }
-            todraw.get(cursor).setHighlight(HighlightColor.NONE);
             cursor.setY(possiblePositions.get(i).getY());
-            todraw.get(cursor).setHighlight(HighlightColor.BLUE);
         }
     }
 

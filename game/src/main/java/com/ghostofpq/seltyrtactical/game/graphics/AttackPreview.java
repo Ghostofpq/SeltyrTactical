@@ -72,12 +72,24 @@ public class AttackPreview {
         StringBuilder critChance = new StringBuilder();
         critChance.append(chanceToCriticalHit);
         critChance.append("%");
-        posXChanceToCriticalHit = posX + (frameLength/2) + ((frameLength / 2) - FontManager.getInstance().getFontMap().get(FONT).getWidth(critChance.toString())) / 2;
+        posXChanceToCriticalHit = posX + (frameLength / 2) + ((frameLength / 2) - FontManager.getInstance().getFontMap().get(FONT).getWidth(critChance.toString())) / 2;
         posYChanceToCriticalHit = posY + (frameHeight / 2) + ((frameHeight / 2) - FontManager.getInstance().getFontMap().get(FONT).getHeight(critChance.toString())) / 2;
 
 
         FontManager.getInstance().drawString(FONT, posXDamage, posYDamage, damage.toString(), Color.white);
         FontManager.getInstance().drawString(FONT, posXChanceToHit, posYChanceToHit, hitChance.toString(), Color.white);
         FontManager.getInstance().drawString(FONT, posXChanceToCriticalHit, posYChanceToCriticalHit, critChance.toString(), Color.white);
+    }
+
+    public int getEstimatedDamage() {
+        return estimatedDamage;
+    }
+
+    public int getChanceToHit() {
+        return chanceToHit;
+    }
+
+    public int getChanceToCriticalHit() {
+        return chanceToCriticalHit;
     }
 }
