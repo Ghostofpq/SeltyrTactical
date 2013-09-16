@@ -42,6 +42,7 @@ public class BattleScene implements Scene {
     private PointOfView currentPointOfView;
     private List<Position> possiblePositionsToMove;
     private Tree<Position> possiblePositionsToMoveTree;
+    private List<Position> possiblePositionsToExecuteAction;
     private PositionAbsolute southPointOfView;
     private PositionAbsolute northPointOfView;
     private PositionAbsolute eastPointOfView;
@@ -79,7 +80,7 @@ public class BattleScene implements Scene {
         westPointOfView = new PositionAbsolute(0, battlefield.getHeight(), battlefield.getDepth());
 
         possiblePositionsToMove = new ArrayList<Position>();
-
+        possiblePositionsToExecuteAction = new ArrayList<Position>();
         gameCharacterRepresentations = new ArrayList<GameCharacterRepresentation>();
 
         List<String> options = new ArrayList<String>();
@@ -202,7 +203,6 @@ public class BattleScene implements Scene {
             log.debug("highlight green : {}", position.toString());
             todraw.get(position).setHighlight(HighlightColor.GREEN);
         }
-        todraw.get(cursor).setHighlight(HighlightColor.BLUE);
     }
 
     public void clearHighlightPossibleMovement() {
@@ -210,23 +210,26 @@ public class BattleScene implements Scene {
             //log.debug("clear highlight green : {}", position.toString());
             todraw.get(position).setHighlight(HighlightColor.NONE);
         }
-        todraw.get(cursor).setHighlight(HighlightColor.BLUE);
     }
 
-    private void incrementGameCharacterRepresentationsIndex() {
-        if (gameCharacterRepresentationsIndex >= gameCharacterRepresentations.size() - 1) {
-            gameCharacterRepresentationsIndex = 0;
-        } else {
-            gameCharacterRepresentationsIndex++;
+    public void highlightPossiblePositionsToExecuteAction() {
+        Position characterPosition = currentGameCharacterRepresentation.getFootPosition();
+        Tree<Position> possiblePositionsToExecuteActionTree = battlefield.getPositionTree(characterPosition,
+                1,
+                0,
+                0);
+        possiblePositionsToExecuteAction = possiblePositionsToExecuteActionTree.getAllElements();
+        for (Position position : possiblePositionsToExecuteAction) {
+            log.debug("highlight red : {}", position.toString());
+            todraw.get(position).setHighlight(HighlightColor.RED);
         }
     }
 
-    public void setPlayer(List<Player> players) {
-        this.players = players;
-        currentPlayer = players.get(0);
-        currentGameCharacter = currentPlayer.getTeam().getTeam().get(0);
-        characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
-        highlightDeploymentZone();
+    public void clearHighlightPossiblePositionsToExecuteAction() {
+        for (Position position : possiblePositionsToExecuteAction) {
+            //log.debug("clear highlight red : {}", position.toString());
+            todraw.get(position).setHighlight(HighlightColor.NONE);
+        }
     }
 
     private void highlightDeploymentZone() {
@@ -245,6 +248,22 @@ public class BattleScene implements Scene {
                 todraw.get(deploymentPosition).setHighlight(HighlightColor.NONE);
             }
         }
+    }
+
+    private void incrementGameCharacterRepresentationsIndex() {
+        if (gameCharacterRepresentationsIndex >= gameCharacterRepresentations.size() - 1) {
+            gameCharacterRepresentationsIndex = 0;
+        } else {
+            gameCharacterRepresentationsIndex++;
+        }
+    }
+
+    public void setPlayer(List<Player> players) {
+        this.players = players;
+        currentPlayer = players.get(0);
+        currentGameCharacter = currentPlayer.getTeam().getTeam().get(0);
+        characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
+        highlightDeploymentZone();
     }
 
     @Override
@@ -276,6 +295,8 @@ public class BattleScene implements Scene {
         for (DrawableObject drawableObject : toDrawList) {
             drawableObject.update(deltaTime);
         }
+
+        todraw.get(cursor).setHighlight(HighlightColor.BLUE);
     }
 
     @Override
@@ -421,7 +442,6 @@ public class BattleScene implements Scene {
                         setEngineIsBusy(true);
                     }
 
-
                     if (Keyboard.getEventKey() == Keyboard.KEY_RETURN) {
                         switch (currentState) {
                             case DEPLOY:
@@ -434,6 +454,7 @@ public class BattleScene implements Scene {
                                     highlightPossibleMovement();
                                 } else if (menuSelectAction.getSelectedOption().equals(MenuSelectAction.MenuSelectActions.ATTACK)) {
                                     currentState = BattleSceneState.ATTACK;
+                                    highlightPossiblePositionsToExecuteAction();
                                 } else if (menuSelectAction.getSelectedOption().equals(MenuSelectAction.MenuSelectActions.END_TURN)) {
                                     currentState = BattleSceneState.PENDING;
                                     menuSelectAction.reinitMenu();
@@ -473,7 +494,7 @@ public class BattleScene implements Scene {
         if (null != targetGameCharacterRepresentation) {
             characterRenderRight.render(Color.white);
             if (currentState.equals(BattleSceneState.ATTACK)) {
-                attackPreview=new AttackPreview(300, 0, 200, 100, 2,currentGameCharacter,targetGameCharacterRepresentation.getCharacter());
+                attackPreview = new AttackPreview(300, 0, 200, 100, 2, currentGameCharacter, targetGameCharacterRepresentation.getCharacter());
                 attackPreview.render(Color.white);
             }
         }
@@ -514,24 +535,36 @@ public class BattleScene implements Scene {
                 characterRenderRight = new CharacterRender(500, 0, 300, 100, 2, targetGameCharacterRepresentation.getCharacter());
             }
         }
+
+
+    }
+
+    private void resetOldHighlight() {
+        todraw.get(cursor).setHighlight(HighlightColor.NONE);
+        if (currentState.equals(BattleSceneState.DEPLOY)) {
+            int indexOfPlayer = players.indexOf(currentPlayer);
+            if (battlefield.getDeploymentZones().get(indexOfPlayer).contains(cursor)) {
+                todraw.get(cursor).setHighlight(HighlightColor.GREEN);
+            }
+        }
+        if (currentState.equals(BattleSceneState.MOVE)) {
+            if (possiblePositionsToMove.contains(cursor)) {
+                todraw.get(cursor).setHighlight(HighlightColor.GREEN);
+            }
+        }
+        if (currentState.equals(BattleSceneState.ATTACK)) {
+            if (possiblePositionsToExecuteAction.contains(cursor)) {
+                todraw.get(cursor).setHighlight(HighlightColor.RED);
+            }
+        }
     }
 
     private void cursorUp() {
 
         if (cursor.getZ() != 0) {
-            todraw.get(cursor).setHighlight(HighlightColor.NONE);
 
-            if (currentState.equals(BattleSceneState.DEPLOY)) {
-                int indexOfPlayer = players.indexOf(currentPlayer);
-                if (battlefield.getDeploymentZones().get(indexOfPlayer).contains(cursor)) {
-                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
-                }
-            }
-            if (currentState.equals(BattleSceneState.MOVE)) {
-                if (possiblePositionsToMove.contains(cursor)) {
-                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
-                }
-            }
+            resetOldHighlight();
+
             cursor.setZ(cursor.getZ() - 1);
             if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
@@ -544,21 +577,7 @@ public class BattleScene implements Scene {
 
     private void cursorDown() {
         if (cursor.getZ() != battlefield.getDepth() - 1) {
-            todraw.get(cursor).setHighlight(HighlightColor.NONE);
-
-            if (currentState.equals(BattleSceneState.DEPLOY)) {
-                int indexOfPlayer = players.indexOf(currentPlayer);
-                if (battlefield.getDeploymentZones().get(indexOfPlayer).contains(cursor)) {
-                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
-                }
-            }
-
-            if (currentState.equals(BattleSceneState.MOVE)) {
-                if (possiblePositionsToMove.contains(cursor)) {
-                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
-                }
-            }
-
+            resetOldHighlight();
             cursor.setZ(cursor.getZ() + 1);
             if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
@@ -571,19 +590,7 @@ public class BattleScene implements Scene {
 
     private void cursorLeft() {
         if (cursor.getX() != 0) {
-            todraw.get(cursor).setHighlight(HighlightColor.NONE);
-
-            if (currentState.equals(BattleSceneState.DEPLOY)) {
-                int indexOfPlayer = players.indexOf(currentPlayer);
-                if (battlefield.getDeploymentZones().get(indexOfPlayer).contains(cursor)) {
-                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
-                }
-            }
-            if (currentState.equals(BattleSceneState.MOVE)) {
-                if (possiblePositionsToMove.contains(cursor)) {
-                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
-                }
-            }
+            resetOldHighlight();
             cursor.setX(cursor.getX() - 1);
             if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
@@ -596,19 +603,7 @@ public class BattleScene implements Scene {
 
     private void cursorRight() {
         if (cursor.getX() != battlefield.getLength() - 1) {
-            todraw.get(cursor).setHighlight(HighlightColor.NONE);
-
-            if (currentState.equals(BattleSceneState.DEPLOY)) {
-                int indexOfPlayer = players.indexOf(currentPlayer);
-                if (battlefield.getDeploymentZones().get(indexOfPlayer).contains(cursor)) {
-                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
-                }
-            }
-            if (currentState.equals(BattleSceneState.MOVE)) {
-                if (possiblePositionsToMove.contains(cursor)) {
-                    todraw.get(cursor).setHighlight(HighlightColor.GREEN);
-                }
-            }
+            resetOldHighlight();
             cursor.setX(cursor.getX() + 1);
             if (!positionsToSelect.contains(cursor)) {
                 Position closestPosition = getClosestPosition(cursor);
