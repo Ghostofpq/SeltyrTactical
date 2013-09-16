@@ -8,6 +8,7 @@ import com.ghostofpq.seltyrtactical.entities.battlefield.Battlefield;
 import com.ghostofpq.seltyrtactical.entities.battlefield.BattlefieldElement;
 import com.ghostofpq.seltyrtactical.entities.character.GameCharacter;
 import com.ghostofpq.seltyrtactical.entities.character.Player;
+import com.ghostofpq.seltyrtactical.entities.character.Team;
 import com.ghostofpq.seltyrtactical.game.graphics.*;
 import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.game.utils.HighlightColor;
@@ -42,7 +43,7 @@ public class BattleScene implements Scene {
     private PointOfView currentPointOfView;
     private List<Position> possiblePositionsToMove;
     private Tree<Position> possiblePositionsToMoveTree;
-    private List<Position> possiblePositionsToExecuteAction;
+    private List<Position> possiblePositionsToAttack;
     private PositionAbsolute southPointOfView;
     private PositionAbsolute northPointOfView;
     private PositionAbsolute eastPointOfView;
@@ -80,7 +81,7 @@ public class BattleScene implements Scene {
         westPointOfView = new PositionAbsolute(0, battlefield.getHeight(), battlefield.getDepth());
 
         possiblePositionsToMove = new ArrayList<Position>();
-        possiblePositionsToExecuteAction = new ArrayList<Position>();
+        possiblePositionsToAttack = new ArrayList<Position>();
         gameCharacterRepresentations = new ArrayList<GameCharacterRepresentation>();
 
         List<String> options = new ArrayList<String>();
@@ -156,7 +157,7 @@ public class BattleScene implements Scene {
 
     public void attackTarget() {
         currentState = BattleSceneState.ACTION;
-        clearHighlightPossiblePositionsToExecuteAction();
+        clearHighlightPossiblePositionsToAttack();
         resetOldHighlight();
         cursor = new Position(currentGameCharacterRepresentation.getFootPosition());
         GraphicsManager.getInstance().requestCenterPosition(cursor);
@@ -178,8 +179,9 @@ public class BattleScene implements Scene {
             } else {
                 log.debug("Missed");
             }
-            characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacter);
+            characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacterRepresentation.getCharacter());
             currentGameCharacterRepresentation.setHasActed(true);
+            targetGameCharacterRepresentation = null;
             menuSelectAction.setHasActed();
         }
     }
@@ -203,6 +205,11 @@ public class BattleScene implements Scene {
 
                 setEngineIsBusy(true);
                 currentState = BattleSceneState.ACTION;
+                for (Player player : players) {
+                    if (player.getTeam().getTeam().contains(currentGameCharacterRepresentation.getCharacter())) {
+                        currentPlayer = player;
+                    }
+                }
                 incrementGameCharacterRepresentationsIndex();
             } else {
                 incrementGameCharacterRepresentationsIndex();
@@ -241,21 +248,28 @@ public class BattleScene implements Scene {
         }
     }
 
-    public void highlightPossiblePositionsToExecuteAction() {
+    public void highlightPossiblePositionsToAttack() {
         Position characterPosition = currentGameCharacterRepresentation.getFootPosition();
         Tree<Position> possiblePositionsToExecuteActionTree = battlefield.getPositionTree(characterPosition,
                 1,
                 0,
                 0);
-        possiblePositionsToExecuteAction = possiblePositionsToExecuteActionTree.getAllElements();
-        for (Position position : possiblePositionsToExecuteAction) {
+        possiblePositionsToAttack = possiblePositionsToExecuteActionTree.getAllElements();
+
+        for (GameCharacterRepresentation gameCharacterRepresentation : gameCharacterRepresentations) {
+            if (currentPlayer.getTeam().getTeam().contains(gameCharacterRepresentation.getCharacter())) {
+                possiblePositionsToAttack.remove(gameCharacterRepresentation.getFootPosition());
+            }
+        }
+
+        for (Position position : possiblePositionsToAttack) {
             log.debug("highlight red : {}", position.toString());
             todraw.get(position).setHighlight(HighlightColor.RED);
         }
     }
 
-    public void clearHighlightPossiblePositionsToExecuteAction() {
-        for (Position position : possiblePositionsToExecuteAction) {
+    public void clearHighlightPossiblePositionsToAttack() {
+        for (Position position : possiblePositionsToAttack) {
             //log.debug("clear highlight red : {}", position.toString());
             todraw.get(position).setHighlight(HighlightColor.NONE);
         }
@@ -483,7 +497,7 @@ public class BattleScene implements Scene {
                                     highlightPossibleMovement();
                                 } else if (menuSelectAction.getSelectedOption().equals(MenuSelectAction.MenuSelectActions.ATTACK)) {
                                     currentState = BattleSceneState.ATTACK;
-                                    highlightPossiblePositionsToExecuteAction();
+                                    highlightPossiblePositionsToAttack();
                                 } else if (menuSelectAction.getSelectedOption().equals(MenuSelectAction.MenuSelectActions.END_TURN)) {
                                     currentState = BattleSceneState.PENDING;
                                     menuSelectAction.reinitMenu();
@@ -524,7 +538,7 @@ public class BattleScene implements Scene {
     private void render2D() {
         GraphicsManager.getInstance().make2D();
         characterRenderLeft.render(Color.white);
-        if (null != targetGameCharacterRepresentation) {
+        if (null != targetGameCharacterRepresentation && !targetGameCharacterRepresentation.equals(currentGameCharacterRepresentation)) {
             characterRenderRight.render(Color.white);
             if (currentState.equals(BattleSceneState.ATTACK)) {
                 attackPreview = new AttackPreview(300, 0, 200, 100, 2, currentGameCharacter, targetGameCharacterRepresentation.getCharacter());
@@ -584,7 +598,7 @@ public class BattleScene implements Scene {
             }
         }
         if (currentState.equals(BattleSceneState.ATTACK)) {
-            if (possiblePositionsToExecuteAction.contains(cursor)) {
+            if (possiblePositionsToAttack.contains(cursor)) {
                 todraw.get(cursor).setHighlight(HighlightColor.RED);
             }
         }
