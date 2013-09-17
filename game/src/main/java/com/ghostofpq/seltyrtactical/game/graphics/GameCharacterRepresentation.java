@@ -100,14 +100,19 @@ public class GameCharacterRepresentation extends DrawableObject {
 
     public boolean tickHourglass() {
         boolean result = false;
-        hourglass -= getCharacter().getAgility();
-        // log.debug("{} : {}", getCharacter().getName(), hourglass);
-        if (hourglass <= 0) {
-            int delta = Math.abs(hourglass);
-            hourglass = 100 - delta;
-            result = true;
-            setHasMoved(false);
-            setHasActed(false);
+        if (getCharacter().isAlive()) {
+            hourglass -= getCharacter().getAgility();
+            // log.debug("{} : {}", getCharacter().getName(), hourglass);
+            if (hourglass <= 0) {
+                int delta = Math.abs(hourglass);
+                hourglass = 100 - delta;
+                result = true;
+                setHasMoved(false);
+                setHasActed(false);
+            }
+        } else {
+            hourglass = 100;
+            result = false;
         }
         return result;
     }
@@ -309,7 +314,6 @@ public class GameCharacterRepresentation extends DrawableObject {
     public String toString() {
         return character.getName();
     }
-
 
     public PositionAbsolute getPositionAbsolute() {
         return positionAbsolute;
@@ -570,7 +574,6 @@ public class GameCharacterRepresentation extends DrawableObject {
     public PositionAbsolute getPositionToCompare(PointOfView pointOfView) {
         return getPositionAbsolute().plusNew(0.5f, height / 2, 0.5f);
     }
-
 
     public GameCharacter getCharacter() {
         return character;

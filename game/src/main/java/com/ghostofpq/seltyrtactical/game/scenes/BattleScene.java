@@ -312,6 +312,17 @@ public class BattleScene implements Scene {
     @Override
     public void update(long deltaTime) {
         boolean busy = false;
+        int numberOfPlayerAlive = 0;
+        Player playerAlive = null;
+        for (Player player : players) {
+            if (player.getTeam().isAlive()) {
+                numberOfPlayerAlive++;
+                playerAlive = player;
+            }
+        }
+        if (numberOfPlayerAlive == 1) {
+            log.debug("Player {} has won !", playerAlive.getFirstName());
+        }
 
         for (DrawableObject drawableObject : toDrawList) {
             if (drawableObject.isMoving()) {
