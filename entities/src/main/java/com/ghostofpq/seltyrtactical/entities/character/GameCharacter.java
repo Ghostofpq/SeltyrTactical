@@ -16,7 +16,7 @@ public class GameCharacter implements Serializable {
     // Evolution
     private final int DEFAULT_START_LEVEL = 1;
     private final int DEFAULT_START_XP = 0;
-    private final int DEFAULT_START_NEXT_LEVEL = 250;
+    private final int DEFAULT_START_NEXT_LEVEL = 100;
     /**
      * Name
      */
@@ -121,6 +121,10 @@ public class GameCharacter implements Serializable {
 
     public void gainXp(double experience) {
         this.experience += experience;
+        if (canLevelUp()) {
+            this.experience -= nextLevel;
+            levelUp();
+        }
     }
 
     public void gainJobpoints(int jobPoints) {
@@ -140,8 +144,8 @@ public class GameCharacter implements Serializable {
     }
 
     private void calculateNextLevel() {
-        double coef = (1 / (Math.sqrt(level)));
-        this.nextLevel = (int) Math.floor(coef * nextLevel);
+        double coef = (Math.sqrt(level));
+        this.nextLevel = (int) Math.floor(coef * nextLevel) + nextLevel;
     }
 
     private void updateLifeAndManaPoint() {

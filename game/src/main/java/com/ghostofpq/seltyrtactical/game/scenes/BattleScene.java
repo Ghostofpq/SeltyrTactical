@@ -8,7 +8,6 @@ import com.ghostofpq.seltyrtactical.entities.battlefield.Battlefield;
 import com.ghostofpq.seltyrtactical.entities.battlefield.BattlefieldElement;
 import com.ghostofpq.seltyrtactical.entities.character.GameCharacter;
 import com.ghostofpq.seltyrtactical.entities.character.Player;
-import com.ghostofpq.seltyrtactical.entities.character.Team;
 import com.ghostofpq.seltyrtactical.game.graphics.*;
 import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import com.ghostofpq.seltyrtactical.game.utils.HighlightColor;
@@ -175,7 +174,7 @@ public class BattleScene implements Scene {
                 }
                 log.debug("damages : {}", damages);
                 targetGameCharacterRepresentation.getCharacter().addHealthPoint(-damages);
-                currentGameCharacterRepresentation.getCharacter().gainXp(damages);
+                currentGameCharacterRepresentation.getCharacter().gainXp(damages * 10);
             } else {
                 log.debug("Missed");
             }
@@ -309,9 +308,7 @@ public class BattleScene implements Scene {
         highlightDeploymentZone();
     }
 
-    @Override
-    public void update(long deltaTime) {
-        boolean busy = false;
+    private boolean battleIsOver() {
         int numberOfPlayerAlive = 0;
         Player playerAlive = null;
         for (Player player : players) {
@@ -320,9 +317,19 @@ public class BattleScene implements Scene {
                 playerAlive = player;
             }
         }
-        if (numberOfPlayerAlive == 1) {
-            log.debug("Player {} has won !", playerAlive.getFirstName());
+        boolean result = (numberOfPlayerAlive == 1);
+        if (result) {
+            log.debug("Player {} has won !", playerAlive.getPseudo());
         }
+        return result;
+    }
+
+    @Override
+    public void update(long deltaTime) {
+        if (battleIsOver()) {
+        }
+
+        boolean busy = false;
 
         for (DrawableObject drawableObject : toDrawList) {
             if (drawableObject.isMoving()) {
@@ -351,6 +358,7 @@ public class BattleScene implements Scene {
         }
 
         todraw.get(cursor).setHighlight(HighlightColor.BLUE);
+
     }
 
     @Override
