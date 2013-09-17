@@ -118,45 +118,48 @@ public class GameCharacterRepresentation extends DrawableObject {
     }
 
     public void update(long deltaTime) {
-        for (Animation animation : animationWalk.values()) {
-            animation.update(deltaTime);
-        }
+        if (getCharacter().isAlive()) {
+            for (Animation animation : animationWalk.values()) {
+                animation.update(deltaTime);
+            }
 
-        boolean xDifferent = getPositionAbsolute().getX() != getPositionToGo().getX();
-        boolean yDifferent = getPositionAbsolute().getY() != getPositionToGo().getY();
-        boolean zDifferent = getPositionAbsolute().getZ() != getPositionToGo().getZ();
 
-        if (xDifferent || yDifferent || zDifferent) {
-            this.setMoving(true);
-            //log.debug("to go : {}/{}/{} ({}/{}/{}) => {}/{}/{} ",
-            //        getPositionAbsolute().getX(), getPositionAbsolute().getY(), getPositionAbsolute().getZ(),
-            //        getPosition().getX(), getPosition().getY(), getPosition().getZ(),
-            //        getPositionToGo().getX(), getPositionToGo().getY(), getPositionToGo().getZ());
-            setHeadingAngle(getHeadingAngleFor(getPositionToGo()));
+            boolean xDifferent = getPositionAbsolute().getX() != getPositionToGo().getX();
+            boolean yDifferent = getPositionAbsolute().getY() != getPositionToGo().getY();
+            boolean zDifferent = getPositionAbsolute().getZ() != getPositionToGo().getZ();
 
-            if (!isJumping()) {
-                if (yDifferent) {
-                    if (positionsToGo.size() > 1) {
-                        setHeadingAngle(getHeadingAngleFor(positionsToGo.get(1)));
+            if (xDifferent || yDifferent || zDifferent) {
+                this.setMoving(true);
+                //log.debug("to go : {}/{}/{} ({}/{}/{}) => {}/{}/{} ",
+                //        getPositionAbsolute().getX(), getPositionAbsolute().getY(), getPositionAbsolute().getZ(),
+                //        getPosition().getX(), getPosition().getY(), getPosition().getZ(),
+                //        getPositionToGo().getX(), getPositionToGo().getY(), getPositionToGo().getZ());
+                setHeadingAngle(getHeadingAngleFor(getPositionToGo()));
+
+                if (!isJumping()) {
+                    if (yDifferent) {
+                        if (positionsToGo.size() > 1) {
+                            setHeadingAngle(getHeadingAngleFor(positionsToGo.get(1)));
+                        }
+                        setJumping(true);
                     }
-                    setJumping(true);
-                }
-                updatePosition(xDifferent, yDifferent, zDifferent);
-            } else {
-                if (yDifferent) {
                     updatePosition(xDifferent, yDifferent, zDifferent);
                 } else {
-                    // check if landing animation is over
-                    setJumping(false);
+                    if (yDifferent) {
+                        updatePosition(xDifferent, yDifferent, zDifferent);
+                    } else {
+                        // check if landing animation is over
+                        setJumping(false);
+                    }
                 }
-            }
-        } else if (!positionsToGo.isEmpty()) {
-            positionsToGo.remove(0);
-            if (!positionsToGo.isEmpty()) {
-                setPositionToGo(positionsToGo.get(0));
-            } else {
-                this.setMoving(false);
-                setPositionToGo(null);
+            } else if (!positionsToGo.isEmpty()) {
+                positionsToGo.remove(0);
+                if (!positionsToGo.isEmpty()) {
+                    setPositionToGo(positionsToGo.get(0));
+                } else {
+                    this.setMoving(false);
+                    setPositionToGo(null);
+                }
             }
         }
     }

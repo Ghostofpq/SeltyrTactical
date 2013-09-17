@@ -86,7 +86,6 @@ public class GameCharacter implements Serializable {
      */
     private int currentManaPoint;
     private int maxManaPoint;
-    private boolean isAlive;
 
     /**
      * Creates a new Character level 1 Warrior.
@@ -177,10 +176,6 @@ public class GameCharacter implements Serializable {
         if (currentHealthPoint < 0) {
             currentHealthPoint = 0;
         }
-
-        if (currentHealthPoint == 0) {
-            isAlive = false;
-        }
     }
 
     public void addManaPoint(int manaPoint) {
@@ -267,7 +262,7 @@ public class GameCharacter implements Serializable {
     }
 
     public boolean isAlive() {
-        return isAlive;
+        return (currentHealthPoint > 0);
     }
     /*
     * CHARACTERISTICS GETTERS
