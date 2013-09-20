@@ -314,6 +314,77 @@ public class GameCharacterRepresentation extends DrawableObject {
         GL11.glEnd();
     }
 
+    public Facing getFacing(GameCharacterRepresentation other) {
+        Facing result = null;
+        switch (getHeadingAngleFor(other.getPositionAbsolute())) {
+            case NORTH:
+                switch (other.getHeadingAngle()) {
+                    case NORTH:
+                        result = Facing.BACK;
+                        break;
+                    case EAST:
+                        result = Facing.FLANK;
+                        break;
+                    case SOUTH:
+                        result = Facing.FACE;
+                        break;
+                    case WEST:
+                        result = Facing.FLANK;
+                        break;
+                }
+                break;
+            case EAST:
+                switch (other.getHeadingAngle()) {
+                    case NORTH:
+                        result = Facing.FLANK;
+                        break;
+                    case EAST:
+                        result = Facing.BACK;
+                        break;
+                    case SOUTH:
+                        result = Facing.FLANK;
+                        break;
+                    case WEST:
+                        result = Facing.FACE;
+                        break;
+                }
+                break;
+            case SOUTH:
+                switch (other.getHeadingAngle()) {
+                    case NORTH:
+                        result = Facing.FACE;
+                        break;
+                    case EAST:
+                        result = Facing.FLANK;
+                        break;
+                    case SOUTH:
+                        result = Facing.BACK;
+                        break;
+                    case WEST:
+                        result = Facing.FLANK;
+                        break;
+                }
+                break;
+            case WEST:
+                switch (other.getHeadingAngle()) {
+                    case NORTH:
+                        result = Facing.FLANK;
+                        break;
+                    case EAST:
+                        result = Facing.FACE;
+                        break;
+                    case SOUTH:
+                        result = Facing.FLANK;
+                        break;
+                    case WEST:
+                        result = Facing.BACK;
+                        break;
+                }
+                break;
+        }
+        return result;
+    }
+
     public String toString() {
         return character.getName();
     }
@@ -560,16 +631,30 @@ public class GameCharacterRepresentation extends DrawableObject {
     public PointOfView getHeadingAngleFor(PositionAbsolute positionToGo) {
         PointOfView result = getHeadingAngle();
 
-        if (positionToGo.getX() > getPositionAbsolute().getX()) {
-            result = PointOfView.EAST;
-        } else if (positionToGo.getX() == getPositionAbsolute().getX()) {
-            if (positionToGo.getZ() > getPositionAbsolute().getZ()) {
-                result = PointOfView.SOUTH;
-            } else if (positionToGo.getZ() < getPositionAbsolute().getZ()) {
-                result = PointOfView.NORTH;
+        if (Math.abs(positionToGo.getX() - getPositionAbsolute().getX()) >= Math.abs(positionToGo.getZ() - getPositionAbsolute().getZ())) {
+            if (positionToGo.getX() > getPositionAbsolute().getX()) {
+                result = PointOfView.EAST;
+            } else if (positionToGo.getX() == getPositionAbsolute().getX()) {
+                if (positionToGo.getZ() > getPositionAbsolute().getZ()) {
+                    result = PointOfView.SOUTH;
+                } else if (positionToGo.getZ() < getPositionAbsolute().getZ()) {
+                    result = PointOfView.NORTH;
+                }
+            } else {
+                result = PointOfView.WEST;
             }
         } else {
-            result = PointOfView.WEST;
+            if (positionToGo.getZ() > getPositionAbsolute().getZ()) {
+                result = PointOfView.SOUTH;
+            } else if (positionToGo.getZ() == getPositionAbsolute().getZ()) {
+                if (positionToGo.getX() > getPositionAbsolute().getX()) {
+                    result = PointOfView.EAST;
+                } else if (positionToGo.getX() < getPositionAbsolute().getX()) {
+                    result = PointOfView.WEST;
+                }
+            } else {
+                result = PointOfView.NORTH;
+            }
         }
         return result;
     }
@@ -616,5 +701,9 @@ public class GameCharacterRepresentation extends DrawableObject {
 
     public void setHasActed(boolean hasActed) {
         this.hasActed = hasActed;
+    }
+
+    public enum Facing {
+        FACE, FLANK, BACK
     }
 }

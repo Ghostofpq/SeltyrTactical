@@ -158,6 +158,7 @@ public class BattleScene implements Scene {
         if (possiblePositionsToAttack.contains(cursor)) {
             if (null != targetGameCharacterRepresentation) {
                 double hitRoll = Math.random();
+
                 log.debug("hit roll : {}", Math.floor(hitRoll * 100));
                 if (Math.floor(hitRoll * 100) <= attackPreview.getChanceToHit()) {
                     double critRoll = Math.random();
@@ -175,8 +176,8 @@ public class BattleScene implements Scene {
                     log.debug("Missed");
                 }
                 characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacterRepresentation.getCharacter());
-                currentGameCharacterRepresentation.setHasActed(true);
                 currentGameCharacterRepresentation.setHeadingAngle(currentGameCharacterRepresentation.getHeadingAngleFor(targetGameCharacterRepresentation.getPositionAbsolute()));
+                currentGameCharacterRepresentation.setHasActed(true);
                 targetGameCharacterRepresentation = null;
                 menuSelectAction.setHasActed();
             }
@@ -627,7 +628,8 @@ public class BattleScene implements Scene {
         if (null != targetGameCharacterRepresentation && !targetGameCharacterRepresentation.equals(currentGameCharacterRepresentation)) {
             characterRenderRight.render(Color.white);
             if (currentState.equals(BattleSceneState.ATTACK)) {
-                attackPreview = new AttackPreview(300, 0, 200, 100, 2, currentGameCharacter, targetGameCharacterRepresentation.getCharacter());
+                GameCharacterRepresentation.Facing facing = currentGameCharacterRepresentation.getFacing(targetGameCharacterRepresentation);
+                attackPreview = new AttackPreview(300, 0, 200, 100, 2, currentGameCharacter, targetGameCharacterRepresentation.getCharacter(), facing);
                 attackPreview.render(Color.white);
             }
         }
@@ -918,4 +920,5 @@ public class BattleScene implements Scene {
     private enum BattleSceneState {
         DEPLOY, PENDING, ACTION, MOVE, ATTACK, END_TURN
     }
+
 }

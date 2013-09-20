@@ -3,11 +3,13 @@ package com.ghostofpq.seltyrtactical.game.graphics;
 
 import com.ghostofpq.seltyrtactical.entities.character.GameCharacter;
 import com.ghostofpq.seltyrtactical.game.utils.FontManager;
+import lombok.extern.slf4j.Slf4j;
 import org.newdawn.slick.Color;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
+@Slf4j
 public class AttackPreview {
 
     private final String FONT = "optimus_princeps_16";
@@ -27,13 +29,29 @@ public class AttackPreview {
     private int posYChanceToCriticalHit;
 
 
-    public AttackPreview(int posX, int posY, int frameLength, int frameHeight, int frameWidth, GameCharacter attackingChar, GameCharacter targetedChar) {
+    public AttackPreview(int posX, int posY, int frameLength, int frameHeight, int frameWidth, GameCharacter attackingChar, GameCharacter targetedChar, GameCharacterRepresentation.Facing facing) {
         this.posX = posX;
         this.posY = posY;
 
         this.frameLength = frameLength;
         this.frameHeight = frameHeight;
         this.frameWidth = frameWidth;
+
+        int hitBonus = 0;
+        int critBonus = 0;
+
+        switch (facing) {
+            case BACK:
+                hitBonus = 20;
+                critBonus = 20;
+                break;
+            case FACE:
+                break;
+            case FLANK:
+                hitBonus = 10;
+                critBonus = 10;
+                break;
+        }
 
         int armor = (targetedChar.getAggregatedSecondaryCharacteristics().getArmor() - attackingChar.getAggregatedSecondaryCharacteristics().getArmorPenetration());
         double ratio = 100 / (100 - armor);
@@ -50,9 +68,10 @@ public class AttackPreview {
         if (applicableCriticalChance.intValue() <= 0) {
             applicableCriticalChance = new BigDecimal("0");
         }
-        chanceToHit = 100 - applicableEscapeRate.intValue();
-        chanceToCriticalHit = applicableCriticalChance.intValue();
-
+        chanceToHit = 100 - applicableEscapeRate.intValue() + hitBonus;
+        chanceToHit = Math.min(Math.max(chanceToHit, 0), 100);
+        chanceToCriticalHit = applicableCriticalChance.intValue() + critBonus;
+        chanceToCriticalHit = Math.min(Math.max(chanceToCriticalHit, 0), 100);
     }
 
     public void render(Color color) {
