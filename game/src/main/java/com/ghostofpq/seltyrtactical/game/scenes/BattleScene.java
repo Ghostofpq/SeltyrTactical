@@ -155,35 +155,38 @@ public class BattleScene implements Scene {
     }
 
     public void attackTarget() {
+        if (possiblePositionsToAttack.contains(cursor)) {
+            if (null != targetGameCharacterRepresentation) {
+                double hitRoll = Math.random();
+                log.debug("hit roll : {}", Math.floor(hitRoll * 100));
+                if (Math.floor(hitRoll * 100) <= attackPreview.getChanceToHit()) {
+                    double critRoll = Math.random();
+                    log.debug("crit roll : {}", Math.floor(critRoll * 100));
+                    int damages;
+                    if (Math.floor(critRoll * 100) <= attackPreview.getChanceToCriticalHit()) {
+                        damages = attackPreview.getEstimatedDamage() * 2;
+                    } else {
+                        damages = attackPreview.getEstimatedDamage();
+                    }
+                    log.debug("damages : {}", damages);
+                    targetGameCharacterRepresentation.getCharacter().addHealthPoint(-damages);
+                    currentGameCharacterRepresentation.getCharacter().gainXp(damages * 10);
+                } else {
+                    log.debug("Missed");
+                }
+                characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacterRepresentation.getCharacter());
+                currentGameCharacterRepresentation.setHasActed(true);
+                currentGameCharacterRepresentation.setHeadingAngle(currentGameCharacterRepresentation.getHeadingAngleFor(targetGameCharacterRepresentation.getPositionAbsolute()));
+                targetGameCharacterRepresentation = null;
+                menuSelectAction.setHasActed();
+            }
+        }
+        targetGameCharacterRepresentation = null;
         currentState = BattleSceneState.ACTION;
         clearHighlightPossiblePositionsToAttack();
         resetOldHighlight();
         cursor = new Position(currentGameCharacterRepresentation.getFootPosition());
         GraphicsManager.getInstance().requestCenterPosition(cursor);
-        if (null != targetGameCharacterRepresentation) {
-            double hitRoll = Math.random();
-            log.debug("hit roll : {}", Math.floor(hitRoll * 100));
-            if (Math.floor(hitRoll * 100) <= attackPreview.getChanceToHit()) {
-                double critRoll = Math.random();
-                log.debug("crit roll : {}", Math.floor(critRoll * 100));
-                int damages;
-                if (Math.floor(critRoll * 100) <= attackPreview.getChanceToCriticalHit()) {
-                    damages = attackPreview.getEstimatedDamage() * 2;
-                } else {
-                    damages = attackPreview.getEstimatedDamage();
-                }
-                log.debug("damages : {}", damages);
-                targetGameCharacterRepresentation.getCharacter().addHealthPoint(-damages);
-                currentGameCharacterRepresentation.getCharacter().gainXp(damages * 10);
-            } else {
-                log.debug("Missed");
-            }
-            characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacterRepresentation.getCharacter());
-            currentGameCharacterRepresentation.setHasActed(true);
-            currentGameCharacterRepresentation.setHeadingAngle(currentGameCharacterRepresentation.getHeadingAngleFor(targetGameCharacterRepresentation.getPositionAbsolute()));
-            targetGameCharacterRepresentation = null;
-            menuSelectAction.setHasActed();
-        }
     }
 
     public void getCurrentCharacter() {
