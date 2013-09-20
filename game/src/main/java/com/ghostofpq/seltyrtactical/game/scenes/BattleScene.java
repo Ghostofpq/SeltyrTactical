@@ -180,6 +180,7 @@ public class BattleScene implements Scene {
             }
             characterRenderLeft = new CharacterRender(0, 0, 300, 100, 2, currentGameCharacterRepresentation.getCharacter());
             currentGameCharacterRepresentation.setHasActed(true);
+            currentGameCharacterRepresentation.setHeadingAngle(currentGameCharacterRepresentation.getHeadingAngleFor(targetGameCharacterRepresentation.getPositionAbsolute()));
             targetGameCharacterRepresentation = null;
             menuSelectAction.setHasActed();
         }
@@ -418,6 +419,21 @@ public class BattleScene implements Scene {
                             setEngineIsBusy(true);
                         } else if (currentState.equals(BattleSceneState.ACTION)) {
                             menuSelectAction.decrementOptionsIndex();
+                        } else if (currentState.equals(BattleSceneState.END_TURN)) {
+                            switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                                case EAST:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.WEST);
+                                    break;
+                                case NORTH:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.SOUTH);
+                                    break;
+                                case SOUTH:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.NORTH);
+                                    break;
+                                case WEST:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.EAST);
+                                    break;
+                            }
                         }
                     }
 
@@ -443,6 +459,21 @@ public class BattleScene implements Scene {
                             setEngineIsBusy(true);
                         } else if (currentState.equals(BattleSceneState.ACTION)) {
                             menuSelectAction.incrementOptionsIndex();
+                        } else if (currentState.equals(BattleSceneState.END_TURN)) {
+                            switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                                case EAST:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.EAST);
+                                    break;
+                                case NORTH:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.NORTH);
+                                    break;
+                                case SOUTH:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.SOUTH);
+                                    break;
+                                case WEST:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.WEST);
+                                    break;
+                            }
                         }
                     }
 
@@ -469,6 +500,21 @@ public class BattleScene implements Scene {
                             setEngineIsBusy(true);
                         } else if (currentState.equals(BattleSceneState.ACTION)) {
                             menuSelectAction.decrementOptionsIndex();
+                        } else if (currentState.equals(BattleSceneState.END_TURN)) {
+                            switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                                case EAST:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.SOUTH);
+                                    break;
+                                case NORTH:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.EAST);
+                                    break;
+                                case SOUTH:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.WEST);
+                                    break;
+                                case WEST:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.NORTH);
+                                    break;
+                            }
                         }
                     }
 
@@ -495,6 +541,21 @@ public class BattleScene implements Scene {
                             setEngineIsBusy(true);
                         } else if (currentState.equals(BattleSceneState.ACTION)) {
                             menuSelectAction.incrementOptionsIndex();
+                        } else if (currentState.equals(BattleSceneState.END_TURN)) {
+                            switch (GraphicsManager.getInstance().getCurrentPointOfView()) {
+                                case EAST:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.NORTH);
+                                    break;
+                                case NORTH:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.WEST);
+                                    break;
+                                case SOUTH:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.EAST);
+                                    break;
+                                case WEST:
+                                    currentGameCharacterRepresentation.setHeadingAngle(PointOfView.SOUTH);
+                                    break;
+                            }
                         }
                     }
 
@@ -518,8 +579,7 @@ public class BattleScene implements Scene {
                                     currentState = BattleSceneState.ATTACK;
                                     highlightPossiblePositionsToAttack();
                                 } else if (menuSelectAction.getSelectedOption().equals(MenuSelectAction.MenuSelectActions.END_TURN)) {
-                                    currentState = BattleSceneState.PENDING;
-                                    menuSelectAction.reinitMenu();
+                                    currentState = BattleSceneState.END_TURN;
                                 }
                                 break;
 
@@ -530,6 +590,10 @@ public class BattleScene implements Scene {
                             case ATTACK:
                                 attackTarget();
                                 currentState = BattleSceneState.ACTION;
+                                break;
+                            case END_TURN:
+                                currentState = BattleSceneState.PENDING;
+                                menuSelectAction.reinitMenu();
                                 break;
                         }
                     }
@@ -849,6 +913,6 @@ public class BattleScene implements Scene {
     }
 
     private enum BattleSceneState {
-        DEPLOY, PENDING, ACTION, MOVE, ATTACK
+        DEPLOY, PENDING, ACTION, MOVE, ATTACK, END_TURN
     }
 }
