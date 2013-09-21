@@ -2,6 +2,7 @@ package com.ghostofpq.seltyrtactical.game.scenes;
 
 import com.ghostofpq.seltyrtactical.game.graphics.MenuSelect;
 import com.ghostofpq.seltyrtactical.game.main.Game;
+import com.ghostofpq.seltyrtactical.game.utils.GraphicsManager;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -51,6 +52,7 @@ public class MainMenu implements Scene {
 
     @Override
     public void render() {
+        GraphicsManager.getInstance().make2D();
         menu.render();
     }
 
