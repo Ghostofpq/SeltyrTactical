@@ -1,4 +1,4 @@
-package com.ghostofpq.kulkan.game.utils;
+package com.ghostofpq.kulkan.client.utils;
 
 import com.ghostofpq.kulkan.entities.battlefield.Battlefield;
 import com.ghostofpq.kulkan.entities.character.Player;
@@ -16,6 +16,14 @@ public class SaveManager {
 
     public static SaveManager getInstance() {
         return instance;
+    }
+
+    public static void main(String[] argv) {
+        SaveManager saveManager = SaveManager.getInstance();
+        Player player = new Player("Bobbyxxxxx");
+        saveManager.savePlayer(player);
+
+        Player player1 = saveManager.loadPlayer("Bobbyxxxxx");
     }
 
     public List<String> checkFolderForPlayers() throws IOException {

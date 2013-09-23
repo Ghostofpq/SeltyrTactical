@@ -1,4 +1,4 @@
-package com.ghostofpq.kulkan.game.graphics;
+package com.ghostofpq.kulkan.commons;
 
 public enum PointOfView {
     SOUTH,

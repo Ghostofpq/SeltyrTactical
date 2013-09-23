@@ -1,5 +1,6 @@
 package com.ghostofpq.kulkan.game.graphics;
 
+import com.ghostofpq.kulkan.commons.PointOfView;
 import com.ghostofpq.kulkan.commons.Position;
 import com.ghostofpq.kulkan.commons.PositionAbsolute;
 

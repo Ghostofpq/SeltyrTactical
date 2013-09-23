@@ -1,8 +1,8 @@
-package com.ghostofpq.kulkan.game.utils;
+package com.ghostofpq.kulkan.client.utils;
 
+import com.ghostofpq.kulkan.client.Client;
 import com.ghostofpq.kulkan.commons.PointOfView;
 import com.ghostofpq.kulkan.commons.Position;
-import com.ghostofpq.kulkan.game.main.Game;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
@@ -94,7 +94,7 @@ public class GraphicsManager {
         GL11.glMatrixMode(GL11.GL_PROJECTION);
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
-        GL11.glOrtho(0, Game.getInstance().getWidth(), Game.getInstance().getHeight(), 0, 1, -1);
+        GL11.glOrtho(0, Client.getInstance().getWidth(), Client.getInstance().getHeight(), 0, 1, -1);
         GL11.glMatrixMode(GL11.GL_MODELVIEW);
         GL11.glPushMatrix();
         GL11.glLoadIdentity();
