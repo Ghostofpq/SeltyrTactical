@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <artifactId>seltyrtactical</artifactId>
-        <groupId>com.ghostofpq.seltyrtactical</groupId>
+        <artifactId>kulkan</artifactId>
+        <groupId>com.ghostofpq.kulkan</groupId>
         <version>0.0.2</version>
     </parent>
 
@@ -102,12 +102,12 @@
     <dependencies>
         <dependency>
             <artifactId>commons</artifactId>
-            <groupId>com.ghostofpq.seltyrtactical</groupId>
+            <groupId>com.ghostofpq.kulkan</groupId>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <artifactId>entities</artifactId>
-            <groupId>com.ghostofpq.seltyrtactical</groupId>
+            <groupId>com.ghostofpq.kulkan</groupId>
             <scope>compile</scope>
         </dependency>
 

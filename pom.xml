@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>seltyrtactical</artifactId>
-    <groupId>com.ghostofpq.seltyrtactical</groupId>
+    <artifactId>kulkan</artifactId>
+    <groupId>com.ghostofpq.kulkan</groupId>
     <packaging>pom</packaging>
     <version>0.0.2</version>
 
@@ -32,27 +32,27 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.ghostofpq.seltyrtactical</groupId>
+                <groupId>com.ghostofpq.kulkan</groupId>
                 <artifactId>commons</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ghostofpq.seltyrtactical</groupId>
+                <groupId>com.ghostofpq.kulkan</groupId>
                 <artifactId>entities</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ghostofpq.seltyrtactical</groupId>
+                <groupId>com.ghostofpq.kulkan</groupId>
                 <artifactId>game</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ghostofpq.seltyrtactical</groupId>
+                <groupId>com.ghostofpq.kulkan</groupId>
                 <artifactId>client</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.ghostofpq.seltyrtactical</groupId>
+                <groupId>com.ghostofpq.kulkan</groupId>
                 <artifactId>server</artifactId>
                 <version>${project.version}</version>
             </dependency>
