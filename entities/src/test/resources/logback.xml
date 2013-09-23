@@ -8,7 +8,7 @@
         </encoder>
     </appender>
 
-    <logger name="com.ghostofpq.seltyrtactical.entities.battlefield" level="DEBUG"/>
+    <logger name="com.ghostofpq.kulkan.entities.battlefield" level="DEBUG"/>
 
     <root level="DEBUG">
         <appender-ref ref="STDOUT"/>
