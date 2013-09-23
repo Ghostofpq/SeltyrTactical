@@ -13,6 +13,8 @@
         <module>entities</module>
         <module>commons</module>
         <module>game</module>
+        <module>client</module>
+        <module>server</module>
     </modules>
 
     <properties>
@@ -42,6 +44,16 @@
             <dependency>
                 <groupId>com.ghostofpq.seltyrtactical</groupId>
                 <artifactId>game</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ghostofpq.seltyrtactical</groupId>
+                <artifactId>client</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ghostofpq.seltyrtactical</groupId>
+                <artifactId>server</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

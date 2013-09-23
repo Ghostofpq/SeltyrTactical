@@ -1,4 +1,3 @@
-
 .idea
 
 target
@@ -6,3 +5,5 @@ target
 game/target
 commons/target
 entities/target
+client/target
+server/target
