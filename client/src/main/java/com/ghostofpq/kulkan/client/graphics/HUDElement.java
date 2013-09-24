@@ -11,8 +11,6 @@ public abstract class HUDElement {
 
     public abstract void onClick();
 
-    public abstract void onKeyPressed(int keyEnvent);
-
     public abstract boolean isClicked(int mouseX, int mouseY);
 
     /*

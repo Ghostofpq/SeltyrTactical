@@ -1,8 +1,13 @@
 package com.ghostofpq.kulkan.client.scenes;
 
+import com.ghostofpq.kulkan.client.graphics.TextField;
+
 public class LoginScene implements Scene {
 
     private static volatile LoginScene instance = null;
+
+    private TextField pseudo;
+
 
     private LoginScene() {
     }
