@@ -1,5 +1,6 @@
 package com.ghostofpq.kulkan.client;
 
+import com.ghostofpq.kulkan.client.scenes.LoginScene;
 import com.ghostofpq.kulkan.client.scenes.Scene;
 import com.ghostofpq.kulkan.client.utils.GraphicsManager;
 import com.ghostofpq.kulkan.entities.character.Player;
@@ -40,7 +41,7 @@ public class Client {
     public static void main(String[] argv) {
         //System.setProperty("org.lwjgl.librarypath", new File("natives").getAbsolutePath());
         Client g = Client.getInstance();
-        //g.setCurrentScene(BattleScene.getInstance());
+        g.setCurrentScene(LoginScene.getInstance());
 
         g.run();
     }

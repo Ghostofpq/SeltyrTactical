@@ -4,12 +4,10 @@ public abstract class HUDElement {
     protected boolean hasFocus;
     protected int posX;
     protected int posY;
-    protected int length;
+    protected int width;
     protected int height;
 
     public abstract void draw();
-
-    public abstract void onClick();
 
     public abstract boolean isClicked(int mouseX, int mouseY);
 
@@ -21,19 +19,7 @@ public abstract class HUDElement {
         return hasFocus;
     }
 
-    public int getPosX() {
-        return posX;
-    }
-
-    public int getPosY() {
-        return posY;
-    }
-
-    public int getLength() {
-        return length;
-    }
-
-    public int getHeight() {
-        return height;
+    public void setHasFocus(boolean hasFocus) {
+        this.hasFocus = hasFocus;
     }
 }
