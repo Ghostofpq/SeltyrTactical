@@ -7,6 +7,7 @@ public class PasswordField extends TextField {
     }
 
     public String getContentToPrint() {
-        return content.replaceAll("[\\x21-\\x7E]", "*");
+        String result = new String(content);
+        return result.replaceAll("[\\x21-\\x7E]", "*");
     }
 }
