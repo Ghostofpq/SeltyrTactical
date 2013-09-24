@@ -3,9 +3,11 @@ package com.ghostofpq.kulkan.client.graphics;
 import com.ghostofpq.kulkan.client.utils.FontManager;
 import com.ghostofpq.kulkan.client.utils.TextureKey;
 import com.ghostofpq.kulkan.client.utils.TextureManager;
+import lombok.extern.slf4j.Slf4j;
 import org.lwjgl.opengl.GL11;
 import org.newdawn.slick.Color;
 
+@Slf4j
 public class TextField extends HUDElement {
     private final String FONT = "optimus_princeps_16";
     protected String content;
@@ -23,8 +25,9 @@ public class TextField extends HUDElement {
     @Override
     public boolean isClicked(int mouseX, int mouseY) {
         boolean result = false;
-
-        if ((mouseX >= posX && mouseX <= posX + width) && (mouseY >= posY && mouseY <= posY + height)) {
+        boolean okMouseX = (mouseX >= posX && mouseX <= posX + width);
+        boolean okMouseY = (mouseY >= posY && mouseY <= posY + height);
+        if (okMouseX && okMouseY) {
             result = true;
         }
         return result;

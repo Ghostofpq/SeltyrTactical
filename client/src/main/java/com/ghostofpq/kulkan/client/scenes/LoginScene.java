@@ -1,9 +1,13 @@
 package com.ghostofpq.kulkan.client.scenes;
 
+import com.ghostofpq.kulkan.client.Client;
 import com.ghostofpq.kulkan.client.graphics.PasswordField;
 import com.ghostofpq.kulkan.client.graphics.TextField;
 import com.ghostofpq.kulkan.client.utils.GraphicsManager;
+import lombok.extern.slf4j.Slf4j;
+import org.lwjgl.input.Mouse;
 
+@Slf4j
 public class LoginScene implements Scene {
 
     private static volatile LoginScene instance = null;
@@ -44,6 +48,20 @@ public class LoginScene implements Scene {
 
     @Override
     public void manageInput() {
+        while (Mouse.next()) {
+            if (Mouse.isButtonDown(0)) {
+                log.debug("Clic : {}/{}", Mouse.getX(), Mouse.getY());
+                if (pseudo.isClicked(Mouse.getX(), Client.getInstance().getHeight() - Mouse.getY())) {
+                    pseudo.setHasFocus(true);
+                    password.setHasFocus(false);
+                }
+                if (password.isClicked(Mouse.getX(), Client.getInstance().getHeight() - Mouse.getY())) {
+                    password.setHasFocus(true);
+                    pseudo.setHasFocus(false);
+                }
+            }
+        }
+
 
     }
 }
